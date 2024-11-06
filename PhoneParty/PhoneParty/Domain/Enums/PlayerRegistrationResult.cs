@@ -2,6 +2,6 @@
 
 public enum PlayerRegistrationResult
 {
-    NoGameDefined,
-    
+    SuccessfulRegistered,
+    NoMoreSlots,
 }
