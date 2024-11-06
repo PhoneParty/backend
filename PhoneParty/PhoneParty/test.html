@@ -15,7 +15,7 @@
 
 <script>
     const connection = new signalR.HubConnectionBuilder()
-        .withUrl("/chatHub", { transport: signalR.HttpTransportType.WebSockets })
+        .withUrl("/gameHub", { transport: signalR.HttpTransportType.WebSockets })
         .build();
 
     connection.on("ReceiveMessage", (user, message) => {

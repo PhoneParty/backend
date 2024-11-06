@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
 namespace PhoneParty;
 
 public class Startup
@@ -16,7 +21,7 @@ public class Startup
         }
         else
         {
-            app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler("/Error");
             app.UseHsts();
         }
 
@@ -28,7 +33,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapHub<GameHub>("/chatHub");
+            endpoints.MapHub<GameHub>("/gameHub");
         });
     }
 }
