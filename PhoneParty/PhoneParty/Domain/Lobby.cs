@@ -25,29 +25,16 @@ public class Lobby
         if (_game is null) throw new NullReferenceException("There is no game defined");
     }
 
-    private void UnsubscribeFromOldEvent()
+    private void GameStateChangedHandler(IEnumerable<IDifference> argument)
     {
-        if (_game is null) return;
-        foreach (var invocation in GameStateChanged.GetInvocationList())
-        {
-            _game.GameStateChanged -= (Action<IEnumerable<IDifference>>)invocation;
-        }
-    }
-
-    private void SubscribeToNewEvent()
-    {
-        CheckGameNullability();
-        foreach (var invocation in GameStateChanged.GetInvocationList())
-        {
-            _game.GameStateChanged += (Action<IEnumerable<IDifference>>)invocation;
-        }
+        GameStateChanged.Invoke(argument);
     }
 
     public void ChangeGame(Game game)
     {
-        UnsubscribeFromOldEvent();
+        if (_game is not null) _game.GameStateChanged -= GameStateChangedHandler;
         _game = game;
-        SubscribeToNewEvent();
+        _game.GameStateChanged += GameStateChangedHandler;
         _game.ConnectPlayers(_players);
     }
 
