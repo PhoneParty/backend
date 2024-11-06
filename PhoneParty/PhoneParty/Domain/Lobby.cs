@@ -17,8 +17,9 @@ public class Lobby
     {
         Id = id;
         _host = host;
+        _host.Lobby = this;
     }
-    
+
     private void CheckGameNullability()
     {
         if (_game is null) throw new NullReferenceException("There is no game defined");
@@ -30,7 +31,7 @@ public class Lobby
         foreach (var invocation in GameStateChanged.GetInvocationList())
         {
             _game.GameStateChanged -= (Action<IEnumerable<IDifference>>)invocation;
-        } 
+        }
     }
 
     private void SubscribeToNewEvent()
@@ -41,6 +42,7 @@ public class Lobby
             _game.GameStateChanged += (Action<IEnumerable<IDifference>>)invocation;
         }
     }
+
     public void ChangeGame(Game game)
     {
         UnsubscribeFromOldEvent();
@@ -48,7 +50,7 @@ public class Lobby
         SubscribeToNewEvent();
         _game.ConnectPlayers(_players);
     }
-    
+
     public void StartGame(Game game)
     {
         CheckGameNullability();
@@ -58,6 +60,8 @@ public class Lobby
     public PlayerRegistrationResult RegisterPlayer(Player player)
     {
         CheckGameNullability();
-        return _game.RegisterPlayer(player);
+        var result = _game.RegisterPlayer(player);
+        if (result is PlayerRegistrationResult.SuccessfulRegistered) player.Lobby = this;
+        return result;
     }
 }
