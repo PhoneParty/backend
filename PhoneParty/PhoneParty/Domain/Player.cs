@@ -4,7 +4,12 @@ namespace PhoneParty.Domain;
 
 public class Player
 {
-    public int Id { get; protected set; }
-    public Lobby Lobby { get; protected set; }
-    public IInGameInfo InGameInfo { get; protected set; }
+    public int Id { get; private set; }
+    public Lobby? Lobby { get; set; }
+    public IInGameInfo? InGameInfo { get; set; }
+
+    public Player(int id)
+    {
+        Id = id;
+    }
 }
