@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore;
+using PhoneParty;
 
 public class Programm
 {
@@ -13,20 +14,5 @@ public class Programm
             .CreateDefaultBuilder(args)
             .UseStartup<Startup>()
             .Build();
-    }
-}
-
-public class Startup
-{
-    public void ConfigureServices(IServiceCollection services)
-    {
-        
-    }
-
-    public void Configure(IApplicationBuilder app, IHostEnvironment env)
-    {
-        if (env.IsDevelopment())
-            app.UseDeveloperExceptionPage();
-        app.Run(async context => await context.Response.WriteAsync("Hello World!"));
     }
 }
