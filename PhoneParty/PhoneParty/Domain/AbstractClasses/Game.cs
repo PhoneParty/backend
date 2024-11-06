@@ -6,8 +6,8 @@ namespace PhoneParty.Domain.AbstractClasses;
 public abstract class Game
 {
     public bool IsFinished { get; private set; } = false;
-    private bool IsInProgress { get; set; } = false;
-    private List<Player> _players = new();
+    protected bool IsInProgress { get; set; } = false;
+    protected List<Player> _players = new();
     public abstract void HandleAction(IAction action);
     public abstract void StartGame();
     public abstract PlayerRegistrationResult RegisterPlayer(Player player);
