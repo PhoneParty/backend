@@ -6,6 +6,7 @@ namespace PhoneParty.Domain.WhoAmI;
 
 public class WhoAmIGame: Game
 {
+    private const int MaximumPlayers = 6;
     private void RebasePlayersInGameInfo()
     {
         foreach (var player in _players)
@@ -23,10 +24,16 @@ public class WhoAmIGame: Game
     public override void StartGame()
     {
         if (IsInProgress) throw new InvalidOperationException("This Game already started");
+        throw new NotImplementedException();
     }
 
     public override PlayerRegistrationResult RegisterPlayer(Player player)
     {
-        throw new NotImplementedException();
+        if (_players.Count >= MaximumPlayers) return PlayerRegistrationResult.NoMoreSlots;
+        if (IsInProgress) return PlayerRegistrationResult.GameInProgress;
+        //TODO RebasePlayerInGameInfo(player)
+        _players.Add(player);
+        //TODO Invoke GameStateChangedEvent
+        return PlayerRegistrationResult.SuccessfulRegistered;
     }
 }

@@ -10,8 +10,8 @@ public class WhoAmIInGameInfo : IInGameInfo
     }
 
     public int Points { get; private set; } = 0;
-    public bool IsDecisionMaker { get; set; } = false;
     public string? OnScreenText { get; private set; }
+    public bool IsInGame { get; private set; } = true;
     public FileInfo AttachedPicture { get; private set; }
     public FileInfo? OnScreenPicture { get; private set; }
 }

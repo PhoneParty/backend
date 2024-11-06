@@ -2,5 +2,5 @@
 
 public class WhoAmIDecisionAction : WhoAmIAction
 {
-    
+    public bool CurrentPlayerGuessCorrectly { get; private set; }
 }
