@@ -13,4 +13,18 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\js\signalr\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\js\chat.js" />
+      <None Include="wwwroot\js\signalr\dist\browser\signalr.min.js" />
+    </ItemGroup>
+
 </Project>

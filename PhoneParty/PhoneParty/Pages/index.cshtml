@@ -1,0 +1,75 @@
+@page
+@model PhoneParty.Pages.IndexModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лобби</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+</head>
+<body>
+    <h1>Добро пожаловать в Лобби</h1>
+    <button onclick="createLobby()">Создать лобби</button>
+    <button onclick="joinLobby()">Подключиться к лобби</button>
+    <input type="text" id="lobbyIdInput" placeholder="Введите номер лобби" />
+    <div id="status"></div>
+
+    <script>
+        // Инициализация подключения к SignalR
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/lobbyHub")
+            .build();
+
+        // Запуск подключения
+        connection.start()
+            .then(() => {
+                console.log("Подключение установлено");
+            })
+            .catch(err => console.error("Ошибка соединения: " + err.toString()));
+
+        // Метод для создания лобби
+        function createLobby() {
+            const lobbyId = prompt("Введите ID для нового лобби:");
+            if (lobbyId && connection.state === "Connected") { // Проверка подключения
+                connection.invoke("CreateLobby", lobbyId)
+                    .catch(err => console.error("Ошибка при создании лобби: " + err.toString()));
+            } else if (connection.state !== "Connected") {
+                console.warn("Подключение к серверу не установлено");
+            }
+        }
+
+        // Метод для подключения к лобби
+        function joinLobby() {
+            const lobbyId = document.getElementById("lobbyIdInput").value;
+            if (lobbyId && connection.state === "Connected") { // Проверка подключения
+                connection.invoke("JoinLobby", lobbyId)
+                    .catch(err => console.error("Ошибка при подключении к лобби: " + err.toString()));
+            } else if (connection.state !== "Connected") {
+                console.warn("Подключение к серверу не установлено");
+            } else {
+                alert("Введите номер лобби!");
+            }
+        }
+
+        // Переход в лобби после создания
+        connection.on("LobbyCreated", (lobbyId) => {
+            redirectToLobby(lobbyId);
+        });
+
+        connection.on("UserJoined", (userId, users) => {
+            const status = document.getElementById("status");
+            status.innerText += `\nПользователь ${userId} присоединился к лобби.`;
+        });
+
+        // Метод для перенаправления на страницу лобби
+        function redirectToLobby(lobbyId) {
+            fetch(`/Index?handler=GoToLobby&lobbyId=${lobbyId}`, {
+                method: "POST"
+            }).then(() => {
+                window.location.href = `/Lobby?lobbyId=${lobbyId}`;
+            }).catch(err => console.error("Ошибка перехода в лобби: " + err.toString()));
+        }
+    </script>
+</body>
+</html>

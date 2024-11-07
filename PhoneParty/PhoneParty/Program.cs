@@ -1,6 +1,8 @@
+using PhoneParty.Hubs;
+
 var builder = WebApplication.CreateBuilder(args);
+var start = new Startup();
+start.ConfigureServices(builder.Services);
 var app = builder.Build();
-
-app.MapGet("/", () => "Hello World!");
-
+start.Configure(app);
 app.Run();
