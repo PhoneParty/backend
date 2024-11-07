@@ -12,6 +12,6 @@ public class IndexModel : PageModel
     
     public IActionResult OnPostGoToLobby(string lobbyId)
     {
-        return RedirectToPage("/Lobby", new { lobbyId });
+        return RedirectToPage($"/Lobby/{lobbyId}");
     }
 }

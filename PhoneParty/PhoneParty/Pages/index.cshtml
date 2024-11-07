@@ -67,7 +67,7 @@
             fetch(`/Index?handler=GoToLobby&lobbyId=${lobbyId}`, {
                 method: "POST"
             }).then(() => {
-                window.location.href = `/Lobby?lobbyId=${lobbyId}`;
+                window.location.href = `/Lobby/${lobbyId}`;
             }).catch(err => console.error("Ошибка перехода в лобби: " + err.toString()));
         }
     </script>
