@@ -1,4 +1,4 @@
-@page "/Lobby/{lobbyId}"
+@page "/Lobby"
 @model PhoneParty.Pages.LobbyModel
 @{
     ViewData["Title"] = "Лобби";
@@ -8,36 +8,4 @@
 <ul id="userList"></ul>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-<script>
-    const lobbyId = "@Model.LobbyId";
-    const connection = new signalR.HubConnectionBuilder().withUrl("/lobbyHub").build();
-
-    connection.start().then(() => {
-        connection.invoke("JoinLobby", lobbyId);
-    }).catch(err => console.error("Ошибка подключения: " + err.toString()));
-
-    connection.on("UserJoined", (userId, users) => {
-        updateUserList(users);
-    });
-
-    connection.on("UserLeft", (userId, users) => {
-        updateUserList(users);
-    });
-
-    function updateUserList(users) {
-        const userList = document.getElementById("userList");
-        userList.innerHTML = "";
-        users.forEach(user => {
-            const li = document.createElement("li");
-            li.textContent = `Пользователь ${user}`;
-            userList.appendChild(li);
-        });
-    }
-
-    function leaveLobby() {
-        connection.invoke("LeaveLobby", lobbyId).then(() => {
-            connection.stop();
-            window.location.href = "/";
-        }).catch(err => console.error("Ошибка при выходе из лобби: " + err.toString()));
-    }
-</script>
+<script src="js/lobby.js"></script>

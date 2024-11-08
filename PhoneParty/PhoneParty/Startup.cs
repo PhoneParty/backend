@@ -1,4 +1,6 @@
 
+using PhoneParty.Hubs.Infastructure;
+
 namespace PhoneParty.Hubs;
 
 public class Startup
@@ -7,6 +9,7 @@ public class Startup
     {
         services.AddRazorPages();
         services.AddSignalR();
+        services.AddSingleton<IMemoryRep, MemoryRep>();
     }
  
     public void Configure(IApplicationBuilder app)
