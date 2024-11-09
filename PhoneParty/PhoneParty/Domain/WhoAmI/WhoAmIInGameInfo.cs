@@ -1,17 +1,18 @@
-﻿using PhoneParty.Domain.Interfaces;
+﻿using PhoneParty.Domain.Enums.WhoAmI;
+using PhoneParty.Domain.Interfaces;
+using PhoneParty.Infrastructure;
 
 namespace PhoneParty.Domain.WhoAmI;
 
 public class WhoAmIInGameInfo : IInGameInfo
 {
-    public WhoAmIInGameInfo(FileInfo attachedPicture)
+    public WhoAmIInGameInfo(HeroEnum attachedHero)
     {
-        AttachedPicture = attachedPicture;
+        AttachedHero = attachedHero;
     }
 
-    public int Points { get; private set; } = 0;
-    public string? OnScreenText { get; private set; }
-    public bool IsInGame { get; private set; } = true;
-    public FileInfo AttachedPicture { get; private set; }
-    public FileInfo? OnScreenPicture { get; private set; }
+    public int Points { get; set; } = 0;
+    public WhoAmIRole GameRole { get; set; } = WhoAmIRole.Player;
+    public HeroEnum AttachedHero { get;}
+    public HeroEnum ShownHero { get; set; }
 }

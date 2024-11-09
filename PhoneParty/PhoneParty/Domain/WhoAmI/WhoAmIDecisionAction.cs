@@ -2,5 +2,9 @@
 
 public class WhoAmIDecisionAction : WhoAmIAction
 {
-    public bool CurrentPlayerGuessCorrectly { get; private set; }
+    public bool CurrentPlayerGuessedCorrectly { get; private set; }
+
+    public WhoAmIDecisionAction(Player player) : base(player)
+    {
+    }
 }

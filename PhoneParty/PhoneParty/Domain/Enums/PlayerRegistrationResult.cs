@@ -3,6 +3,5 @@
 public enum PlayerRegistrationResult
 {
     SuccessfulRegistered,
-    NoMoreSlots,
     GameInProgress
 }
