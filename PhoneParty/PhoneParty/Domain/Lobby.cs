@@ -56,7 +56,7 @@ public class Lobby
     public PlayerRegistrationResult RegisterPlayer(Player player)
     {
         if (_game is not null && _game.IsInProgress) return PlayerRegistrationResult.GameInProgress;
-        _players.Add(player);
+        if (!_players.Contains(player)) _players.Add(player);
         return PlayerRegistrationResult.SuccessfulRegistered;
     }
 
