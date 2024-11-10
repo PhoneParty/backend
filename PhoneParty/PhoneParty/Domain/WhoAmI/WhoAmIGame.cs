@@ -14,7 +14,7 @@ public class WhoAmIGame : Game
     public override event Action<IEnumerable<Player>>? GameStateChanged;
     private readonly List<HeroEnum> _remainingHeroes = Enum.GetValues(typeof(HeroEnum)).Cast<HeroEnum>().ToList();
     private int _currentGuesserIndex;
-    private int _currentDescisionMakerIndex;
+    private int _currentDecisionMakerIndex;
 
     private void RebasePlayersInGameInfo()
     {
@@ -61,8 +61,8 @@ public class WhoAmIGame : Game
             break;
         }
 
-        ((WhoAmIInGameInfo)Players[_currentDescisionMakerIndex].InGameInfo!).IsDecisionMaker = false;
-        _currentDescisionMakerIndex = _currentGuesserIndex == 0 ? Players.Count - 1 : _currentGuesserIndex - 1;
+        ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = false;
+        _currentDecisionMakerIndex = _currentGuesserIndex == 0 ? Players.Count - 1 : _currentGuesserIndex - 1;
     }
 
     private void HandlePlayerSuccess(Player player)
@@ -79,7 +79,7 @@ public class WhoAmIGame : Game
         if (IsFinished)
             RebasePlayersInGameInfo();
         IsInProgress = true;
-        _currentDescisionMakerIndex = Players.Count - 1;
+        _currentDecisionMakerIndex = Players.Count - 1;
         _currentGuesserIndex = 0;
     }
 }
