@@ -1,6 +1,8 @@
 // Инициализация подключения к SignalR
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/lobbyHub")
+    .withAutomaticReconnect()
+    .configureLogging(signalR.LogLevel.Information)
     .build();
 
 // Запуск подключения
@@ -9,6 +11,13 @@ connection.start()
         console.log("Подключение установлено");
     })
     .catch(err => console.error("Ошибка соединения: " + err.toString()));
+
+connection.onreconnected(() => {
+    this.http.get("/lobbyHub")
+        .subscribe(res => {
+            console.log(res);
+        })
+})
 
 // Метод для создания лобби
 function createLobby() {

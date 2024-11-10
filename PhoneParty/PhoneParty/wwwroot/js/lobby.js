@@ -1,6 +1,10 @@
 const lobbyId = getUrlParams();
 const userName = getCookie("userName");
-const connection = new signalR.HubConnectionBuilder().withUrl("/lobbyHub").build();
+const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/lobbyHub")
+    .withAutomaticReconnect()
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
 
 connection.start()
     .then(() => {
@@ -10,6 +14,13 @@ connection.start()
                 .catch(err => console.error("Ошибка при подключении к лобби: " + err.toString()));
         }
     })
+
+connection.onreconnected(() => {
+    this.http.get("/lobbyHub")
+        .subscribe(res => {
+            console.log(res);
+        })
+})
 
 connection.on("UserJoined", (userId, users) => {
     updateUserList(users);
