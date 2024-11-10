@@ -16,10 +16,7 @@ public readonly struct LobbyId : IEquatable<LobbyId>
         _value = value.ToUpper();
     }
 
-    private static bool IsValid(string value)
-    {
-        return value.All(c => AllowedCharacters.Contains(c));
-    }
+    private static bool IsValid(string value) => value.All(c => AllowedCharacters.Contains(c)) && value.Length == Length;
 
     public override bool Equals(object? obj) => obj is LobbyId other && Equals(other);
 

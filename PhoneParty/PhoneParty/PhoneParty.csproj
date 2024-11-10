@@ -18,4 +18,18 @@
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="UserInterface\Pages\index.cshtml" />
+      <_ContentIncludedByDefault Remove="UserInterface\Pages\lobby.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Pages\index.cshtml" />
+      <AdditionalFiles Include="Pages\lobby.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="UserInterface\Interfaces\" />
+    </ItemGroup>
+
 </Project>

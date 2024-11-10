@@ -1,5 +1,5 @@
-
 using PhoneParty.Hubs.Infastructure;
+using PhoneParty.Hubs.UserInterface.Interfaces;
 
 namespace PhoneParty.Hubs;
 

@@ -1,3 +1,5 @@
+using PhoneParty.Hubs.UserInterface.Interfaces;
+
 namespace PhoneParty.Hubs.Infastructure;
 
 public class MemoryRep: IMemoryRep<User>
