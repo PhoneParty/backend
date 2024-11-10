@@ -42,7 +42,7 @@ public class Lobby
         return GameStartCheck.Successful;
     }
 
-    public void StartGame(Game game)
+    public void StartGame()
     {
         var check = CheckIfCanStartGame();
         if (check == GameStartCheck.Successful)
