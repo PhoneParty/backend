@@ -1,20 +1,21 @@
+using Ddd.Taxi.Infrastructure;
 using NuGet.ContentModel;
 using PhoneParty.Domain;
 
 namespace PhoneParty.Hubs.UserInterface.Interfaces;
 
-public class User
+public class User: Entity<string>
 {
-    public int Id { get; private set; }
     public Player player { get; private set; }
     public string UserName { get; private set;  }
     public string ConnectionId { get; private set;  }
 
-    public User(string userName, string connectionId)
+    public User(string id) : base(id)
     {
-        Id = new Random().Next(); //TODO Id заглушка
-        UserName = userName;
-        ConnectionId = connectionId;
-        player = new Player(Id);
+        // player = new Player(Id);
     }
+
+    public void SetName(string name) => UserName = name;
+
+    public void SetConnection(string connectionId) => ConnectionId = connectionId;
 }

@@ -1,5 +1,6 @@
 const lobbyId = getUrlParams();
-const userName = getCookie("userName");
+let userId = localStorage.getItem("userId");
+
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/lobbyHub")
     .withAutomaticReconnect()
@@ -9,9 +10,11 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start()
     .then(() => {
         console.log("Подключено к SignalR");
-        if (lobbyId && userName != null) {
-            connection.invoke("JoinLobby", lobbyId, userName)
-                .catch(err => console.error("Ошибка при подключении к лобби: " + err.toString()));
+        if (lobbyId) {
+            connection.invoke("UpdateGroupConnection", userId, lobbyId)
+                .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
+            connection.invoke("UpdateLobby", lobbyId)
+                .catch(err => console.error("Ошибка при обновлении лобби: " + err.toString()));
         }
     })
 
@@ -22,13 +25,13 @@ connection.onreconnected(() => {
         })
 })
 
-connection.on("UserJoined", (userId, users) => {
+connection.on("UpdateLobbyUsers", users => {
     updateUserList(users);
 });
 
-connection.on("UserLeft", (userId, users) => {
-    updateUserList(users);
-});
+// connection.on("UserLeft", (userId, users) => {
+//     updateUserList(users);
+// });
 
 function getUrlParams() {
     const params = new URLSearchParams(window.location.search);

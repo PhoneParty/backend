@@ -1,3 +1,5 @@
+let userId = localStorage.getItem("userId");
+
 // Инициализация подключения к SignalR
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/lobbyHub")
@@ -8,6 +10,16 @@ const connection = new signalR.HubConnectionBuilder()
 // Запуск подключения
 connection.start()
     .then(() => {
+        if (!userId) {
+            userId = generateUUID();
+            setCookie("userId", userId, 1);
+            connection.invoke("RegisterUser", userId)
+                .catch(err => console.error("Ошибка при регистрации пользователя: " + err.toString()));
+        }
+        else {
+            connection.invoke("UpdateUserConnection", userId)
+                .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
+        }
         console.log("Подключение установлено");
     })
     .catch(err => console.error("Ошибка соединения: " + err.toString()));
@@ -23,7 +35,9 @@ connection.onreconnected(() => {
 function createLobby() {
     const userName = document.getElementById("userNameInput").value;
     if (userName && connection.state === "Connected")   {
-        connection.invoke("CreateLobby", userName)
+        connection.invoke("UpdateUserName", userId, userName)
+            .catch(err => console.error("Ошибка при добавлении имени пользователя: " + err.toString()));
+        connection.invoke("CreateLobby", userId)
             .catch(err => console.error("Ошибка при создании лобби: " + err.toString()));
     } else if (connection.state !== "Connected") {
         console.warn("Подключение к серверу не установлено");
@@ -34,8 +48,11 @@ function createLobby() {
 function joinLobby() {
     const lobbyId = document.getElementById("lobbyIdInput").value;
     const userName = document.getElementById("userNameInput").value;
-    if (lobbyId && connection.state === "Connected") { // Проверка подключения
-        setCookie("userName", userName, 1);
+    if (lobbyId && userName && connection.state === "Connected") { // Проверка подключения
+        connection.invoke("UpdateUserName", userId, userName)
+            .catch(err => console.error("Ошибка при добавлении имени пользователя: " + err.toString()));
+        connection.invoke("JoinLobby", lobbyId, userId)
+            .catch(err => console.error("Ошибка при добавление в лобби: " + err.toString()));
         window.location.href = `/Lobby?lobbyId=${lobbyId}`;
     } else if (connection.state !== "Connected") {
         console.warn("Подключение к серверу не установлено");
@@ -50,6 +67,15 @@ function setCookie(name, value, days) {
     let expires = "expires=" + d.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
+
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0,
+            v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
+
 
 // Переход в лобби после создания
 connection.on("LobbyCreated", (lobbyId, userName) => {
