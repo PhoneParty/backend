@@ -2,7 +2,6 @@
 
 public enum WhoAmIRole
 {
-    DecisionMaker,
     Observer,
     Player,
     Guesser
