@@ -13,6 +13,8 @@ public class WhoAmIGame : Game
     public override int MinimumPlayers { get; protected set; } = 2;
     public override event Action<IEnumerable<Player>>? GameStateChanged;
     private readonly List<HeroEnum> _remainingHeroes = Enum.GetValues(typeof(HeroEnum)).Cast<HeroEnum>().ToList();
+    private int _currentGuesserIndex;
+    private int _currentDecisionMakerIndex;
 
     private void RebasePlayersInGameInfo()
     {
@@ -46,10 +48,21 @@ public class WhoAmIGame : Game
             IsFinished = true;
             return;
         }
+        
+        for (var i = 0; i < Players.Count; i++)
+        {
+            if (((WhoAmIInGameInfo)Players[(_currentGuesserIndex + i) % Players.Count].InGameInfo!).GameRole ==
+                WhoAmIRole.Observer) continue;
+            if (Players[_currentGuesserIndex].InGameInfo is WhoAmIInGameInfo { GameRole: WhoAmIRole.Guesser } info)
+            {
+                info.GameRole = WhoAmIRole.Player;
+            }
+            _currentGuesserIndex = (_currentGuesserIndex + i) % Players.Count;
+            break;
+        }
 
-        var currentGuesserIndex =
-            Players.FindIndex(player => ((WhoAmIInGameInfo)player.InGameInfo!).GameRole == WhoAmIRole.Guesser);
-        //TODO
+        ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = false;
+        _currentDecisionMakerIndex = _currentGuesserIndex == 0 ? Players.Count - 1 : _currentGuesserIndex - 1;
     }
 
     private void HandlePlayerSuccess(Player player)
@@ -66,5 +79,7 @@ public class WhoAmIGame : Game
         if (IsFinished)
             RebasePlayersInGameInfo();
         IsInProgress = true;
+        _currentDecisionMakerIndex = Players.Count - 1;
+        _currentGuesserIndex = 0;
     }
 }

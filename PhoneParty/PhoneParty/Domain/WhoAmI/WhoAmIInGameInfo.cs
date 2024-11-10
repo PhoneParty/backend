@@ -14,5 +14,5 @@ public class WhoAmIInGameInfo : IInGameInfo
     public int Points { get; set; } = 0;
     public WhoAmIRole GameRole { get; set; } = WhoAmIRole.Player;
     public HeroEnum AttachedHero { get;}
-    public HeroEnum ShownHero { get; set; }
+    public bool IsDecisionMaker { get; set; }
 }
