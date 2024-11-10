@@ -8,9 +8,9 @@ namespace PhoneParty.Hubs;
 public class LobbyHub : Hub
 {
     // Словарь для хранения участников по ID лобби
-    private readonly IMemoryRep Lobbies;
+    private readonly IMemoryRep<User> Lobbies;
 
-    public LobbyHub(IMemoryRep memoryRep)
+    public LobbyHub(IMemoryRep<User> memoryRep)
     {
         Lobbies = memoryRep;
     }
@@ -22,11 +22,11 @@ public class LobbyHub : Hub
         if (!Lobbies.Contains(lobbyId))
             Lobbies.AddValue(lobbyId, []);
         
-        var user = new User(name, Context.ConnectionId);
+        // var user = new User(name, Context.ConnectionId);
         
-        // Добавляем пользователя в группу (лобби) и в словарь
-        await Groups.AddToGroupAsync(user.connectionId, lobbyId);
-        Lobbies.GetValue(lobbyId).Add(Context.ConnectionId);
+        // // Добавляем пользователя в группу (лобби) и в словарь
+        // await Groups.AddToGroupAsync(user.connectionId, lobbyId);
+        // Lobbies.GetValue(lobbyId).Add(Context.ConnectionId);
 
         // Уведомляем пользователя, что лобби создано
         await Clients.Caller.SendAsync("LobbyCreated", lobbyId, name);
@@ -39,8 +39,7 @@ public class LobbyHub : Hub
         // Добавляем пользователя в группу и в словарь
         var user = new User(name, Context.ConnectionId);
         await Groups.AddToGroupAsync(user.connectionId, lobbyId);
-        Console.WriteLine(Groups);
-        Lobbies.GetValue(lobbyId).Add(Context.ConnectionId);
+        Lobbies.GetValue(lobbyId).Add(user);
         
         await Clients.Caller.SendAsync("JoinedToLobby", lobbyId, Context.ConnectionId, GetLobbyUsers(lobbyId));
 
@@ -52,8 +51,8 @@ public class LobbyHub : Hub
     {
         if (Lobbies.Contains(lobbyId))
         {
-            // var user = Lobbies[lobbyId].FirstOrDefault(x => x.connectionId == Context.ConnectionId);
-            Lobbies.GetValue(lobbyId).Remove(Context.ConnectionId);
+            var user = Lobbies.GetValue(lobbyId).FirstOrDefault(x => x.connectionId == Context.ConnectionId);
+            Lobbies.GetValue(lobbyId).Remove(user);
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, lobbyId);
 
             if (Lobbies.GetValue(lobbyId).Count == 0)
@@ -65,7 +64,7 @@ public class LobbyHub : Hub
 
     private List<string> GetLobbyUsers(string lobbyId)
     {
-        return Lobbies.Contains(lobbyId) ? new List<string>(Lobbies.GetValue(lobbyId)) : new List<string>();
+        return Lobbies.Contains(lobbyId) ? new List<string>(Lobbies.GetValue(lobbyId).Select(x => x.userName)) : new List<string>();
     }
 
     // public override async Task OnDisconnectedAsync(Exception exception)

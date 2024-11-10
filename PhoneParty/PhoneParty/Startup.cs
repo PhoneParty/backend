@@ -9,7 +9,7 @@ public class Startup
     {
         services.AddRazorPages();
         services.AddSignalR();
-        services.AddSingleton<IMemoryRep, MemoryRep>();
+        services.AddSingleton<IMemoryRep<User>, MemoryRep>();
     }
  
     public void Configure(IApplicationBuilder app)

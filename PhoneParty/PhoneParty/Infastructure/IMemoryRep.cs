@@ -1,12 +1,12 @@
 namespace PhoneParty.Hubs.Infastructure;
 
-public interface IMemoryRep
+public interface IMemoryRep<T>
 {
     public bool Contains(string value);
                                    
-    public void AddValue(string key, HashSet<string> value);
+    public void AddValue(string key, HashSet<T> value);
                                    
-    public HashSet<string> GetValue(string key);
+    public HashSet<T> GetValue(string key);
                                    
     public void Remove(string key);
 }
