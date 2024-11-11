@@ -1,5 +1,5 @@
 const lobbyId = getUrlParams();
-let userId = localStorage.getItem("userId");
+const userId = localStorage.getItem("userId");
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/lobbyHub")
@@ -49,14 +49,8 @@ function updateUserList(users) {
 }
 
 function leaveLobby() {
-    connection.invoke("LeaveLobby", lobbyId).then(() => {
+    connection.invoke("LeaveLobby", userId, lobbyId).then(() => {
         connection.stop();
         window.location.href = "/";
     }).catch(err => console.error("Ошибка при выходе из лобби: " + err.toString()));
-}
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
 }

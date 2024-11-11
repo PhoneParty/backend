@@ -11,9 +11,7 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start()
     .then(() => {
         if (!userId) {
-            userId = generateUUID();
-            setCookie("userId", userId, 1);
-            connection.invoke("RegisterUser", userId)
+            connection.invoke("RegisterUser")
                 .catch(err => console.error("Ошибка при регистрации пользователя: " + err.toString()));
         }
         else {
@@ -68,13 +66,6 @@ function setCookie(name, value, days) {
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
 
-function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = Math.random() * 16 | 0,
-            v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
 
 
 // Переход в лобби после создания
@@ -91,4 +82,9 @@ connection.on("LobbyCreated", (lobbyId, userName) => {
 connection.on("UserJoined", (userId, users) => {
     const status = document.getElementById("status");
     status.innerText += `\nПользователь ${userId} присоединился к лобби.`;
+});
+
+connection.on("UserCreated", id => {
+    userId = id
+    localStorage.setItem("userId", userId);
 });

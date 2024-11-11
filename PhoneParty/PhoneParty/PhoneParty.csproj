@@ -28,8 +28,4 @@
       <AdditionalFiles Include="Pages\lobby.cshtml" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="UserInterface\Interfaces\" />
-    </ItemGroup>
-
 </Project>

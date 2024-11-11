@@ -1,12 +1,14 @@
+using System.Collections.Concurrent;
+
 namespace PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
 public class Repository<TId, TValue>: IRepository<TId, TValue> where TId : notnull
 {
-    private static Dictionary<TId, TValue> repo;
+    private static ConcurrentDictionary<TId, TValue> repo;
 
     public Repository()
     {
-        repo = new Dictionary<TId, TValue>();
+        repo = new ConcurrentDictionary<TId, TValue>();
     }
     
     
@@ -23,7 +25,7 @@ public class Repository<TId, TValue>: IRepository<TId, TValue> where TId : notnu
             throw new Exception($"Id {id} already in repository");
     }
 
-    public void Remove(TId id) => repo.Remove(id);
+    public void Remove(TId id) => repo.TryRemove(id, out TValue value);
 
     public bool Contains(TId id) => repo.ContainsKey(id);
 }

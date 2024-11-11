@@ -9,7 +9,6 @@ namespace PhoneParty.Hubs;
 public class LobbyHub : Hub
 {
     // Словарь для хранения участников по ID лобби
-    private readonly IMemoryRep<User> Lobbies;
     private readonly IRepository<LobbyId, Lobby> LobbyRepository;
     private readonly IRepository<string, User> UserRepository;
 
@@ -17,7 +16,7 @@ public class LobbyHub : Hub
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        var ids = new string[] { "5132b2b4-b15d-4475-b5d0-55e2f8f0f28e", "ec5be520-2704-4567-8c5f-e39e955e1541" };
+        var ids = new string[] { "da17b443-fda6-43db-afd2-ecf2f7d28057", "d3a27ebb-eb99-4689-ace4-988b4e5f2406" , "66bfcb3e-5eb9-4f83-beb2-b109fdc1331f"};
         foreach (var id in ids)
         {
             var user = new User(id);
@@ -26,11 +25,15 @@ public class LobbyHub : Hub
         }
     }
 
-    public async void RegisterUser(string id)
+    public async void RegisterUser()
     {
+        var id = RandomIds.GenerateUserId();
+        // while (!UserRepository.Contains(id))
+        //     id = RandomIds.GenerateUserId();
         var user = new User(id);
         user.SetConnection(Context.ConnectionId);
         UserRepository.Add(id, user);
+        await Clients.Caller.SendAsync("UserCreated", id);
     }
 
     public async void UpdateUserConnection(string id)
@@ -61,7 +64,10 @@ public class LobbyHub : Hub
 
     public async Task CreateLobby(string userId)
     {
-        var lobbyId = new Random().NextString();
+        var lobbyId = RandomIds.GenerateLobbyId();
+        // while (!LobbyRepository.Contains(new LobbyId(lobbyId)))
+        //     lobbyId = RandomIds.GenerateUserId();
+        
         var user = UserRepository.Get(userId);
         user.SetName(user.UserName + '*');
 

@@ -1,21 +1,20 @@
-﻿using PhoneParty.Domain.AbstractClasses;
+﻿using Ddd.Taxi.Infrastructure;
+using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums;
 using InvalidOperationException = System.InvalidOperationException;
 
 namespace PhoneParty.Domain;
 
-public class Lobby
+public class Lobby: Entity<LobbyId>
 {
-    public LobbyId Id { get; private set; }
     public event Action<IEnumerable<Player>> GameStateChanged;
 
     private readonly List<Player> _players = new();
     private readonly Player _host;
     private Game? _game = null;
 
-    public Lobby(LobbyId id, Player host)
+    public Lobby(LobbyId id, Player host) : base(id)
     {
-        Id = id;
         _host = host;
         _host.Lobby = this;
         _players.Add(_host);
