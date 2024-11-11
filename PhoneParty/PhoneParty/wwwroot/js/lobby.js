@@ -29,9 +29,9 @@ connection.on("UpdateLobbyUsers", users => {
     updateUserList(users);
 });
 
-// connection.on("UserLeft", (userId, users) => {
-//     updateUserList(users);
-// });
+connection.on("UserLeft", users => {
+    updateUserList(users);
+});
 
 function getUrlParams() {
     const params = new URLSearchParams(window.location.search);

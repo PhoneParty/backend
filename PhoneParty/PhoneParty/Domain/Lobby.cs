@@ -18,6 +18,7 @@ public class Lobby
         Id = id;
         _host = host;
         _host.Lobby = this;
+        _players.Add(_host);
     }
 
     private void GameStateChangedHandler(IEnumerable<Player> argument)
@@ -59,6 +60,18 @@ public class Lobby
         if (!_players.Contains(player)) _players.Add(player);
         return PlayerRegistrationResult.SuccessfulRegistered;
     }
+
+    //TODO Хз проверьте норм или нет
+    public PlayerRegistrationResult UnregisterPlayer(Player player)
+    {
+        if (_game is not null && _game.IsInProgress) return PlayerRegistrationResult.GameInProgress;
+        _players.Remove(player);
+        return PlayerRegistrationResult.SuccessfulUnregistered;
+    }
+
+    public IReadOnlyList<Player> GetPlayers => _players;
+
+    public int PlayersCount => _players.Count;
 
     public void CloseGame()
     {

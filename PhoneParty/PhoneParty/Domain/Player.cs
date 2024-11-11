@@ -1,15 +1,10 @@
-﻿using PhoneParty.Domain.Interfaces;
+﻿using Ddd.Taxi.Infrastructure;
+using PhoneParty.Domain.Interfaces;
 
 namespace PhoneParty.Domain;
 
-public class Player
+public class Player(string id) : Entity<string>(id)
 {
-    public int Id { get; private set; }
     public Lobby? Lobby { get; set; }
     public IInGameInfo? InGameInfo { get; set; }
-
-    public Player(int id)
-    {
-        Id = id;
-    }
 }

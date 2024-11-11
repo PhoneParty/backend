@@ -10,13 +10,10 @@ public class MainUseCase_Tests
     [Test]
     public void TestLobbyCreation()
     {
-        var player = new Player(1);
+        var player = new Player("1");
         var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), player);
 
-        var playersField = typeof(PhoneParty.Domain.Lobby)
-            .GetField("_players", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        var players = playersField?.GetValue(lobby) as IList<Player>;
+        var players = lobby.GetPlayers;
 
         Assert.That(players, Is.Not.Null);
         Assert.That(players.Count, Is.EqualTo(1));

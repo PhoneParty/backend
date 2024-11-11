@@ -4,7 +4,7 @@ namespace PhoneParty.Hubs.Infastructure;
 
 public static class RandomExtensions
 {
-    private const string Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static readonly char[] Chars = "ABCDEF0123456789".ToCharArray();
 
     public static string NextString(this Random rnd)
     {

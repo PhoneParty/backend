@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.SignalR;
+using PhoneParty.Domain;
 using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
@@ -9,11 +10,12 @@ public class LobbyHub : Hub
 {
     // Словарь для хранения участников по ID лобби
     private readonly IMemoryRep<User> Lobbies;
+    private readonly IRepository<LobbyId, Lobby> LobbyRepository;
     private readonly IRepository<string, User> UserRepository;
 
-    public LobbyHub(IMemoryRep<User> memoryRep, IRepository<string, User> userRepository)
+    public LobbyHub(IRepository<LobbyId, Lobby> lobbyRepository, IRepository<string, User> userRepository)
     {
-        Lobbies = memoryRep;
+        LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
         var ids = new string[] { "5132b2b4-b15d-4475-b5d0-55e2f8f0f28e", "ec5be520-2704-4567-8c5f-e39e955e1541" };
         foreach (var id in ids)
@@ -60,14 +62,12 @@ public class LobbyHub : Hub
     public async Task CreateLobby(string userId)
     {
         var lobbyId = new Random().NextString();
-        
-        if (!Lobbies.Contains(lobbyId))
-            Lobbies.AddValue(lobbyId, []);
-
         var user = UserRepository.Get(userId);
         user.SetName(user.UserName + '*');
+
+        var lobby = new Lobby(new LobbyId(lobbyId), user.Player);
+        LobbyRepository.Add(new LobbyId(lobbyId), lobby);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
-        Lobbies.GetValue(lobbyId).Add(user);
 
         // Уведомляем пользователя, что лобби создано
         await Clients.Caller.SendAsync("LobbyCreated", lobbyId);
@@ -75,11 +75,12 @@ public class LobbyHub : Hub
 
     public async Task JoinLobby(string lobbyId, string userId)
     {
-        if (!Lobbies.Contains(lobbyId))
+        var newLobbyId = new LobbyId(lobbyId);
+        if (!LobbyRepository.Contains(newLobbyId))
             return;
         var user = UserRepository.Get(userId);
+        LobbyRepository.Get(newLobbyId).RegisterPlayer(user.Player);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
-        Lobbies.GetValue(lobbyId).Add(user);
         
         await Clients.Caller.SendAsync("JoinedToLobby", lobbyId, user.ConnectionId, GetLobbyUsers(lobbyId));
 
@@ -89,22 +90,28 @@ public class LobbyHub : Hub
 
     public async Task LeaveLobby(string userId ,string lobbyId)
     {
-        if (Lobbies.Contains(lobbyId))
+        var newLobbyId = new LobbyId(lobbyId);
+        if (LobbyRepository.Contains(newLobbyId))
         {
             var user = UserRepository.Get(userId);
-            Lobbies.GetValue(lobbyId).Remove(user);
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, lobbyId);
+            var lobby = LobbyRepository.Get(newLobbyId);
+            lobby.UnregisterPlayer(user.Player);
+            await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
 
-            if (Lobbies.GetValue(lobbyId).Count == 0)
-                Lobbies.Remove(lobbyId);
+            if (lobby.PlayersCount == 0)
+                LobbyRepository.Remove(newLobbyId);
             else
-                await Clients.Group(lobbyId).SendAsync("UserLeft", user.ConnectionId, GetLobbyUsers(lobbyId));
+                await Clients.Group(lobbyId).SendAsync("UserLeft", GetLobbyUsers(lobbyId));
         }
     }
 
     private List<string> GetLobbyUsers(string lobbyId)
     {
-        var res =  Lobbies.Contains(lobbyId) ? new List<string>(Lobbies.GetValue(lobbyId).Select(x => x.UserName)) : new List<string>();
+        var res = LobbyRepository
+            .Get(new LobbyId(lobbyId))
+            .GetPlayers
+            .Select(x => UserRepository.Get(x.Id).UserName)
+            .ToList();
         return res;
     }
 
