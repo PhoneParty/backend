@@ -31,9 +31,9 @@ public class WhoAmIGame : Game
 
     public override void HandleAction(Action action)
     {
-        if (!IsInProgress) return;
+        if (!IsInProgress) throw new InvalidOperationException("Game haven`t started");
         if (action is not WhoAmIAction whoAmIAction)
-            throw new ArgumentException($"{action.GetType()} is not valid for {GetType()}");
+            throw new InvalidOperationException($"{action.GetType()} is not valid for {GetType()}");
         var playerGuessed = ((WhoAmIDecisionAction)whoAmIAction).CurrentPlayerGuessedCorrectly;
         if (playerGuessed) HandlePlayerSuccess(action.Player);
         HandleNextMove();

@@ -1,6 +1,7 @@
 ﻿using Ddd.Taxi.Infrastructure;
 using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums;
+using Action = PhoneParty.Domain.AbstractClasses.Action;
 using InvalidOperationException = System.InvalidOperationException;
 
 namespace PhoneParty.Domain;
@@ -25,27 +26,44 @@ public class Lobby: Entity<LobbyId>
         GameStateChanged.Invoke(argument);
     }
 
+    public void HandleAction(Action action)
+    {
+        if (_game is null) throw new InvalidOperationException("Game is not defined");
+        _game.HandleAction(action);
+    }
+
+    public GameStatusCheck CheckIfCanChangeGame(Game game) //TODO убрать повторение кода
+    {
+        if (_game is null) return GameStatusCheck.Correct;
+        if (_players.Count < game.MinimumPlayers) return GameStatusCheck.LessThenMinimumAmountOfPlayers;
+        if (_players.Count > game.MaximumPlayers) return GameStatusCheck.MoreThenMaximumAmountOfPlayers;
+        if (_game.IsInProgress) return GameStatusCheck.GameInProgress;
+        return GameStatusCheck.Correct;
+    }
+
+    public GameStatusCheck CheckIfCanStartGame()
+    {
+        if (_game is null) return GameStatusCheck.NoGameDefined;
+        if (_players.Count < _game.MinimumPlayers) return GameStatusCheck.LessThenMinimumAmountOfPlayers;
+        if (_players.Count > _game.MaximumPlayers) return GameStatusCheck.MoreThenMaximumAmountOfPlayers;
+        if (_game.IsInProgress) return GameStatusCheck.GameInProgress;
+        return GameStatusCheck.Correct;
+    }
+    
     public void ChangeGame(Game game)
     {
+        var check = CheckIfCanChangeGame(game);
+        if (check != GameStatusCheck.Correct) throw new InvalidOperationException($"Can`t change game due to {check}");
         if (_game is not null) _game.GameStateChanged -= GameStateChangedHandler;
         _game = game;
         _game.GameStateChanged += GameStateChangedHandler;
         _game.ConnectPlayers(_players);
     }
 
-    public GameStartCheck CheckIfCanStartGame()
-    {
-        if (_game is null) return GameStartCheck.NoGameDefined;
-        if (_players.Count < _game.MinimumPlayers) return GameStartCheck.LessThenMinimumAmountOfPlayers;
-        if (_players.Count > _game.MaximumPlayers) return GameStartCheck.MoreThenMaximumAmountOfPlayers;
-        if (_game.IsInProgress) return GameStartCheck.GameInProgress;
-        return GameStartCheck.Successful;
-    }
-
     public void StartGame()
     {
         var check = CheckIfCanStartGame();
-        if (check == GameStartCheck.Successful)
+        if (check == GameStatusCheck.Correct)
         {
             _game.ConnectPlayers(_players);
             _game.StartGame();
@@ -59,13 +77,12 @@ public class Lobby: Entity<LobbyId>
         if (!_players.Contains(player)) _players.Add(player);
         return PlayerRegistrationResult.SuccessfulRegistered;
     }
-
-    //TODO Хз проверьте норм или нет
-    public PlayerRegistrationResult UnregisterPlayer(Player player)
+    
+    public PlayerKickResult KickPlayer(Player player)
     {
-        if (_game is not null && _game.IsInProgress) return PlayerRegistrationResult.GameInProgress;
+        if (_game is not null && _game.IsInProgress) return PlayerKickResult.GameInProgress;
         _players.Remove(player);
-        return PlayerRegistrationResult.SuccessfulUnregistered;
+        return PlayerKickResult.SuccessfulKicked;
     }
 
     public IReadOnlyList<Player> GetPlayers => _players;
@@ -74,7 +91,7 @@ public class Lobby: Entity<LobbyId>
 
     public void CloseGame()
     {
-        if (_game is null) throw new InvalidOperationException($"Can`t close game due to it`s not defined");
+        if (_game is null) throw new InvalidOperationException("Can`t close game due to it`s not defined");
         _game.CloseGame();
     }
 }

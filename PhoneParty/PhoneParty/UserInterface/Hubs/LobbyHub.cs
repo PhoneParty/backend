@@ -101,7 +101,7 @@ public class LobbyHub : Hub
         {
             var user = UserRepository.Get(userId);
             var lobby = LobbyRepository.Get(newLobbyId);
-            lobby.UnregisterPlayer(user.Player);
+            lobby.KickPlayer(user.Player);
             await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
 
             if (lobby.PlayersCount == 0)
