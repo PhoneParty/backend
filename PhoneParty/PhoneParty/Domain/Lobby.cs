@@ -32,11 +32,9 @@ public class Lobby: Entity<LobbyId>
         _game.HandleAction(action);
     }
 
-    public GameStatusCheck CheckIfCanChangeGame(Game game) //TODO убрать повторение кода
+    public GameStatusCheck CheckIfCanChangeGame(Game game)
     {
         if (_game is null) return GameStatusCheck.Correct;
-        if (_players.Count < game.MinimumPlayers) return GameStatusCheck.LessThenMinimumAmountOfPlayers;
-        if (_players.Count > game.MaximumPlayers) return GameStatusCheck.MoreThenMaximumAmountOfPlayers;
         if (_game.IsInProgress) return GameStatusCheck.GameInProgress;
         return GameStatusCheck.Correct;
     }
