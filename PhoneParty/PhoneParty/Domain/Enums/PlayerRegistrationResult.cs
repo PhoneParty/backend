@@ -3,6 +3,5 @@
 public enum PlayerRegistrationResult
 {
     SuccessfulRegistered,
-    SuccessfulUnregistered,
     GameInProgress
 }

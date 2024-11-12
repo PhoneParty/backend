@@ -1,3 +1,4 @@
+using PhoneParty;
 using PhoneParty.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);

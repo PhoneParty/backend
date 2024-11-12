@@ -1,9 +1,9 @@
 using PhoneParty.Domain;
-using PhoneParty.Hubs.Infastructure;
+using PhoneParty.Hubs;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
-namespace PhoneParty.Hubs;
+namespace PhoneParty;
 
 public class Startup
 {
