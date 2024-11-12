@@ -29,7 +29,6 @@ connection.onreconnected(() => {
         })
 })
 
-// Метод для создания лобби
 function createLobby() {
     const userName = document.getElementById("userNameInput").value;
     if (userName && connection.state === "Connected")   {
@@ -42,7 +41,6 @@ function createLobby() {
     }
 }
 
-// Метод для подключения к лобби
 function joinLobby() {
     const lobbyId = document.getElementById("lobbyIdInput").value;
     const userName = document.getElementById("userNameInput").value;

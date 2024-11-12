@@ -2,10 +2,10 @@
 @model PhoneParty.Pages.LobbyModel
 @{
     ViewData["Title"] = "Лобби";
+    ViewBag.ScriptPath = "lobby.js";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
+
 <h1>Лобби ID: @Model.LobbyId</h1>
 <button onclick="leaveLobby()">Выйти из лобби</button>
 <ul id="userList"></ul>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-<script src="js/lobby.js"></script>

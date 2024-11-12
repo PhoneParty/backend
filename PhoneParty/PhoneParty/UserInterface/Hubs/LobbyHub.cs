@@ -16,7 +16,7 @@ public class LobbyHub : Hub
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        var ids = new string[] { "da17b443-fda6-43db-afd2-ecf2f7d28057", "d3a27ebb-eb99-4689-ace4-988b4e5f2406" , "66bfcb3e-5eb9-4f83-beb2-b109fdc1331f"};
+        var ids = new string[] { "00cec5b7-52f3-4f9e-8d41-aabd0c54f598", "d3a27ebb-eb99-4689-ace4-988b4e5f2406" , "66bfcb3e-5eb9-4f83-beb2-b109fdc1331f"};
         foreach (var id in ids)
         {
             var user = new User(id);
