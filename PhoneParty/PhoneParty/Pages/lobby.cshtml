@@ -3,9 +3,19 @@
 @{
     ViewData["Title"] = "Лобби";
 }
-<h1>Лобби ID: @Model.LobbyId</h1>
-<button onclick="leaveLobby()">Выйти из лобби</button>
-<ul id="userList"></ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лобби</title>
+</head>
+<body>
+    <h1>Лобби ID: @Model.LobbyId</h1>
+    <button onclick="leaveLobby()">Выйти из лобби</button>
+    <button id="hostButton" onclick="startGame()" style="display: none;">Начать игру</button>
+    <ul id="userList"></ul>
+</body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
 <script src="js/lobby.js"></script>

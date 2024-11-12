@@ -15,6 +15,8 @@ connection.start()
                 .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
             connection.invoke("UpdateLobby", lobbyId)
                 .catch(err => console.error("Ошибка при обновлении лобби: " + err.toString()));
+            connection.invoke("CheckHost", userId, lobbyId)
+                .catch(err => console.error("Ошибка при проверке пользователя на хоста: " + err.toString()));
         }
     })
 
@@ -32,6 +34,12 @@ connection.on("UpdateLobbyUsers", users => {
 connection.on("UserLeft", users => {
     updateUserList(users);
 });
+
+connection.on("IsHost", flag =>{
+    if (flag) {
+        document.getElementById("hostButton").style.display = "block";
+    }
+})
 
 function getUrlParams() {
     const params = new URLSearchParams(window.location.search);
@@ -53,4 +61,8 @@ function leaveLobby() {
         connection.stop();
         window.location.href = "/";
     }).catch(err => console.error("Ошибка при выходе из лобби: " + err.toString()));
+}
+
+function startGame() {
+    
 }

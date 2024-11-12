@@ -72,6 +72,8 @@ public class Lobby: Entity<LobbyId>
 
     public int PlayersCount => _players.Count;
 
+    public Player Host => _host;
+
     public void CloseGame()
     {
         if (_game is null) throw new InvalidOperationException($"Can`t close game due to it`s not defined");

@@ -62,6 +62,12 @@ public class LobbyHub : Hub
         await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId));
     }
 
+    public async Task CheckHost(string userId, string lobbyId)
+    {
+       var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
+       await Clients.Caller.SendAsync("IsHost", lobby.Host.Id == userId);
+    }
+
     public async Task CreateLobby(string userId)
     {
         var lobbyId = RandomIds.GenerateLobbyId();
