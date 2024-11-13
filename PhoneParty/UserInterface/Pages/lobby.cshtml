@@ -2,20 +2,26 @@
 @model PhoneParty.Pages.LobbyModel
 @{
     ViewData["Title"] = "Лобби";
+    ViewBag.ScriptPath = "lobby.js";
+    Layout = "/Pages/Shared/_Layout.cshtml";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лобби</title>
-</head>
-<body>
-    <h1>Лобби ID: @Model.LobbyId</h1>
-    <button onclick="leaveLobby()">Выйти из лобби</button>
-    <button id="hostButton" onclick="startGame()" style="display: none;">Начать игру</button>
-    <ul id="userList"></ul>
-</body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-<script src="js/lobby.js"></script>
+<div class="flex-grow-1"></div>
+<div class="flex-grow-1"></div>
+<h1 class="lobby-code-label">@Model.LobbyId</h1>
+<h1 class="pelmeshka-font text-center lobby-code-under-label">код</h1>
+
+<div class="d-flex justify-content-start gap-3 d-none" id="hostLine">
+        <img src="svg/Star 1.svg" alt="Описание изображения">
+        <p class="player-nick-lobby" id="username"></p>
+    </div>
+<div class="d-flex justify-content-start gap-3 d-none" id="guestLine">
+    <img src="svg/Arrow 7.svg" alt="Описание изображения">
+    <p class="player-nick-lobby" id="username"></p>
+</div>
+
+<div class="d-flex flex-column player-list" id="userList">
+    
+</div>
+<button class="rounded-button-1" onclick="startGame()">Начать игру</button>
+<button class="rounded-button-1" onclick="leaveLobby()">Выйти из лобби</button>
