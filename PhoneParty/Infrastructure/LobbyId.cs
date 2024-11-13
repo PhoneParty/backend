@@ -2,21 +2,20 @@ using System.Text;
 
 namespace PhoneParty.Hubs.Infastructure;
 
-public static class RandomIds
+public static class LobbyId
 {
     private const string Alphabet = "ABCDEF0123456789";
-    public static string GenerateUserId() => Guid.NewGuid().ToString();
     
-    private static Stack<string> _ids = new Stack<string>();
+    private static readonly Stack<string> Ids = new Stack<string>();
     
     public static string GetLobbyId()
     {
-        if(_ids.Count == 0)
+        if(Ids.Count == 0)
             GetAllIds();
-        return _ids.Pop();
+        return Ids.Pop();
     }
 
-    public static void RestoreId(string id) => _ids.Push(id);
+    public static void RestoreId(string id) => Ids.Push(id);
     
     private static void GetAllIds()
     {
@@ -24,7 +23,7 @@ public static class RandomIds
             foreach (var secondChar in Alphabet)
                 foreach (var thirdChar in Alphabet)
                     foreach (var fourthChar in Alphabet)
-                        _ids.Push(firstChar.ToString() + secondChar.ToString() + thirdChar.ToString() + fourthChar.ToString());
+                        Ids.Push(firstChar.ToString() + secondChar.ToString() + thirdChar.ToString() + fourthChar.ToString());
     }
     
 }
