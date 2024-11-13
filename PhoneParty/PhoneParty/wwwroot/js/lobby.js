@@ -38,13 +38,17 @@ function getUrlParams() {
     return params.get("lobbyId");
 }
 
+const userListLine =  document.getElementById("guestLine");
+const hostListLine =  document.getElementById("hostLine");
+
 function updateUserList(users) {
     const userList = document.getElementById("userList");
     userList.innerHTML = "";
     users.forEach(user => {
-        const li = document.createElement("li");
-        li.textContent = `Пользователь ${user}`;
-        userList.appendChild(li);
+        let newLine = userListLine.cloneNode(true);
+        newLine.querySelector("#username").innerHTML = user;
+        newLine.classList.remove("d-none");
+        userList.appendChild(newLine);
     });
 }
 

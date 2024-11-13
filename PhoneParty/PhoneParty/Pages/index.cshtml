@@ -1,13 +1,28 @@
 @page
 @{
+    ViewData["Title"] = "PhoneParty";
     ViewBag.ScriptPath = "startScreen.js";
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
 <div class="flex-grow-1"></div>
-<h1 class="edgy-font title-color">Phone Party</h1>
-<button class="input-field-1" onclick="createLobby()">Создать лобби</button>
-<button onclick="joinLobby()">Подключиться к лобби</button>
-<input type="text" id="userNameInput" placeholder="Введите имя пользователя" />
-<input type="text" id="lobbyIdInput" placeholder="Введите номер лобби" />
+<div class="flex-grow-1"></div>
+
+<h1 class="zanzegi-font title-color title">Phone Party</h1>
+<div class="flex-grow-1"></div>
+<input class="rounded-text-input-1" type="text" id="userNameInput" placeholder="введи свой ник"/>
+<div class="flex-grow-1"></div>
+<div class="flex-grow-1"></div>
+<div class="flex-grow-1"></div>
+
+<h3 class="pelmeshka-font text-center">Подключись по коду</h3>
+<div class="d-flex justify-content-center gap-3">
+    <input class="rounded-text-input-1 lobby-input" oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g, '')" type="text" id="lobbyIdInput" maxlength="4" placeholder=""/>
+    <button class="rounded-button-1" onclick="joinLobby()">войти</button>
+</div>
+
+
+<h3 class="pelmeshka-font text-center">или</h3>
+
+<button class="rounded-button-1" onclick="createLobby()">создай своё лобби</button>
 <div id="status"></div>
