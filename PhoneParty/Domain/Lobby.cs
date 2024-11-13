@@ -9,11 +9,11 @@ namespace Domain;
 
 public class Lobby: Entity<LobbyId>
 {
-    public event Action<IEnumerable<Player>> GameStateChanged;
+    public event Action<IEnumerable<Player>>? GameStateChanged;
 
-    private readonly List<Player> _players = new();
+    private readonly List<Player> _players = [];
     private readonly Player _host;
-    private Game? _game = null;
+    private Game? _game;
 
     public Lobby(LobbyId id, Player host) : base(id)
     {
@@ -24,12 +24,13 @@ public class Lobby: Entity<LobbyId>
 
     private void GameStateChangedHandler(IEnumerable<Player> argument)
     {
-        GameStateChanged.Invoke(argument);
+        GameStateChanged?.Invoke(argument);
     }
 
     public void HandleAction(Action action)
     {
         if (_game is null) throw new InvalidOperationException("Game is not defined");
+        if (!_players.Contains(action.Player)) throw new InvalidOperationException("Cannot handle action because player not in this lobby");
         _game.HandleAction(action);
     }
 
