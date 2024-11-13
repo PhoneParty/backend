@@ -1,3 +1,4 @@
+localStorage.clear()
 let userId = localStorage.getItem("userId");
 
 // Инициализация подключения к SignalR

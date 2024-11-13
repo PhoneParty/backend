@@ -10,16 +10,14 @@ namespace Domain;
 public class Lobby: Entity<LobbyId>
 {
     public event Action<IEnumerable<Player>> GameStateChanged;
-
     private readonly List<Player> _players = new();
-    private readonly Player _host;
     private Game? _game = null;
 
     public Lobby(LobbyId id, Player host) : base(id)
     {
-        _host = host;
-        _host.Lobby = this;
-        _players.Add(_host);
+        Host = host;
+        Host.Lobby = this;
+        _players.Add(Host);
     }
 
     private void GameStateChangedHandler(IEnumerable<Player> argument)
@@ -81,14 +79,21 @@ public class Lobby: Entity<LobbyId>
     {
         if (_game is not null && _game.IsInProgress) return PlayerKickResult.GameInProgress;
         _players.Remove(player);
+        ChangeHost();
         return PlayerKickResult.SuccessfulKicked;
+    }
+
+    private void ChangeHost()
+    {
+        if(_players.Count != 0)
+            Host = _players[0];
     }
 
     public IReadOnlyList<Player> GetPlayers => _players;
 
     public int PlayersCount => _players.Count;
 
-    public Player Host => _host;
+    public Player Host { get; private set; }
 
     public void CloseGame()
     {
