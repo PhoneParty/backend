@@ -1,7 +1,7 @@
 using Domain;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
-// using PhoneParty.Hubs.Infastructure;
+using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
@@ -28,7 +28,7 @@ public class LobbyHub : Hub
 
     public async void RegisterUser()
     {
-        var id = RandomIds.GenerateUserId();
+        var id = UserId.GenerateUserId();
         // while (!UserRepository.Contains(id))
         //     id = RandomIds.GenerateUserId();
         var user = new User(id);
@@ -65,7 +65,7 @@ public class LobbyHub : Hub
 
     public async Task CreateLobby(string userId)
     {
-        var lobbyId = RandomIds.GenerateLobbyId();
+        var lobbyId = LobbyIdRepo.GetLobbyId();
         // while (!LobbyRepository.Contains(new LobbyId(lobbyId)))
         //     lobbyId = RandomIds.GenerateUserId();
         
