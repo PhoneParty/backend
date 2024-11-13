@@ -1,18 +1,30 @@
 using System.Text;
 
-namespace Infrastructure;
+namespace PhoneParty.Hubs.Infastructure;
 
 public static class RandomIds
 {
-    private static readonly char[] Chars = "ABCDEF0123456789".ToCharArray();
+    private const string Alphabet = "ABCDEF0123456789";
     public static string GenerateUserId() => Guid.NewGuid().ToString();
     
-    public static string GenerateLobbyId()
+    private static Stack<string> _ids = new Stack<string>();
+    
+    public static string GetLobbyId()
     {
-        var rnd = new Random();
-        var lobbyId = new StringBuilder();
-        for (var i = 0; i < 4; i++)
-            lobbyId.Append(Chars[rnd.Next(Chars.Length)]);
-        return lobbyId.ToString();
+        if(_ids.Count == 0)
+            GetAllIds();
+        return _ids.Pop();
     }
+
+    public static void RestoreId(string id) => _ids.Push(id);
+    
+    private static void GetAllIds()
+    {
+        foreach (var firstChar in Alphabet)
+            foreach (var secondChar in Alphabet)
+                foreach (var thirdChar in Alphabet)
+                    foreach (var fourthChar in Alphabet)
+                        _ids.Push(firstChar.ToString() + secondChar.ToString() + thirdChar.ToString() + fourthChar.ToString());
+    }
+    
 }

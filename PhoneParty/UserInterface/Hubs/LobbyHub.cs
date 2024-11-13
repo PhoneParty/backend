@@ -2,6 +2,7 @@ using Domain;
 using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
+using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
@@ -71,7 +72,7 @@ public class LobbyHub : Hub
 
     public async Task CreateLobby(string userId)
     {
-        var lobbyId = RandomIds.GenerateLobbyId();
+        var lobbyId = RandomIds.GetLobbyId();
         // while (!LobbyRepository.Contains(new LobbyId(lobbyId)))
         //     lobbyId = RandomIds.GenerateUserId();
         
@@ -112,7 +113,10 @@ public class LobbyHub : Hub
             await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
 
             if (lobby.PlayersCount == 0)
+            {
+                RandomIds.RestoreId(lobbyId);
                 LobbyRepository.Remove(newLobbyId);
+            }
             else
                 await Clients.Group(lobbyId).SendAsync("UserLeft", GetLobbyUsers(lobbyId));
         }
