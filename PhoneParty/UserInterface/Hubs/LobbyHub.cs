@@ -1,6 +1,7 @@
+using Domain;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
-using PhoneParty.Hubs.Infastructure;
+// using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 

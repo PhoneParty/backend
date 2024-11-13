@@ -1,8 +1,8 @@
 using Domain;
 using PhoneParty.Domain;
+using PhoneParty.Hubs;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
-using PhoneParty.UserInterface.Hubs;
 
 namespace PhoneParty;
 
