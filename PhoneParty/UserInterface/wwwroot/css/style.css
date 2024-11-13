@@ -1,0 +1,113 @@
+body {
+    background-color: #FCF5D8;
+}
+
+.title-color {
+    color: #A34D1C;
+}
+
+.title {
+    text-align: center;
+    font-size: 50pt;
+}
+
+.rounded-button-1 {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 26px; /* Скругляет углы */
+    padding: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #FFFEF5;
+    outline: none; /* Убирает обводку при фокусе */
+    border: none;
+    font-family: Pelmeshka;
+    font-size: 25px;
+    transition: background-color 0.2s ease;
+    letter-spacing: 0.7pt;
+}
+
+.rounded-button-1:hover {
+    background-color: #F6F4E6; /* Измените цвет фона при наведении */
+}
+
+.rounded-text-input-1 {
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 26px; /* Скругляет углы */
+    padding: 15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #FFFEF5;
+    outline: none; /* Убирает обводку при фокусе */
+    border: none;
+    font-family: Pelmeshka;
+    font-size: 25px;
+    transition: background-color 0.2s ease;
+    letter-spacing: 0.7pt;
+    text-align: center;
+}
+
+.lobby-input {
+    text-transform: uppercase;
+    font-family: Zanzegi;
+    width: 150px;
+}
+
+.lobby-code-label{
+    font-family: ZanzegiCondensed;
+    text-align: center;
+    font-size: 125pt;
+    height: 90pt;
+    color: #4A3300;
+    -webkit-font-smoothing: antialiased; /* Для сглаживания в WebKit браузерах (Chrome, Safari) */
+    -moz-osx-font-smoothing: grayscale; /* Для сглаживания в Firefox на macOS */
+    font-smooth: always;
+}
+
+.lobby-code-under-label{
+    color: #853304;
+}
+
+.player-nick-lobby{
+    font-size: 25pt;
+    font-family: Zanzegi;
+    margin: 0;
+    margin-top: 5pt;
+}
+
+.player-list{
+    padding: 0;
+    width: 250pt;
+}
+
+.player-list-arrow{
+    padding-right: 7px; 
+    padding-left: 3px;
+}
+
+.zanzegi-font {
+    font-family: Zanzegi;
+}
+
+.zanzegi-condensed-font {
+    font-family: ZanzegiCondensed;
+}
+
+.pelmeshka-font {
+    font-family: Pelmeshka;
+}
+
+
+@font-face {
+    font-family: 'Zanzegi';
+    src: url('../fonts/Zangezi_Trial/Zangezi08_Trial-Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'ZanzegiCondensed';
+    src: url('../fonts/Zangezi_Trial/Zangezi08_Trial-Condensed.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Pelmeshka';
+    src: url('../fonts/Pelmeshka/Pelmeshka.ttf') format('truetype');
+}

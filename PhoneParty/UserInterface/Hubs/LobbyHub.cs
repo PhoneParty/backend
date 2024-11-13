@@ -1,25 +1,23 @@
-using Domain;
-using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
 using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
-using LobbyId = PhoneParty.Hubs.Infastructure.LobbyId;
 
-namespace PhoneParty.UserInterface.Hubs;
+namespace PhoneParty.Hubs;
 
 public class LobbyHub : Hub
 {
     // Словарь для хранения участников по ID лобби
-    private readonly IRepository<Domain.LobbyId, Lobby> LobbyRepository;
+    private readonly IRepository<LobbyId, Lobby> LobbyRepository;
     private readonly IRepository<string, User> UserRepository;
 
-    public LobbyHub(IRepository<Domain.LobbyId, Lobby> lobbyRepository, IRepository<string, User> userRepository)
+    public LobbyHub(IRepository<LobbyId, Lobby> lobbyRepository, IRepository<string, User> userRepository)
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        foreach (var id in UserId.GetAllIds())
+        var ids = new string[] { "00cec5b7-52f3-4f9e-8d41-aabd0c54f598", "d3a27ebb-eb99-4689-ace4-988b4e5f2406" , "66bfcb3e-5eb9-4f83-beb2-b109fdc1331f"};
+        foreach (var id in ids)
         {
             var user = new User(id);
             if(!UserRepository.Contains(id))
@@ -29,7 +27,7 @@ public class LobbyHub : Hub
 
     public async void RegisterUser()
     {
-        var id = UserId.GenerateUserId();
+        var id = RandomIds.GenerateUserId();
         // while (!UserRepository.Contains(id))
         //     id = RandomIds.GenerateUserId();
         var user = new User(id);
@@ -64,23 +62,17 @@ public class LobbyHub : Hub
         await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId));
     }
 
-    public async Task CheckHost(string userId, string lobbyId)
-    {
-       var lobby = LobbyRepository.Get(new Domain.LobbyId(lobbyId));
-       await Clients.Caller.SendAsync("IsHost", lobby.Host.Id == userId);
-    }
-
     public async Task CreateLobby(string userId)
     {
-        var lobbyId = LobbyId.GetLobbyId();
+        var lobbyId = RandomIds.GenerateLobbyId();
         // while (!LobbyRepository.Contains(new LobbyId(lobbyId)))
         //     lobbyId = RandomIds.GenerateUserId();
         
         var user = UserRepository.Get(userId);
         user.SetName(user.UserName + '*');
 
-        var lobby = new Lobby(new Domain.LobbyId(lobbyId), user.Player);
-        LobbyRepository.Add(new Domain.LobbyId(lobbyId), lobby);
+        var lobby = new Lobby(new LobbyId(lobbyId), user.Player);
+        LobbyRepository.Add(new LobbyId(lobbyId), lobby);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
 
         // Уведомляем пользователя, что лобби создано
@@ -89,7 +81,7 @@ public class LobbyHub : Hub
 
     public async Task JoinLobby(string lobbyId, string userId)
     {
-        var newLobbyId = new Domain.LobbyId(lobbyId);
+        var newLobbyId = new LobbyId(lobbyId);
         if (!LobbyRepository.Contains(newLobbyId))
             return;
         var user = UserRepository.Get(userId);
@@ -104,7 +96,7 @@ public class LobbyHub : Hub
 
     public async Task LeaveLobby(string userId ,string lobbyId)
     {
-        var newLobbyId = new Domain.LobbyId(lobbyId);
+        var newLobbyId = new LobbyId(lobbyId);
         if (LobbyRepository.Contains(newLobbyId))
         {
             var user = UserRepository.Get(userId);
@@ -113,10 +105,7 @@ public class LobbyHub : Hub
             await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
 
             if (lobby.PlayersCount == 0)
-            {
-                LobbyId.RestoreId(lobbyId);
                 LobbyRepository.Remove(newLobbyId);
-            }
             else
                 await Clients.Group(lobbyId).SendAsync("UserLeft", GetLobbyUsers(lobbyId));
         }
@@ -125,7 +114,7 @@ public class LobbyHub : Hub
     private List<string> GetLobbyUsers(string lobbyId)
     {
         var res = LobbyRepository
-            .Get(new Domain.LobbyId(lobbyId))
+            .Get(new LobbyId(lobbyId))
             .GetPlayers
             .Select(x => UserRepository.Get(x.Id).UserName)
             .ToList();

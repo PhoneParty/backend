@@ -1,21 +1,28 @@
 @page
-@model PhoneParty.Pages.IndexModel
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UserInterface</title>
-</head>
-<body>
-    <h1>Добро пожаловать в Лобби</h1>
-    <button onclick="createLobby()">Создать лобби</button>
-    <button onclick="joinLobby()">Подключиться к лобби</button>
-    <input type="text" id="userNameInput" placeholder="Введите имя пользователя" />
-    <input type="text" id="lobbyIdInput" placeholder="Введите номер лобби" />
-    <div id="status"></div>
-</body>
-</html>
+@{
+    ViewData["Title"] = "PhoneParty";
+    ViewBag.ScriptPath = "startScreen.js";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
-<script src="js/startScreen.js"></script>
+<div class="flex-grow-1"></div>
+<div class="flex-grow-1"></div>
+
+<h1 class="zanzegi-font title-color title">Phone Party</h1>
+<div class="flex-grow-1"></div>
+<input class="rounded-text-input-1" type="text" id="userNameInput" placeholder="введи свой ник"/>
+<div class="flex-grow-1"></div>
+<div class="flex-grow-1"></div>
+<div class="flex-grow-1"></div>
+
+<h3 class="pelmeshka-font text-center">Подключись по коду</h3>
+<div class="d-flex justify-content-center gap-3">
+    <input class="rounded-text-input-1 lobby-input" oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g, '')" type="text" id="lobbyIdInput" maxlength="4" placeholder=""/>
+    <button class="rounded-button-1" onclick="joinLobby()">войти</button>
+</div>
+
+
+<h3 class="pelmeshka-font text-center">или</h3>
+
+<button class="rounded-button-1" onclick="createLobby()">создай своё лобби</button>
+<div id="status"></div>
