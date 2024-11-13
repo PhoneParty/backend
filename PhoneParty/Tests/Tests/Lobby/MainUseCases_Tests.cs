@@ -2,6 +2,7 @@
 using Domain;
 using Domain.WhoAmI;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using PhoneParty.Domain;
 using PhoneParty.Domain.Enums;
 using PhoneParty.Domain.WhoAmI;
@@ -154,4 +155,168 @@ public class MainUseCaseTests
         result = lobby.CheckIfCanStartGame();
         Assert.That(result, Is.EqualTo(GameStatusCheck.GameInProgress));
     }
+    
+    [Test]
+    public void TestMultiplePlayerRegistration()
+    {
+        var host = new Player("1");
+        var lobby = new Domain.Lobby(new LobbyId("A1B2"), host);
+
+        var playersToRegister = new List<Player>
+        {
+            new Player("2"),
+            new Player("3"),
+            new Player("4"),
+            new Player("5"),
+            new Player("6")
+        };
+
+        foreach (var player in playersToRegister)
+        {
+            var result = lobby.RegisterPlayer(player);
+            Assert.That(result, Is.EqualTo(PlayerRegistrationResult.SuccessfulRegistered), $"Не удалось зарегистрировать игрока {player.Id}");
+        }
+
+        var players = lobby.GetPlayers;
+        Assert.That(players.Count, Is.EqualTo(6));
+        CollectionAssert.Contains(players, host);
+        foreach (var player in playersToRegister)
+        {
+            CollectionAssert.Contains(players, player);
+        }
+    }
+    
+    [Test]
+    public void TestKickingNonExistentPlayer()
+    {
+        var host = new Player("1");
+        var lobby = new Domain.Lobby(new LobbyId("C3D4"), host);
+
+        var nonExistentPlayer = new Player("2");
+        var result = lobby.KickPlayer(nonExistentPlayer);
+
+        Assert.That(result, Is.EqualTo(PlayerKickResult.GameInProgress), "Попытка кика несуществующего игрока должна возвращать статус PlayerNotFound.");
+
+        var players = lobby.GetPlayers;
+        Assert.That(players.Count, Is.EqualTo(1));
+        CollectionAssert.Contains(players, host);
+    }
+
+    [Test]
+    public void TestChangingGameWhileGameInProgress()
+    {
+        var host = new Player("1");
+        var player2 = new Player("2");
+        var lobby = new Domain.Lobby(new LobbyId("D4E5"), host);
+        lobby.RegisterPlayer(player2);
+
+        var initialGame = new WhoAmIGame();
+        lobby.ChangeGame(initialGame);
+        lobby.StartGame();
+
+        var newGame = new WhoAmIGame();
+        var canChangeGame = lobby.CheckIfCanChangeGame(newGame);
+
+        Assert.That(canChangeGame, Is.EqualTo(GameStatusCheck.GameInProgress), "Изменение игры во время активной игры должно возвращать статус GameInProgress.");
+        Assert.Throws<InvalidOperationException>(() => lobby.ChangeGame(newGame), "Изменение игры во время активной игры должно выбрасывать исключение.");
+    }
+    
+    [Test]
+    public void TestAssignNewHostWhenHostIsKicked()
+    {
+        var host = new Player("1");
+        var player2 = new Player("2");
+        var player3 = new Player("3");
+        var lobby = new Domain.Lobby(new LobbyId("E5F6"), host);
+        lobby.RegisterPlayer(player2);
+        lobby.RegisterPlayer(player3);
+
+        var result = lobby.KickPlayer(host);
+        Assert.That(result, Is.EqualTo(PlayerKickResult.SuccessfulKicked), "Хост должен быть успешно кикнут.");
+
+        var players = lobby.GetPlayers;
+        Assert.That(players.Count, Is.EqualTo(2));
+        CollectionAssert.DoesNotContain(players, host);
+        // Предполагается, что новый хост — первый игрок в списке
+        var newHost = players[0];
+        Assert.That(newHost.IsHost, Is.True, "Новый хост должен быть назначен.");
+    }
+
+    [Test]
+    public void TestLobbyCapacityLimits()
+    {
+        var host = new Player("1");
+        var lobby = new Domain.Lobby(new LobbyId("F6G7"), host);
+
+        var playersToRegister = new List<Player>
+        {
+            new Player("2"),
+            new Player("3"),
+            new Player("4"),
+            new Player("5"),
+            new Player("6")
+        };
+
+        foreach (var player in playersToRegister)
+        {
+            var result = lobby.RegisterPlayer(player);
+            Assert.That(result, Is.EqualTo(PlayerRegistrationResult.SuccessfulRegistered), $"Не удалось зарегистрировать игрока {player.Id}");
+        }
+        
+        var extraPlayer = new Player("7");
+        var extraResult = lobby.RegisterPlayer(extraPlayer);
+        Assert.That(extraResult, Is.EqualTo(PlayerRegistrationResult.MoreThanMaximumPlayers), "Регистрация игрока сверх максимального количества должна возвращать статус MoreThanMaximumPlayers.");
+
+        var players = lobby.GetPlayers;
+        Assert.That(players.Count, Is.EqualTo(6));
+        CollectionAssert.DoesNotContain(players, extraPlayer);
+    }
+    
+    [Test]
+    public void TestClosingLobby()
+    {
+        var host = new Player("1");
+        var player2 = new Player("2");
+        var player3 = new Player("3");
+        var lobby = new Domain.Lobby(new LobbyId("G7H8"), host);
+        lobby.RegisterPlayer(player2);
+        lobby.RegisterPlayer(player3);
+
+        var game = new WhoAmIGame();
+        lobby.ChangeGame(game);
+        lobby.StartGame();
+
+        lobby.CloseGame();
+
+        var players = lobby.GetPlayers;
+        Assert.That(players.Count, Is.EqualTo(0), "После закрытия лобби список игроков должен быть пустым.");
+        Assert.That(game.IsInProgress, Is.False, "Свойство IsInProgress должно быть false после закрытия лобби.");
+        Assert.That(game.IsFinished, Is.False, "Свойство IsFinished должно быть false после закрытия лобби.");
+    }
+    
+    [Test]
+    public void TestPlayersListImmutability()
+    {
+        var host = new Player("1");
+        var lobby = new Domain.Lobby(new LobbyId("J0K1"), host);
+        var player2 = new Player("2");
+        lobby.RegisterPlayer(player2);
+
+        var players = lobby.GetPlayers;
+        Assert.That(players.Count, Is.EqualTo(2));
+        Assert.Throws<NotSupportedException>(() => ((List<Player>)players).Add(new Player("3")), "Список игроков должен быть неизменяемым.");
+    }
+
+    [Test]
+    public void TestGetCurrentHost()
+    {
+        var host = new Player("1");
+        var player2 = new Player("2");
+        var lobby = new Domain.Lobby(new LobbyId("N4O5"), host);
+        lobby.RegisterPlayer(player2);
+
+        var currentHost = lobby.Host;
+        Assert.That(currentHost, Is.EqualTo(host), "Хост лобби должен быть корректно возвращен.");
+    }
+
 }
