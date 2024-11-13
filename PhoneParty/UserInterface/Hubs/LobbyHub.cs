@@ -5,7 +5,6 @@ using PhoneParty.Domain;
 using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
-using LobbyId = PhoneParty.Hubs.Infastructure.LobbyId;
 
 namespace PhoneParty.UserInterface.Hubs;
 
@@ -19,7 +18,7 @@ public class LobbyHub : Hub
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        foreach (var id in UserId.GetAllIds())
+        foreach (var id in UserIdRepo.GetAllIds())
         {
             var user = new User(id);
             if(!UserRepository.Contains(id))
@@ -29,7 +28,7 @@ public class LobbyHub : Hub
 
     public async void RegisterUser()
     {
-        var id = UserId.GenerateUserId();
+        var id = UserIdRepo.GenerateUserId();
         // while (!UserRepository.Contains(id))
         //     id = RandomIds.GenerateUserId();
         var user = new User(id);
@@ -72,7 +71,7 @@ public class LobbyHub : Hub
 
     public async Task CreateLobby(string userId)
     {
-        var lobbyId = LobbyId.GetLobbyId();
+        var lobbyId = LobbyIdRepo.GetLobbyId();
         // while (!LobbyRepository.Contains(new LobbyId(lobbyId)))
         //     lobbyId = RandomIds.GenerateUserId();
         
@@ -114,7 +113,7 @@ public class LobbyHub : Hub
 
             if (lobby.PlayersCount == 0)
             {
-                LobbyId.RestoreId(lobbyId);
+                LobbyIdRepo.RestoreId(lobbyId);
                 LobbyRepository.Remove(newLobbyId);
             }
             else

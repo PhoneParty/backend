@@ -2,7 +2,7 @@ using System.Text;
 
 namespace PhoneParty.Hubs.Infastructure;
 
-public static class LobbyId
+public static class LobbyIdRepo
 {
     private const string Alphabet = "ABCDEF0123456789";
     

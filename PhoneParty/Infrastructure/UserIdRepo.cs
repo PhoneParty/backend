@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-public class UserId
+public class UserIdRepo
 {
     private static readonly List<string> IdList = [];
 
