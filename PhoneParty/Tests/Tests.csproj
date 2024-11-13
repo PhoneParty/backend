@@ -5,6 +5,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>PhonePartyTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PhoneParty\PhoneParty.csproj" />
+      <ProjectReference Include="..\UserInterface\UserInterface.csproj" />
     </ItemGroup>
 
 </Project>

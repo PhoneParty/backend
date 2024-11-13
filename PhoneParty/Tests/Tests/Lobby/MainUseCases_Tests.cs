@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using Domain;
+using Domain.WhoAmI;
 using NUnit.Framework;
 using PhoneParty.Domain;
 using PhoneParty.Domain.Enums;
@@ -7,13 +9,13 @@ using PhoneParty.Domain.WhoAmI;
 namespace PhonePartyTests.Tests.Lobby;
 
 [TestFixture]
-public class MainUseCase_Tests
+public class MainUseCaseTests
 {
     [Test]
     public void TestLobbyCreation()
     {
         var player = new Player("1");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), player);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), player);
 
         var players = lobby.GetPlayers;
 
@@ -28,7 +30,7 @@ public class MainUseCase_Tests
     {
         var host = new Player("1");
         var player = new Player("2");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), host);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         var result = lobby.RegisterPlayer(player);
 
         var players = lobby.GetPlayers;
@@ -44,7 +46,7 @@ public class MainUseCase_Tests
     {
         var host = new Player("1");
         var player = new Player("2");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), host);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         lobby.RegisterPlayer(player);
         var result = lobby.KickPlayer(player);
         var players = lobby.GetPlayers;
@@ -60,7 +62,7 @@ public class MainUseCase_Tests
     {
         var host = new Player("1");
         var player = new Player("2");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), host);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         lobby.RegisterPlayer(player);
         lobby.ChangeGame(new WhoAmIGame());
         lobby.StartGame();
@@ -80,7 +82,7 @@ public class MainUseCase_Tests
         var host = new Player("1");
         var player2 = new Player("2");
         var player3 = new Player("3");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), host);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         lobby.ChangeGame(new WhoAmIGame());
         lobby.RegisterPlayer(player2);
         lobby.StartGame();
@@ -98,7 +100,7 @@ public class MainUseCase_Tests
     public void TestCanChangeGameChecker()
     {
         var host = new Player("1");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), host);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         var game = new WhoAmIGame();
         Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStatusCheck.Correct));
         
@@ -126,7 +128,7 @@ public class MainUseCase_Tests
     public void TestCanStartGameChecker()
     {
         var host = new Player("1");
-        var lobby = new PhoneParty.Domain.Lobby(new LobbyId("4F3B"), host);
+        var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         var result = lobby.CheckIfCanStartGame();
         Assert.That(result, Is.EqualTo(GameStatusCheck.NoGameDefined));
 

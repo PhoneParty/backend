@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <RootNamespace>PhoneParty</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -26,6 +27,10 @@
     <ItemGroup>
       <AdditionalFiles Include="Pages\index.cshtml" />
       <AdditionalFiles Include="Pages\lobby.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 
 </Project>

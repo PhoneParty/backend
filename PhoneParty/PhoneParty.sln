@@ -1,8 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoneParty", "PhoneParty\PhoneParty.csproj", "{CEA14A23-4F3D-4D69-B9A0-5558F4C909CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "UserInterface\UserInterface.csproj", "{CEA14A23-4F3D-4D69-B9A0-5558F4C909CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhonePartyTests", "PhonePartyTests\PhonePartyTests.csproj", "{319D5AF2-93D7-41A6-8F52-7967F8EAAAF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{319D5AF2-93D7-41A6-8F52-7967F8EAAAF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{66D77A5A-060D-46A2-BD03-BFA59E93AFCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{A1A109A1-9073-4EEC-91D5-2378F42FC368}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +22,13 @@ Global
 		{319D5AF2-93D7-41A6-8F52-7967F8EAAAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{319D5AF2-93D7-41A6-8F52-7967F8EAAAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{319D5AF2-93D7-41A6-8F52-7967F8EAAAF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66D77A5A-060D-46A2-BD03-BFA59E93AFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66D77A5A-060D-46A2-BD03-BFA59E93AFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66D77A5A-060D-46A2-BD03-BFA59E93AFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66D77A5A-060D-46A2-BD03-BFA59E93AFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1A109A1-9073-4EEC-91D5-2378F42FC368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1A109A1-9073-4EEC-91D5-2378F42FC368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1A109A1-9073-4EEC-91D5-2378F42FC368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1A109A1-9073-4EEC-91D5-2378F42FC368}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

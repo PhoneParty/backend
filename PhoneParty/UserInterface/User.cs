@@ -1,6 +1,5 @@
-using Ddd.Taxi.Infrastructure;
-using NuGet.ContentModel;
-using PhoneParty.Domain;
+using Domain;
+using Infrastructure;
 
 namespace PhoneParty.Hubs.UserInterface.Interfaces;
 

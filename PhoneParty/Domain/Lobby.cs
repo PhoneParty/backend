@@ -1,10 +1,11 @@
-﻿using Ddd.Taxi.Infrastructure;
+﻿using Infrastructure;
+using PhoneParty.Domain;
 using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums;
 using Action = PhoneParty.Domain.AbstractClasses.Action;
 using InvalidOperationException = System.InvalidOperationException;
 
-namespace PhoneParty.Domain;
+namespace Domain;
 
 public class Lobby: Entity<LobbyId>
 {

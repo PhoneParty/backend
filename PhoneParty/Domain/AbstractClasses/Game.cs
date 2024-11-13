@@ -1,4 +1,5 @@
-﻿using PhoneParty.Domain.Enums;
+﻿using Domain;
+using PhoneParty.Domain.Enums;
 using PhoneParty.Domain.Interfaces;
 
 namespace PhoneParty.Domain.AbstractClasses;

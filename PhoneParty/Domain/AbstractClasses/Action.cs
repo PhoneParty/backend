@@ -1,4 +1,6 @@
-﻿namespace PhoneParty.Domain.AbstractClasses;
+﻿using Domain;
+
+namespace PhoneParty.Domain.AbstractClasses;
 
 public abstract class Action
 {

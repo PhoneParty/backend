@@ -1,10 +1,11 @@
+using Domain;
+using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
-using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
-namespace PhoneParty.Hubs;
+namespace PhoneParty.UserInterface.Hubs;
 
 public class LobbyHub : Hub
 {

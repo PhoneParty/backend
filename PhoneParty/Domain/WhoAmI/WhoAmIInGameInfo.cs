@@ -1,8 +1,8 @@
-﻿using PhoneParty.Domain.Enums.WhoAmI;
+﻿using Infrastructure;
+using PhoneParty.Domain.Enums.WhoAmI;
 using PhoneParty.Domain.Interfaces;
-using PhoneParty.Infrastructure;
 
-namespace PhoneParty.Domain.WhoAmI;
+namespace Domain.WhoAmI;
 
 public class WhoAmIInGameInfo : IInGameInfo
 {

@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using System.Text;
 
-namespace Ddd.Taxi.Infrastructure;
+namespace Infrastructure;
 
 public class ValueType<T>
 {

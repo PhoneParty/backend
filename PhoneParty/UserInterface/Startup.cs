@@ -1,7 +1,8 @@
+using Domain;
 using PhoneParty.Domain;
-using PhoneParty.Hubs;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
+using PhoneParty.UserInterface.Hubs;
 
 namespace PhoneParty;
 
@@ -13,6 +14,7 @@ public class Startup
         services.AddSignalR();
         services.AddSingleton<IRepository<LobbyId, Lobby>, Repository<LobbyId, Lobby>>();
         services.AddSingleton<IRepository<string, User>, Repository<string, User>>();
+        services.AddSingleton<LobbyHub>();
     }
  
     public void Configure(IApplicationBuilder app)

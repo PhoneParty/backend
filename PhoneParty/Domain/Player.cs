@@ -1,7 +1,7 @@
-﻿using Ddd.Taxi.Infrastructure;
+﻿using Infrastructure;
 using PhoneParty.Domain.Interfaces;
 
-namespace PhoneParty.Domain;
+namespace Domain;
 
 public class Player(string id) : Entity<string>(id)
 {

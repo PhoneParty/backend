@@ -1,4 +1,6 @@
-﻿namespace PhoneParty.Domain.WhoAmI;
+﻿using Domain;
+
+namespace PhoneParty.Domain.WhoAmI;
 
 public class WhoAmIDecisionAction : WhoAmIAction
 {

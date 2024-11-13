@@ -1,11 +1,11 @@
-﻿using PhoneParty.Domain.AbstractClasses;
-using PhoneParty.Domain.Enums;
+﻿using Infrastructure;
+using PhoneParty.Domain;
+using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums.WhoAmI;
-using PhoneParty.Domain.Interfaces;
-using PhoneParty.Infrastructure;
+using PhoneParty.Domain.WhoAmI;
 using Action = PhoneParty.Domain.AbstractClasses.Action;
 
-namespace PhoneParty.Domain.WhoAmI;
+namespace Domain.WhoAmI;
 
 public class WhoAmIGame : Game
 {

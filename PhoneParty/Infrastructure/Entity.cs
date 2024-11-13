@@ -1,4 +1,4 @@
-﻿namespace Ddd.Taxi.Infrastructure;
+﻿namespace Infrastructure;
 
 /// <summary>
 /// Базовый класс всех DDD сущностей.

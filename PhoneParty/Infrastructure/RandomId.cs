@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace PhoneParty.Hubs.Infastructure;
+namespace Infrastructure;
 
 public static class RandomIds
 {

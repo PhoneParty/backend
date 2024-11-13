@@ -1,4 +1,4 @@
-﻿namespace PhoneParty.Infrastructure;
+﻿namespace Infrastructure;
 
 public enum HeroEnum
 {
