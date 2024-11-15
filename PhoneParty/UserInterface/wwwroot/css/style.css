@@ -20,7 +20,7 @@ body {
     background-color: #FFFEF5;
     outline: none; /* Убирает обводку при фокусе */
     border: none;
-    font-family: Pelmeshka;
+    font-family: Goznak;
     font-size: 25px;
     transition: background-color 0.2s ease;
     letter-spacing: 0.7pt;
@@ -39,7 +39,7 @@ body {
     background-color: #FFFEF5;
     outline: none; /* Убирает обводку при фокусе */
     border: none;
-    font-family: Pelmeshka;
+    font-family: Goznak;
     font-size: 25px;
     transition: background-color 0.2s ease;
     letter-spacing: 0.7pt;
@@ -96,6 +96,9 @@ body {
     font-family: Pelmeshka;
 }
 
+.goznak-font {
+    font-family: Goznak;
+}
 
 @font-face {
     font-family: 'Zanzegi';
@@ -110,4 +113,9 @@ body {
 @font-face {
     font-family: 'Pelmeshka';
     src: url('../fonts/Pelmeshka/Pelmeshka.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Goznak';
+    src: url('../fonts/Goznak/Gosznak-Semi Bold.otf') format('opentype');
 }
