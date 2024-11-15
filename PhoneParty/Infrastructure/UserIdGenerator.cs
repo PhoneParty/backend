@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+namespace Infrastructure;
 
-public class UserId
+public static class UserIdGenerator
 {
     private static readonly List<string> IdList = [];
 
@@ -16,5 +14,4 @@ public class UserId
     }
 
     public static List<string> GetAllIds() => IdList;
-
 }

@@ -1,7 +1,7 @@
 using Domain;
+using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
-using PhoneParty.Hubs.Infastructure;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
@@ -17,7 +17,7 @@ public class LobbyHub : Hub
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        var ids = new string[] { "00cec5b7-52f3-4f9e-8d41-aabd0c54f598", "d3a27ebb-eb99-4689-ace4-988b4e5f2406" , "66bfcb3e-5eb9-4f83-beb2-b109fdc1331f"};
+        var ids = UserIdGenerator.GetAllIds();
         foreach (var id in ids)
         {
             var user = new User(id);
@@ -28,7 +28,7 @@ public class LobbyHub : Hub
 
     public async void RegisterUser()
     {
-        var id = UserId.GenerateUserId();
+        var id = UserIdGenerator.GenerateUserId();
         // while (!UserRepository.Contains(id))
         //     id = RandomIds.GenerateUserId();
         var user = new User(id);
@@ -44,12 +44,12 @@ public class LobbyHub : Hub
         Console.WriteLine("Update connection: " + Context.ConnectionId);
     }
 
-    public async void UpdateGroupConnection(string userId, string lobbyId)
+    public async void UpdateGroupConnection(string userId, string lobbyIdString)
     {
         var user = UserRepository.Get(userId);
-        await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
+        await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyIdString);
         user.SetConnection(Context.ConnectionId);
-        await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
+        await Groups.AddToGroupAsync(user.ConnectionId, lobbyIdString);
     }
 
     public async void UpdateUserName(string id, string name)
@@ -58,64 +58,64 @@ public class LobbyHub : Hub
         user.SetName(name);
     }
 
-    public async Task UpdateLobby(string lobbyId)
+    public async Task UpdateLobby(string lobbyIdString)
     {
-        await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId));
+        await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString));
     }
 
     public async Task CreateLobby(string userId)
     {
-        var lobbyId = LobbyIdRepo.GetLobbyId();
+        var lobbyId = LobbyIdGenerator.GenerateLobbyId();
         // while (!LobbyRepository.Contains(new LobbyId(lobbyId)))
         //     lobbyId = RandomIds.GenerateUserId();
         
         var user = UserRepository.Get(userId);
         user.SetName(user.UserName + '*');
 
-        var lobby = new Lobby(new LobbyId(lobbyId), user.Player);
-        LobbyRepository.Add(new LobbyId(lobbyId), lobby);
-        await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
+        var lobby = new Lobby(lobbyId, user.Player);
+        LobbyRepository.Add(lobbyId, lobby);
+        await Groups.AddToGroupAsync(user.ConnectionId, lobbyId.ToString());
 
         // Уведомляем пользователя, что лобби создано
-        await Clients.Caller.SendAsync("LobbyCreated", lobbyId);
+        await Clients.Caller.SendAsync("LobbyCreated", lobbyId.ToString());
     }
 
-    public async Task JoinLobby(string lobbyId, string userId)
+    public async Task JoinLobby(string lobbyIdString, string userId)
     {
-        var newLobbyId = new LobbyId(lobbyId);
+        var newLobbyId = new LobbyId(lobbyIdString);
         if (!LobbyRepository.Contains(newLobbyId))
             return;
         var user = UserRepository.Get(userId);
         LobbyRepository.Get(newLobbyId).RegisterPlayer(user.Player);
-        await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
+        await Groups.AddToGroupAsync(user.ConnectionId, lobbyIdString);
         
-        await Clients.Caller.SendAsync("JoinedToLobby", lobbyId, user.ConnectionId, GetLobbyUsers(lobbyId));
+        await Clients.Caller.SendAsync("JoinedToLobby", lobbyIdString, user.ConnectionId, GetLobbyUsers(lobbyIdString));
 
         // Уведомляем всех в группе о новом участнике
-        await Clients.Group(lobbyId).SendAsync("UserJoined", user.ConnectionId, GetLobbyUsers(lobbyId));
+        await Clients.Group(lobbyIdString).SendAsync("UserJoined", user.ConnectionId, GetLobbyUsers(lobbyIdString));
     }
 
-    public async Task LeaveLobby(string userId ,string lobbyId)
+    public async Task LeaveLobby(string userId ,string lobbyIdString)
     {
-        var newLobbyId = new LobbyId(lobbyId);
+        var newLobbyId = new LobbyId(lobbyIdString);
         if (LobbyRepository.Contains(newLobbyId))
         {
             var user = UserRepository.Get(userId);
             var lobby = LobbyRepository.Get(newLobbyId);
             lobby.KickPlayer(user.Player);
-            await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
+            await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyIdString);
 
             if (lobby.PlayersCount == 0)
                 LobbyRepository.Remove(newLobbyId);
             else
-                await Clients.Group(lobbyId).SendAsync("UserLeft", GetLobbyUsers(lobbyId));
+                await Clients.Group(lobbyIdString).SendAsync("UserLeft", GetLobbyUsers(lobbyIdString));
         }
     }
 
-    private List<string> GetLobbyUsers(string lobbyId)
+    private List<string> GetLobbyUsers(string lobbyIdString)
     {
         var res = LobbyRepository
-            .Get(new LobbyId(lobbyId))
+            .Get(new LobbyId(lobbyIdString))
             .GetPlayers
             .Select(x => UserRepository.Get(x.Id).UserName)
             .ToList();
