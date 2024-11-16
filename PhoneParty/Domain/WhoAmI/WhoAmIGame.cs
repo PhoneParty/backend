@@ -29,6 +29,8 @@ public class WhoAmIGame : Game
         return randomHero;
     }
 
+    public HeroEnum CurrentGuessedHero => ((WhoAmIInGameInfo)Players[_currentGuesserIndex].InGameInfo!).AttachedHero;
+
     public override void HandleAction(Action action)
     {
         if (!IsInProgress) throw new InvalidOperationException("Game haven`t started");
@@ -42,13 +44,6 @@ public class WhoAmIGame : Game
 
     private void HandleNextMove()
     {
-        if (Players.All(player => ((WhoAmIInGameInfo)player.InGameInfo!).GameRole == WhoAmIRole.Observer))
-        {
-            IsInProgress = false;
-            IsFinished = true;
-            return;
-        }
-
         for (var i = 1; i <= Players.Count; i++)
         {
             if (((WhoAmIInGameInfo)Players[(_currentGuesserIndex + i) % Players.Count].InGameInfo!).GameRole ==
@@ -66,6 +61,12 @@ public class WhoAmIGame : Game
         ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = false;
         _currentDecisionMakerIndex = _currentGuesserIndex == 0 ? Players.Count - 1 : _currentGuesserIndex - 1;
         ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = true;
+
+        UpdateShownHeroes();
+
+        if (Players.Any(player => ((WhoAmIInGameInfo)player.InGameInfo!).GameRole != WhoAmIRole.Observer)) return;
+        IsInProgress = false;
+        IsFinished = true;
     }
 
     private void HandlePlayerSuccess(Player player)
@@ -76,6 +77,15 @@ public class WhoAmIGame : Game
         info.GameRole = WhoAmIRole.Observer;
     }
 
+    private void UpdateShownHeroes()
+    {
+        for (var index = 0; index < Players.Count; index++)
+        {
+            if (index != _currentGuesserIndex) ((WhoAmIInGameInfo)Players[index].InGameInfo!).ShownHero = CurrentGuessedHero;
+            else ((WhoAmIInGameInfo)Players[index].InGameInfo!).ShownHero = null;
+        }
+    }
+
     public override void StartGame()
     {
         if (IsInProgress) throw new InvalidOperationException("This Game already started");
@@ -83,8 +93,9 @@ public class WhoAmIGame : Game
         IsInProgress = true;
         IsFinished = false;
         _currentDecisionMakerIndex = Players.Count - 1;
-        ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo).IsDecisionMaker = true;
+        ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = true;
         _currentGuesserIndex = 0;
-        ((WhoAmIInGameInfo)Players[_currentGuesserIndex].InGameInfo).GameRole = WhoAmIRole.Guesser;
+        ((WhoAmIInGameInfo)Players[_currentGuesserIndex].InGameInfo!).GameRole = WhoAmIRole.Guesser;
+        UpdateShownHeroes();
     }
 }

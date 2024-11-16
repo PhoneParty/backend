@@ -43,20 +43,26 @@ public class MainUseCases_Tests
         Assert.That(game.IsFinished, Is.False);
         
         var players = lobby.GetPlayers;
+        
         Assert.That(((WhoAmIInGameInfo)players[0].InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Guesser));
+        Assert.That(((WhoAmIInGameInfo)players[0].InGameInfo!).ShownHero, Is.Null);
         foreach (var player in players.Skip(1))
         {
             Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Player));
+            Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).ShownHero, Is.EqualTo(game.CurrentGuessedHero));
         }
         Assert.That(((WhoAmIInGameInfo)players[^1].InGameInfo!).IsDecisionMaker, Is.True);
         
         lobby.HandleAction(new WhoAmIDecisionAction(host, false));
         
         Assert.That(((WhoAmIInGameInfo)players[0].InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Player));
+        Assert.That(((WhoAmIInGameInfo)players[0].InGameInfo!).ShownHero, Is.EqualTo(game.CurrentGuessedHero));
         Assert.That(((WhoAmIInGameInfo)players[1].InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Guesser));
+        Assert.That(((WhoAmIInGameInfo)players[1].InGameInfo!).ShownHero, Is.Null);
         foreach (var player in players.Skip(3))
         {
             Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Player));
+            Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).ShownHero, Is.EqualTo(game.CurrentGuessedHero));
         }
         Assert.That(((WhoAmIInGameInfo)players[^1].InGameInfo!).IsDecisionMaker, Is.False);
         Assert.That(((WhoAmIInGameInfo)players[0].InGameInfo!).IsDecisionMaker, Is.True);
