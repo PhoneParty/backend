@@ -62,8 +62,6 @@ public class WhoAmIGame : Game
         _currentDecisionMakerIndex = _currentGuesserIndex == 0 ? Players.Count - 1 : _currentGuesserIndex - 1;
         ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = true;
 
-        UpdateShownHeroes();
-
         if (Players.Any(player => ((WhoAmIInGameInfo)player.InGameInfo!).GameRole != WhoAmIRole.Observer)) return;
         IsInProgress = false;
         IsFinished = true;
@@ -77,15 +75,6 @@ public class WhoAmIGame : Game
         info.GameRole = WhoAmIRole.Observer;
     }
 
-    private void UpdateShownHeroes()
-    {
-        for (var index = 0; index < Players.Count; index++)
-        {
-            if (index != _currentGuesserIndex) ((WhoAmIInGameInfo)Players[index].InGameInfo!).ShownHero = CurrentGuessedHero;
-            else ((WhoAmIInGameInfo)Players[index].InGameInfo!).ShownHero = null;
-        }
-    }
-
     public override void StartGame()
     {
         if (IsInProgress) throw new InvalidOperationException("This Game already started");
@@ -96,6 +85,5 @@ public class WhoAmIGame : Game
         ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = true;
         _currentGuesserIndex = 0;
         ((WhoAmIInGameInfo)Players[_currentGuesserIndex].InGameInfo!).GameRole = WhoAmIRole.Guesser;
-        UpdateShownHeroes();
     }
 }
