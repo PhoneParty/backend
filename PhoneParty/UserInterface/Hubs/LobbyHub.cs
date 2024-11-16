@@ -5,7 +5,7 @@ using PhoneParty.Domain;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
-namespace PhoneParty.Hubs;
+namespace UserInterface.Hubs;
 
 public class LobbyHub : Hub
 {
@@ -24,6 +24,12 @@ public class LobbyHub : Hub
             if(!UserRepository.Contains(id))
                 UserRepository.Add(id, user);
         }
+    }
+        
+    public async Task CheckHost(string userId, string lobbyId)
+    {
+        var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
+        await Clients.Caller.SendAsync("IsHost", lobby.Host.Id == userId);
     }
 
     public async void RegisterUser()

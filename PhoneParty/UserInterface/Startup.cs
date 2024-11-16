@@ -1,10 +1,10 @@
 using Domain;
 using PhoneParty.Domain;
-using PhoneParty.Hubs;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
+using UserInterface.Hubs;
 
-namespace PhoneParty;
+namespace UserInterface;
 
 public class Startup
 {
@@ -30,6 +30,7 @@ public class Startup
         {
             endpoints.MapRazorPages();
             endpoints.MapHub<LobbyHub>("/lobbyHub");
+            endpoints.MapHub<WhoIAmHub>("/WhoIAm");
         });
     }
 }
