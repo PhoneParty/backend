@@ -1,4 +1,5 @@
 using Domain;
+using Domain.WhoAmI;
 using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
@@ -67,6 +68,13 @@ public class LobbyHub : Hub
     public async Task UpdateLobby(string lobbyIdString)
     {
         await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString));
+    }
+
+    public async void StartGame(string lobbyId)
+    {
+        var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
+        lobby.ChangeGame(new WhoAmIGame());
+        lobby.StartGame();
     }
 
     public async Task CreateLobby(string userId)

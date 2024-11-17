@@ -2,7 +2,7 @@ const lobbyId = getUrlParams();
 const userId = localStorage.getItem("userId");
 
 const connection = new signalR.HubConnectionBuilder()
-    .withUrl("/game")
+    .withUrl("/WhoIAmHub")
     .withAutomaticReconnect()
     .configureLogging(signalR.LogLevel.Information)
     .build();
@@ -14,10 +14,8 @@ connection.start()
         if (lobbyId) {
             connection.invoke("UpdateGroupConnection", userId, lobbyId)
                 .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
-            connection.invoke("UpdateLobby", lobbyId)
-                .catch(err => console.error("Ошибка при обновлении лобби: " + err.toString()));
-            connection.invoke("CheckHost", userId, lobbyId)
-                .catch(err => console.error("Ошибка при проверке пользователя на хоста: " + err.toString()));
+            connection.invoke("ShowTurnInfo", userId, lobbyId)
+                .catch(err => console.error("Ошибка при обновлении инфы о ходе: " + err.toString()));
         }
     })
 
@@ -28,9 +26,14 @@ connection.onreconnected(() => {
         })
 })
 
-connection.on("ChangeTurn", (role, character) => {
+connection.on("ShowTurn", (role, character) => {
     changeCharacter(character)
     changeState(role)
+});
+
+connection.on("ChangeTurn" , ()=> {
+    connection.invoke("ShowTurnInfo", userId, lobbyId)
+        .catch(err => console.error("Ошибка при обновлении инфы о ходе: " + err.toString()));
 });
 
 connection.on("GameEnd", _ => {
@@ -66,6 +69,7 @@ function changeState(playerRole) {
 const characterNameElement = document.getElementById("characterName")
 const characterImageElement = document.getElementById("characterImage")
 
+
 function changeCharacter(character) {
     characterNameElement.innerHTML = character.Name
     characterImageElement.src = character.Picture.Fullname
@@ -75,12 +79,19 @@ function handleGameEnd() {
     window.location.assign("/gameEnd");
 }
 
+function getUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("lobbyId");
+}
+
 const wrongGuessButton = document.getElementById("wrongGuessButton")
 const rightGuessButton = document.getElementById("rightGuessButton")
 
 wrongGuessButton.onclick = function () {
-    socket.send({"judgeTurn": false})
+    connection.invoke("ChangeTurn", false)
+        .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }
 rightGuessButton.onclick = function () {
-    socket.send({"judgeTurn": true})
+    connection.invoke("ChangeTurn", true)
+        .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }

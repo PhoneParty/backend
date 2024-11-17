@@ -68,5 +68,7 @@ function leaveLobby() {
 }
 
 function startGame() {
-    window.location.assign("/game");
+    connection.invoke("StartGame", lobbyId)
+        .catch(err => console.error("Ошибка при начале игры: " + err.toString()))
+    window.location.href = `/Game?lobbyId=${lobbyId}`;
 }

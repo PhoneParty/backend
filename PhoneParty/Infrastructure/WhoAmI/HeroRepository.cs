@@ -9,6 +9,7 @@ public static class HeroRepository
 
     static HeroRepository()
     {
+        Console.WriteLine(Directory.GetCurrentDirectory());
         if (!File.Exists(JsonFilePath))
             throw new FileNotFoundException($"JSON file not found at {JsonFilePath}");
 

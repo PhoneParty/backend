@@ -30,7 +30,7 @@ public class Startup
         {
             endpoints.MapRazorPages();
             endpoints.MapHub<LobbyHub>("/lobbyHub");
-            endpoints.MapHub<WhoIAmHub>("/WhoIAm");
+            endpoints.MapHub<WhoIAmHub>("/WhoIAmHub");
         });
     }
 }
