@@ -37,7 +37,7 @@ public class WhoAmIGame : Game
         if (action is not WhoAmIAction whoAmIAction)
             throw new InvalidOperationException($"{action.GetType()} is not valid for {GetType()}");
         var playerGuessed = ((WhoAmIDecisionAction)whoAmIAction).CurrentPlayerGuessedCorrectly;
-        if (playerGuessed) HandlePlayerSuccess(action.Player);
+        if (playerGuessed) HandlePlayerSuccess(Players[_currentGuesserIndex]);
         HandleNextMove();
         GameStateChanged?.Invoke(Players);
     }

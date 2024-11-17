@@ -70,11 +70,12 @@ public class LobbyHub : Hub
         await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString));
     }
 
-    public async void StartGame(string lobbyId)
+    public async Task StartGame(string lobbyId)
     {
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         lobby.ChangeGame(new WhoAmIGame());
         lobby.StartGame();
+        await Clients.Group(lobbyId).SendAsync("GameStarted");
     }
 
     public async Task CreateLobby(string userId)

@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.WhoAmI;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
+using PhoneParty.Domain.Enums.WhoAmI;
 using PhoneParty.Domain.WhoAmI;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
@@ -43,13 +44,14 @@ public class WhoIAmHub: Hub
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         var role = ((WhoAmIInGameInfo)user.Player.InGameInfo).GameRole;
         var character = HeroRepository.GetHero(((WhoAmIGame)lobby.Game).CurrentGuessedHero);
-        await Clients.Caller.SendAsync("ShowTurn", role, character);
+        var flag = ((WhoAmIInGameInfo)user.Player.InGameInfo).IsDecisionMaker;
+        await Clients.Caller.SendAsync("ShowTurn", role, flag,  character);
     }
 
-    public async Task ChangeTurn(string lobbyId, bool decision)
+    public async Task ChangeTurn(string userId ,string lobbyId, bool decision)
     {
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
-        lobby.Game.HandleAction(new WhoAmIDecisionAction(new Player("hehehhe"), false));
+        lobby.Game.HandleAction(new WhoAmIDecisionAction(UserRepository.Get(userId).Player, decision));
         await Clients.Group(lobbyId).SendAsync("ChangeTurn");
     }
     

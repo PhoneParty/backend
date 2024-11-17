@@ -39,6 +39,39 @@
 
     <ItemGroup>
       <None Include="Heroes.json" />
+      <None Include="wwwroot\Characters\AlbertEinstein.jpeg" />
+      <None Include="wwwroot\Characters\AleksandrPushkin.jpeg" />
+      <None Include="wwwroot\Characters\Batman.jpeg" />
+      <None Include="wwwroot\Characters\BradPitt.jpeg" />
+      <None Include="wwwroot\Characters\CillianMurphy.jpeg" />
+      <None Include="wwwroot\Characters\DiCaprio.jpeg" />
+      <None Include="wwwroot\Characters\DonaldTrump.jpeg" />
+      <None Include="wwwroot\Characters\DwayneRock.jpeg" />
+      <None Include="wwwroot\Characters\ElonMusk.jpeg" />
+      <None Include="wwwroot\Characters\Gandalf.jpeg" />
+      <None Include="wwwroot\Characters\HarryPotter.jpeg" />
+      <None Include="wwwroot\Characters\Hobbit.jpeg" />
+      <None Include="wwwroot\Characters\JasonSt.jpeg" />
+      <None Include="wwwroot\Characters\KeanuReeves.jpeg" />
+      <None Include="wwwroot\Characters\Kuzya.jpeg" />
+      <None Include="wwwroot\Characters\Mario.jpeg" />
+      <None Include="wwwroot\Characters\MrBeast.jpeg" />
+      <None Include="wwwroot\Characters\NikolaTesla.jpeg" />
+      <None Include="wwwroot\Characters\Obama.jpeg" />
+      <None Include="wwwroot\Characters\PatrickBateman.jpeg" />
+      <None Include="wwwroot\Characters\PiDiddy.jpeg" />
+      <None Include="wwwroot\Characters\Pikachu.jpeg" />
+      <None Include="wwwroot\Characters\Putin.jpeg" />
+      <None Include="wwwroot\Characters\RobertPattinson.jpeg" />
+      <None Include="wwwroot\Characters\Ronaldo.jpeg" />
+      <None Include="wwwroot\Characters\RyanGosl.jpeg" />
+      <None Include="wwwroot\Characters\Sonic.jpeg" />
+      <None Include="wwwroot\Characters\Spider.jpeg" />
+      <None Include="wwwroot\Characters\Stalin.jpeg" />
+      <None Include="wwwroot\Characters\Superman.jpeg" />
+      <None Include="wwwroot\Characters\VinDisiel.jpeg" />
+      <None Include="wwwroot\Characters\WillSmith.jpeg" />
+      <None Include="wwwroot\Characters\Zhirinovskiy.jpeg" />
     </ItemGroup>
 
 </Project>

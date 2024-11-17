@@ -26,9 +26,9 @@ connection.onreconnected(() => {
         })
 })
 
-connection.on("ShowTurn", (role, character) => {
+connection.on("ShowTurn", (role, isDecisionMaker, character) => {
     changeCharacter(character)
-    changeState(role)
+    changeState(role, isDecisionMaker)
 });
 
 connection.on("ChangeTurn" , ()=> {
@@ -44,25 +44,33 @@ const guessScreen = document.getElementById("guess-screen")
 const viewScreen = document.getElementById("view-screen")
 const judgeScreen = document.getElementById("judge-screen")
 
-function changeState(playerRole) {
-    switch (playerRole) {
-        case playerRole.Observer:
-            viewScreen.classList.add("visually-hidden")
-            judgeScreen.classList.add("visually-hidden")
-            guessScreen.classList.remove("visually-hidden")
-            break;
-        case playerRole.Player:
-            guessScreen.classList.add("visually-hidden")
-            judgeScreen.classList.add("visually-hidden")
-            viewScreen.classList.remove("visually-hidden")
-            break;
-        case playerRole.Guesser:
-            guessScreen.classList.add("visually-hidden")
-            viewScreen.classList.remove("visually-hidden")
-            judgeScreen.classList.remove("visually-hidden")
-            break;
-        default:
-            alert("Wrong state received!!!");
+function changeState(playerRole, isDesisionMaker) {
+    console.log(playerRole, isDesisionMaker)
+    if (isDesisionMaker) {
+        guessScreen.classList.add("visually-hidden")
+        viewScreen.classList.remove("visually-hidden")
+        judgeScreen.classList.remove("visually-hidden")
+    }
+    else{
+        switch (playerRole) {
+            case 0:
+                viewScreen.classList.remove("visually-hidden")
+                judgeScreen.classList.add("visually-hidden")
+                guessScreen.classList.add("visually-hidden")
+                break;
+            case 1:
+                viewScreen.classList.remove("visually-hidden")
+                judgeScreen.classList.add("visually-hidden")
+                guessScreen.classList.add("visually-hidden")
+                break;
+            case 2:
+                guessScreen.classList.remove("visually-hidden")
+                viewScreen.classList.add("visually-hidden")
+                judgeScreen.classList.add("visually-hidden")
+                break;
+            default:
+                alert("Wrong state received!!!");
+        }
     }
 }
 
@@ -71,8 +79,9 @@ const characterImageElement = document.getElementById("characterImage")
 
 
 function changeCharacter(character) {
-    characterNameElement.innerHTML = character.Name
-    characterImageElement.src = character.Picture.Fullname
+    console.log(character)
+    characterNameElement.innerHTML = character.name
+    characterImageElement.src = "Characters\\" + character.picture
 }
 
 function handleGameEnd() {
@@ -88,10 +97,10 @@ const wrongGuessButton = document.getElementById("wrongGuessButton")
 const rightGuessButton = document.getElementById("rightGuessButton")
 
 wrongGuessButton.onclick = function () {
-    connection.invoke("ChangeTurn", false)
+    connection.invoke("ChangeTurn", userId ,lobbyId,false)
         .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }
 rightGuessButton.onclick = function () {
-    connection.invoke("ChangeTurn", true)
+    connection.invoke("ChangeTurn", userId ,lobbyId, true)
         .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }

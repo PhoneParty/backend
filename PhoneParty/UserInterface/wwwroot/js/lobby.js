@@ -41,6 +41,10 @@ connection.on("IsHost", flag =>{
     }
 })
 
+connection.on("GameStarted", () =>{
+    window.location.href = `/Game?lobbyId=${lobbyId}`;
+})
+
 function getUrlParams() {
     const params = new URLSearchParams(window.location.search);
     return params.get("lobbyId");
@@ -70,5 +74,4 @@ function leaveLobby() {
 function startGame() {
     connection.invoke("StartGame", lobbyId)
         .catch(err => console.error("Ошибка при начале игры: " + err.toString()))
-    window.location.href = `/Game?lobbyId=${lobbyId}`;
 }

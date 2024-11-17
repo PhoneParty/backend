@@ -24,7 +24,7 @@ public static class HeroRepository
             .Select((hero, index) => new Hero(
                 (HeroEnum)index,
                 hero.Name,
-                new FileInfo(hero.ImgName)))
+                hero.ImgName))
             .ToDictionary(hero => hero.Enum, hero => hero);
     }
 
