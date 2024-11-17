@@ -55,6 +55,10 @@ public class MainUseCases_Tests
         Assert.That(hero.Enum == HeroEnum.Batman);
         Assert.That(hero.Name == "Batman");
         Assert.That(hero.Picture, Is.EqualTo("Batman.jpeg"));
+        hero = HeroRepository.GetHero(HeroEnum.LeonardoDiCaprio);
+        Assert.That(hero.Enum == HeroEnum.LeonardoDiCaprio);
+        Assert.That(hero.Name == "Leonardo DiCaprio");
+        Assert.That(hero.Picture, Is.EqualTo("DiCaprio.jpeg"));
     }
 
     [Test]

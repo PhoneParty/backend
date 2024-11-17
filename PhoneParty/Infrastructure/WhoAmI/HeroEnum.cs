@@ -1,4 +1,4 @@
-﻿namespace Infrastructure;
+﻿namespace Infrastructure.WhoAmI;
 
 public enum HeroEnum
 {
@@ -31,10 +31,5 @@ public enum HeroEnum
     BradPitt,
     VinDiesel,
     KeanuReeves,
-    JosefStalin,
-    AlbertEinstein,
-    AleksandrPushkin,
-    NikolaTesla,
-    BarackObama,
-    PaulWalker
+    JosefStalin
 }
