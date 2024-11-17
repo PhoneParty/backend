@@ -2,6 +2,8 @@
 using System.Reflection;
 using Domain;
 using Domain.WhoAmI;
+using Infrastructure;
+using Infrastructure.WhoAmI;
 using PhoneParty.Domain;
 using PhoneParty.Domain.Enums;
 using PhoneParty.Domain.Enums.WhoAmI;
@@ -44,6 +46,15 @@ public class MainUseCases_Tests
                         Is.Not.EqualTo(((WhoAmIInGameInfo)otherPlayer.InGameInfo!).AttachedHero));
             }
         }
+    }
+
+    [Test]
+    public void TestHeroRepository()
+    {
+        var hero = HeroRepository.GetHero(HeroEnum.Batman);
+        Assert.That(hero.Enum == HeroEnum.Batman);
+        Assert.That(hero.Name == "Batman");
+        Assert.That(hero.Picture.Name, Is.EqualTo("Batman.jpeg"));
     }
 
     [Test]

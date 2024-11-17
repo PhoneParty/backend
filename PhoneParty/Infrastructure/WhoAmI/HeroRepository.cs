@@ -13,13 +13,14 @@ public static class HeroRepository
         if (!File.Exists(JsonFilePath))
             throw new FileNotFoundException($"JSON file not found at {JsonFilePath}");
 
-        var jsonContent = File.ReadAllText(JsonFilePath);
-        var heroesFromJson = JsonSerializer.Deserialize<List<JsonHero>>(jsonContent);
+        var jsonContent = File.ReadAllText("Heroes.json");
+        var heroData = JsonSerializer.Deserialize<HeroData>(jsonContent);
+        var heroes = heroData!.Characters;
 
-        if (heroesFromJson == null)
+        if (heroes == null)
             throw new InvalidOperationException("Failed to deserialize JSON.");
 
-        _heroes = heroesFromJson
+        _heroes = heroes
             .Select((hero, index) => new Hero(
                 (HeroEnum)index,
                 hero.Name,
@@ -34,9 +35,14 @@ public static class HeroRepository
         throw new KeyNotFoundException($"Hero with enum {heroEnum} not found.");
     }
 
-    private class JsonHero
+    public class JsonHero
     {
         public string Name { get; set; }
         public string ImgName { get; set; }
+    }
+
+    public class HeroData
+    {
+        public List<JsonHero> Characters { get; init; }
     }
 }
