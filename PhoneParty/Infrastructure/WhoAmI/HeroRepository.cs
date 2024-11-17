@@ -2,12 +2,12 @@
 
 namespace Infrastructure.WhoAmI;
 
-public class HeroRepository
+public static class HeroRepository
 {
-    private readonly Dictionary<HeroEnum, Hero> _heroes;
+    private static readonly Dictionary<HeroEnum, Hero> _heroes;
     private const string JsonFilePath = "Heroes.json";
 
-    public HeroRepository()
+    static HeroRepository()
     {
         if (!File.Exists(JsonFilePath))
             throw new FileNotFoundException($"JSON file not found at {JsonFilePath}");
@@ -26,7 +26,7 @@ public class HeroRepository
             .ToDictionary(hero => hero.Enum, hero => hero);
     }
 
-    public Hero GetHero(HeroEnum heroEnum)
+    public static Hero GetHero(HeroEnum heroEnum)
     {
         if (_heroes.TryGetValue(heroEnum, out var hero)) return hero;
 

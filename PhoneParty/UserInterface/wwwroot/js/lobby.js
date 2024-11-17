@@ -68,5 +68,5 @@ function leaveLobby() {
 }
 
 function startGame() {
-    
+    window.location.assign("/game");
 }

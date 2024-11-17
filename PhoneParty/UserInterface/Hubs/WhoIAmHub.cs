@@ -1,6 +1,7 @@
 using Domain;
 using Domain.WhoAmI;
 using Infrastructure;
+using Infrastructure.WhoAmI;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
 using PhoneParty.Hubs.UserInterface.Interfaces;
@@ -40,7 +41,7 @@ public class WhoIAmHub: Hub
         var user = UserRepository.Get(userId);
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         var role = ((WhoAmIInGameInfo)user.Player.InGameInfo).GameRole;
-        var character = ((WhoAmIGame)lobby.Game).CurrentGuessedHero;
+        var character = HeroRepository.GetHero(((WhoAmIGame)lobby.Game).CurrentGuessedHero);
         await Clients.Caller.SendAsync("ChangeTurn", role, character);
     }
     
