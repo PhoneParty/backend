@@ -44,7 +44,4 @@ public class WhoIAmHub: Hub
         await Clients.Caller.SendAsync("ChangeTurn", role, character);
     }
     
-    public void 
-    
-    
 }

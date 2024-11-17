@@ -78,7 +78,7 @@ public class WhoAmIGame : Game
     public override void StartGame()
     {
         if (IsInProgress) throw new InvalidOperationException("This Game already started");
-        RebasePlayersInGameInfo();
+        RebasePlayersInGameInfo(); // Вот тут вот надо будет добавить чтобы список героев обновлялся между перезапусками игры (именно игры а не раундов)
         IsInProgress = true;
         IsFinished = false;
         _currentDecisionMakerIndex = Players.Count - 1;

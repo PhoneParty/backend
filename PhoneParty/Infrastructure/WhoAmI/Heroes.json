@@ -1,0 +1,148 @@
+﻿{
+  "characters": [
+    {
+      "name": "Will Smith",
+      "img_name": "WillSmith.jpeg"
+    },
+    {
+      "name": "Jason Statham",
+      "img_name": "JasonSt.jpeg"
+    },
+    {
+      "name": "Mario",
+      "img_name": "Mario.jpeg"
+    },
+    {
+      "name": "Kuzya",
+      "img_name": "Kuzya.jpeg"
+    },
+    {
+      "name": "Pi Diddy",
+      "img_name": "PiDiddy.jpeg"
+    },
+    {
+      "name": "Spider man",
+      "img_name": "Spider.jpeg"
+    },
+    {
+      "name": "Ryan Gosling",
+      "img_name": "RyanGosl.jpeg"
+    },
+    {
+      "name": "Batman",
+      "img_name": "Batman.jpeg"
+    },
+    {
+      "name": "Superman",
+      "img_name": "Superman.jpeg"
+    },
+    {
+      "name": "Robert Pattinson",
+      "img_name": "RobertPattinson.jpeg"
+    },
+    {
+      "name": "Dwayne Jhonson",
+      "img_name": "DwayneRock.jpeg"
+    },
+    {
+      "name": "Killian Murphy",
+      "img_name": "KillianMurphy.jpeg"
+    },
+    {
+      "name": "Harry Potter",
+      "img_name": "HarryPotter.jpeg"
+    },
+    {
+      "name": "Hobbit",
+      "img_name": "Hobbit.jpeg"
+    },
+    {
+      "name": "Gandalf",
+      "img_name": "Gandalf.jpeg"
+    },
+    {
+      "name": "Voldemort",
+      "img_name": "Voldemort.jpeg"
+    },
+    {
+      "name": "MrBeast",
+      "img_name": "MrBeast.jpeg"
+    },
+    {
+      "name": "Putin",
+      "img_name": "Putin.jpeg"
+    },
+    {
+      "name": "Pikachu",
+      "img_name": "Pikachu.jpeg"
+    },
+    {
+      "name": "Sonic The HedgeHog",
+      "img_name": "Sonic.jpeg"
+    },
+    {
+      "name": "Patrick Bateman",
+      "img_name": "PatrickBateman.jpeg"
+    },
+    {
+      "name": "Dwayne Jhonson",
+      "img_name": "DwayneRock.jpeg"
+    },
+    {
+      "name": "Donald Trump",
+      "img_name": "DonaldTrump.jpeg"
+    },
+    {
+      "name": "Zhirinovskiy",
+      "img_name": "Zhirinovskiy.jpeg"
+    },
+    {
+      "name": "ElonMusk",
+      "img_name": "ElonMusk.jpeg"
+    },
+    {
+      "name": "Cristiano Ronaldo",
+      "img_name": "Ronaldo.jpeg"
+    },
+    {
+      "name": "Leonardo DiCaprio",
+      "img_name": "DiCaprio.jpeg"
+    },
+    {
+      "name": "Brad Pitt",
+      "img_name": "BradPitt.jpeg"
+    },
+    {
+      "name": "Vin Diesel",
+      "img_name": "VinDisiel.jpeg"
+    },
+    {
+      "name": "Keanu Reeves",
+      "img_name": "KeanuReeves.jpeg"
+    },
+    {
+      "name": "Josef Stalin",
+      "img_name": "Stalin.jpeg"
+    },
+    {
+      "name": "Albert Einstein",
+      "img_name": "AlbertEinstein.jpeg"
+    },
+    {
+      "name": "Aleksandr Pushkin",
+      "img_name": "AleksandrPushkin.jpeg"
+    },
+    {
+      "name": "Nikola Tesla",
+      "img_name": "NikolaTesla.jpeg"
+    },
+    {
+      "name": "Barack Obama",
+      "img_name": "Obama.jpeg"
+    },
+    {
+      "name": "Paul Walker",
+      "img_name": "Walker.jpeg"
+    }
+  ]
+}
