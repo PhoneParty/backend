@@ -31,13 +31,9 @@ connection.on("UpdateLobbyUsers", (users, host) => {
     updateUserList(users, host);
 });
 
-connection.on("UserLeft", (users, host) => {
-    updateUserList(users, host);
-});
-
 connection.on("IsHost", flag =>{
     if (flag) {
-        document.getElementById("hostButton").style.display = "block";
+        document.getElementById("hostButton").classList.remove("visually-hidden")
     }
 })
 

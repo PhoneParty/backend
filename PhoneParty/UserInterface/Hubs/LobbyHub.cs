@@ -102,13 +102,14 @@ public class LobbyHub : Hub
         if (!LobbyRepository.Contains(newLobbyId))
             return;
         var user = UserRepository.Get(userId);
-        LobbyRepository.Get(newLobbyId).RegisterPlayer(user.Player);
+        var lobby = LobbyRepository.Get(newLobbyId);
+        lobby.RegisterPlayer(user.Player);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyIdString);
         
         await Clients.Caller.SendAsync("JoinedToLobby", lobbyIdString, user.ConnectionId, GetLobbyUsers(lobbyIdString));
 
         // Уведомляем всех в группе о новом участнике
-        await Clients.Group(lobbyIdString).SendAsync("UserJoined", user.ConnectionId, GetLobbyUsers(lobbyIdString));
+        await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));
     }
 
     public async Task LeaveLobby(string userId ,string lobbyIdString)
@@ -124,7 +125,7 @@ public class LobbyHub : Hub
             if (lobby.PlayersCount == 0)
                 LobbyRepository.Remove(newLobbyId);
             else
-                await Clients.Group(lobbyIdString).SendAsync("UserLeft", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));
+                await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));
         }
     }
 
@@ -137,17 +138,4 @@ public class LobbyHub : Hub
             .ToList();
         return res;
     }
-
-    // public override async Task OnDisconnectedAsync(Exception exception)
-    // {
-    //     foreach (var lobby in Lobbies.Lobbies)
-    //     {
-    //         if (lobby.Value.Contains(Context.ConnectionId))
-    //         {
-    //             await LeaveLobby(lobby.Key);
-    //             break;
-    //         }
-    //     }
-    //     await base.OnDisconnectedAsync(exception);
-    // }
 }

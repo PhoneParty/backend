@@ -5,7 +5,7 @@ public readonly struct LobbyId : IEquatable<LobbyId>
     private readonly string _value;
     private readonly int _intValue;
 
-    public static readonly char[] AllowedCharacters = "ABCDEF0123456789".ToCharArray();
+    public static readonly char[] AllowedCharacters = "ABCDEFGHIJK0123456789".ToCharArray();
     public const int Length = 4;
 
     public LobbyId(string value)
