@@ -1,8 +1,8 @@
 ﻿namespace Infrastructure.WhoAmI;
 
-public class Hero(HeroEnum @enum, string name, string picture)
+public class Hero(int id, string name, string picture)
 {
-    public HeroEnum Enum { get; } = @enum;
+    public int Id { get; } = id;
     public string Name { get; } = name;
     public string Picture { get; } = picture;
 }

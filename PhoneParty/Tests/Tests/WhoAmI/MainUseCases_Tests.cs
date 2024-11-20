@@ -42,8 +42,8 @@ public class MainUseCases_Tests
             foreach (var otherPlayer in lobby.GetPlayers)
             {
                 if (!Equals(player, otherPlayer))
-                    Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).AttachedHero,
-                        Is.Not.EqualTo(((WhoAmIInGameInfo)otherPlayer.InGameInfo!).AttachedHero));
+                    Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).AttachedHeroId,
+                        Is.Not.EqualTo(((WhoAmIInGameInfo)otherPlayer.InGameInfo!).AttachedHeroId));
             }
         }
     }
@@ -51,12 +51,12 @@ public class MainUseCases_Tests
     [Test]
     public void TestHeroRepository()
     {
-        var hero = HeroRepository.GetHero(HeroEnum.Batman);
-        Assert.That(hero.Enum == HeroEnum.Batman);
+        var hero = HeroRepository.GetHero(8);
+        Assert.That(hero.Id == 8);
         Assert.That(hero.Name == "Batman");
         Assert.That(hero.Picture, Is.EqualTo("Batman.jpeg"));
-        hero = HeroRepository.GetHero(HeroEnum.LeonardoDiCaprio);
-        Assert.That(hero.Enum == HeroEnum.LeonardoDiCaprio);
+        hero = HeroRepository.GetHero(26);
+        Assert.That(hero.Id == 26);
         Assert.That(hero.Name == "Leonardo DiCaprio");
         Assert.That(hero.Picture, Is.EqualTo("DiCaprio.jpeg"));
     }

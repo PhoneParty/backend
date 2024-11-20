@@ -1,142 +1,177 @@
 ﻿{
   "Characters": [
     {
+      "Id": 1,
       "Name": "Will Smith",
       "ImgName": "WillSmith.jpeg"
     },
     {
+      "Id": 2,
       "Name": "Jason Statham",
       "ImgName": "JasonSt.jpeg"
     },
     {
+      "Id": 3,
       "Name": "Mario",
       "ImgName": "Mario.jpeg"
     },
     {
+      "Id": 4,
       "Name": "Kuzya",
       "ImgName": "Kuzya.jpeg"
     },
     {
+      "Id": 5,
       "Name": "Pi Diddy",
       "ImgName": "PiDiddy.jpeg"
     },
     {
+      "Id": 6,
       "Name": "Spider man",
       "ImgName": "Spider.jpeg"
     },
     {
+      "Id": 7,
       "Name": "Ryan Gosling",
       "ImgName": "RyanGosl.jpeg"
     },
     {
+      "Id": 8,
       "Name": "Batman",
       "ImgName": "Batman.jpeg"
     },
     {
+      "Id": 9,
       "Name": "Superman",
       "ImgName": "Superman.jpeg"
     },
     {
+      "Id": 10,
       "Name": "Robert Pattinson",
       "ImgName": "RobertPattinson.jpeg"
     },
     {
+      "Id": 11,
       "Name": "Dwayne Jhonson",
       "ImgName": "DwayneRock.jpeg"
     },
     {
+      "Id": 12,
       "Name": "Killian Murphy",
       "ImgName": "KillianMurphy.jpeg"
     },
     {
+      "Id": 13,
       "Name": "Harry Potter",
       "ImgName": "HarryPotter.jpeg"
     },
     {
+      "Id": 14,
       "Name": "Hobbit",
       "ImgName": "Hobbit.jpeg"
     },
     {
+      "Id": 15,
       "Name": "Gandalf",
       "ImgName": "Gandalf.jpeg"
     },
     {
+      "Id": 16,
       "Name": "Voldemort",
       "ImgName": "Voldemort.jpeg"
     },
     {
+      "Id": 17,
       "Name": "MrBeast",
       "ImgName": "MrBeast.jpeg"
     },
     {
+      "Id": 18,
       "Name": "Putin",
       "ImgName": "Putin.jpeg"
     },
     {
+      "Id": 19,
       "Name": "Pikachu",
       "ImgName": "Pikachu.jpeg"
     },
     {
+      "Id": 20,
       "Name": "Sonic The HedgeHog",
       "ImgName": "Sonic.jpeg"
     },
     {
+      "Id": 21,
       "Name": "Patrick Bateman",
       "ImgName": "PatrickBateman.jpeg"
     },
     {
+      "Id": 22,
       "Name": "Donald Trump",
       "ImgName": "DonaldTrump.jpeg"
     },
     {
+      "Id": 23,
       "Name": "Zhirinovskiy",
       "ImgName": "Zhirinovskiy.jpeg"
     },
     {
+      "Id": 24,
       "Name": "ElonMusk",
       "ImgName": "ElonMusk.jpeg"
     },
     {
+      "Id": 25,
       "Name": "Cristiano Ronaldo",
       "ImgName": "Ronaldo.jpeg"
     },
     {
+      "Id": 26,
       "Name": "Leonardo DiCaprio",
       "ImgName": "DiCaprio.jpeg"
     },
     {
+      "Id": 27,
       "Name": "Brad Pitt",
       "ImgName": "BradPitt.jpeg"
     },
     {
+      "Id": 28,
       "Name": "Vin Diesel",
       "ImgName": "VinDisiel.jpeg"
     },
     {
+      "Id": 29,
       "Name": "Keanu Reeves",
       "ImgName": "KeanuReeves.jpeg"
     },
     {
+      "Id": 30,
       "Name": "Josef Stalin",
       "ImgName": "Stalin.jpeg"
     },
     {
+      "Id": 31,
       "Name": "Albert Einstein",
       "ImgName": "AlbertEinstein.jpeg"
     },
     {
+      "Id": 32,
       "Name": "Aleksandr Pushkin",
       "ImgName": "AleksandrPushkin.jpeg"
     },
     {
+      "Id": 33,
       "Name": "Nikola Tesla",
       "ImgName": "NikolaTesla.jpeg"
     },
     {
+      "Id": 34,
       "Name": "Barack Obama",
       "ImgName": "Obama.jpeg"
     },
     {
+      "Id": 35,
       "Name": "Paul Walker",
       "ImgName": "Walker.jpeg"
     }

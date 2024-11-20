@@ -13,24 +13,24 @@ public class WhoAmIGame : Game
     public override int MaximumPlayers { get; protected set; } = 6;
     public override int MinimumPlayers { get; protected set; } = 2;
     public override event Action<IEnumerable<Player>>? GameStateChanged;
-    private readonly List<HeroEnum> _remainingHeroes = Enum.GetValues(typeof(HeroEnum)).Cast<HeroEnum>().ToList();
+    private readonly List<int> _remainingHeroesIds = HeroRepository.AvailableHeroesIds;
     private int _currentGuesserIndex;
     private int _currentDecisionMakerIndex;
 
     private void RebasePlayersInGameInfo()
     {
-        foreach (var player in Players) player.InGameInfo = new WhoAmIInGameInfo(GetRandomHero());
+        foreach (var player in Players) player.InGameInfo = new WhoAmIInGameInfo(GetRandomHeroId());
     }
 
-    private HeroEnum GetRandomHero()
+    private int GetRandomHeroId()
     {
-        if (_remainingHeroes.Count == 0) throw new InvalidOperationException("There is no more remaining heroes");
-        var randomHero = _remainingHeroes[new Random().Next(_remainingHeroes.Count)];
-        _remainingHeroes.Remove(randomHero);
+        if (_remainingHeroesIds.Count == 0) throw new InvalidOperationException("There is no more remaining heroes");
+        var randomHero = _remainingHeroesIds[new Random().Next(_remainingHeroesIds.Count)];
+        _remainingHeroesIds.Remove(randomHero);
         return randomHero;
     }
 
-    public HeroEnum CurrentGuessedHero => ((WhoAmIInGameInfo)Players[_currentGuesserIndex].InGameInfo!).AttachedHero;
+    public int CurrentGuessedHeroId => ((WhoAmIInGameInfo)Players[_currentGuesserIndex].InGameInfo!).AttachedHeroId;
 
     public override void HandleAction(Action action)
     {

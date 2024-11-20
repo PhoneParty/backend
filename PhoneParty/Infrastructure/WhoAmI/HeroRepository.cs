@@ -4,8 +4,9 @@ namespace Infrastructure.WhoAmI;
 
 public static class HeroRepository
 {
-    private static readonly Dictionary<HeroEnum, Hero> _heroes;
+    private static readonly Dictionary<int, Hero> Heroes;
     private const string JsonFilePath = "Heroes.json";
+    public static List<int> AvailableHeroesIds => Heroes.Keys.ToList();
 
     static HeroRepository()
     {
@@ -20,23 +21,24 @@ public static class HeroRepository
         if (heroes == null)
             throw new InvalidOperationException("Failed to deserialize JSON.");
 
-        _heroes = heroes
-            .Select((hero, index) => new Hero(
-                (HeroEnum)index,
+        Heroes = heroes
+            .Select(hero => new Hero(
+                hero.Id,
                 hero.Name,
                 hero.ImgName))
-            .ToDictionary(hero => hero.Enum, hero => hero);
+            .ToDictionary(hero => hero.Id, hero => hero);
     }
 
-    public static Hero GetHero(HeroEnum heroEnum)
+    public static Hero GetHero(int heroId)
     {
-        if (_heroes.TryGetValue(heroEnum, out var hero)) return hero;
+        if (Heroes.TryGetValue(heroId, out var hero)) return hero;
 
-        throw new KeyNotFoundException($"Hero with enum {heroEnum} not found.");
+        throw new KeyNotFoundException($"Hero with id {heroId} not found.");
     }
 
     public class JsonHero
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string ImgName { get; set; }
     }

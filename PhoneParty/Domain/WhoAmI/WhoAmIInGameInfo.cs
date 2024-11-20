@@ -5,10 +5,10 @@ using PhoneParty.Domain.Interfaces;
 
 namespace Domain.WhoAmI;
 
-public class WhoAmIInGameInfo(HeroEnum attachedHero) : IInGameInfo
+public class WhoAmIInGameInfo(int attachedHeroId) : IInGameInfo
 {
     public int Points { get; set; } = 0;
     public WhoAmIRole GameRole { get; set; } = WhoAmIRole.Player;
-    public HeroEnum AttachedHero { get; } = attachedHero;
+    public int AttachedHeroId { get; } = attachedHeroId;
     public bool IsDecisionMaker { get; set; }
 }

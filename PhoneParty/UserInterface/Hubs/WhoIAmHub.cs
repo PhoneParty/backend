@@ -43,7 +43,7 @@ public class WhoIAmHub: Hub
         var user = UserRepository.Get(userId);
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         var role = ((WhoAmIInGameInfo)user.Player.InGameInfo).GameRole;
-        var character = HeroRepository.GetHero(((WhoAmIGame)lobby.Game).CurrentGuessedHero);
+        var character = HeroRepository.GetHero(((WhoAmIGame)lobby.Game).CurrentGuessedHeroId);
         var flag = ((WhoAmIInGameInfo)user.Player.InGameInfo).IsDecisionMaker;
         await Clients.Caller.SendAsync("ShowTurn", role, flag,  character);
     }
