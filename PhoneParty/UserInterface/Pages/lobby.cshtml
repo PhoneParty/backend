@@ -23,5 +23,16 @@
 <div class="d-flex flex-column player-list" id="userList">
     
 </div>
-<button class="rounded-button-1" id="hostButton" onclick="startGame()" style="display: none;">Начать игру</button>
-<button class="rounded-button-1" onclick="leaveLobby()">Выйти из лобби</button>
+
+<div class="align-items-center d-flex flex-column">
+    <div class="lobby-button lobby-button-green d-flex" id="hostButton" onclick="startGame()" style="display: none;"  role="button">
+        <img src="svg/Arrow 8.svg" class="lobby-button-svg" alt="Описание изображения">
+        <p class="lobby-button-label">Начать</p>
+    </div>
+    <div class="lobby-button lobby-button-red d-flex" onclick="leaveLobby()" role="button">
+        <img src="svg/Arrow 9.svg" class="lobby-button-svg" alt="Описание изображения">
+        <p class="lobby-button-label">Выйти</p>
+    </div>
+</div>
+@* <button class="rounded-button-1" id="hostButton" onclick="startGame()" style="display: none;">Начать игру</button> *@
+@* <button class="rounded-button-1" onclick="leaveLobby()">Выйти из лобби</button> *@

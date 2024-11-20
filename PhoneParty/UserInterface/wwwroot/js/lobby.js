@@ -27,12 +27,12 @@ connection.onreconnected(() => {
         })
 })
 
-connection.on("UpdateLobbyUsers", users => {
-    updateUserList(users);
+connection.on("UpdateLobbyUsers", (users, host) => {
+    updateUserList(users, host);
 });
 
-connection.on("UserLeft", users => {
-    updateUserList(users);
+connection.on("UserLeft", (users, host) => {
+    updateUserList(users, host);
 });
 
 connection.on("IsHost", flag =>{
@@ -53,12 +53,24 @@ function getUrlParams() {
 const userListLine =  document.getElementById("guestLine");
 const hostListLine =  document.getElementById("hostLine");
 
-function updateUserList(users) {
+function updateUserList(users, host) {
+    console.log(users)
+    console.log(host)
+    console.log(users[0] == host)
     const userList = document.getElementById("userList");
     userList.innerHTML = "";
+    
+    let newLine = hostListLine.cloneNode(true);
+    newLine.querySelector("#username").innerHTML = host.userName;
+    newLine.classList.remove("d-none");
+    userList.appendChild(newLine);
+    
     users.forEach(user => {
+        if (user.id === host.id){
+            return;
+        }
         let newLine = userListLine.cloneNode(true);
-        newLine.querySelector("#username").innerHTML = user;
+        newLine.querySelector("#username").innerHTML = user.userName;
         newLine.classList.remove("d-none");
         userList.appendChild(newLine);
     });

@@ -67,7 +67,8 @@ public class LobbyHub : Hub
 
     public async Task UpdateLobby(string lobbyIdString)
     {
-        await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString));
+        var lobby = LobbyRepository.Get(new LobbyId(lobbyIdString));
+        await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));
     }
 
     public async Task StartGame(string lobbyId)
@@ -85,7 +86,7 @@ public class LobbyHub : Hub
         //     lobbyId = RandomIds.GenerateUserId();
         
         var user = UserRepository.Get(userId);
-        user.SetName(user.UserName + '*');
+        user.SetName(user.UserName);
 
         var lobby = new Lobby(lobbyId, user.Player);
         LobbyRepository.Add(lobbyId, lobby);
@@ -123,16 +124,16 @@ public class LobbyHub : Hub
             if (lobby.PlayersCount == 0)
                 LobbyRepository.Remove(newLobbyId);
             else
-                await Clients.Group(lobbyIdString).SendAsync("UserLeft", GetLobbyUsers(lobbyIdString));
+                await Clients.Group(lobbyIdString).SendAsync("UserLeft", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));
         }
     }
 
-    private List<string> GetLobbyUsers(string lobbyIdString)
+    private List<WebApplicationUser> GetLobbyUsers(string lobbyIdString)
     {
         var res = LobbyRepository
             .Get(new LobbyId(lobbyIdString))
             .GetPlayers
-            .Select(x => UserRepository.Get(x.Id).UserName)
+            .Select(x => UserRepository.Get(x.Id))
             .ToList();
         return res;
     }

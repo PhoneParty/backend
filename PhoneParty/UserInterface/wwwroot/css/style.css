@@ -126,6 +126,31 @@ body {
     margin-bottom: 20pt;
 }
 
+.lobby-button{
+    margin-bottom: 0;
+    font-family: Goznak;
+    font-size: 30pt;
+}
+
+.lobby-button-red{
+    color: #650303;
+    padding-right: 7pt;
+}
+
+.lobby-button-green{
+    color: #1B723F;
+}
+
+.lobby-button-label{
+    margin-bottom: 0;
+    padding: 0;
+    padding-left: 10pt;
+}
+
+.lobby-button-svg {
+    width: 19pt;
+}
+
 .zanzegi-font {
     font-family: Zanzegi;
 }

@@ -10,7 +10,7 @@ namespace Domain;
 public class Lobby : Entity<LobbyId>
 {
     private readonly List<Player> _players = [];
-    private readonly Player _host;
+    private Player _host;
     public Game? Game { get; private set; }
     public Player Host => _host;
     public event Action<IEnumerable<Player>>? GameStateChanged;
@@ -83,7 +83,14 @@ public class Lobby : Entity<LobbyId>
     {
         if (Game is not null && Game.IsInProgress) return PlayerKickResult.GameInProgress;
         _players.Remove(player);
+        ChangeHost();
         return PlayerKickResult.SuccessfulKicked;
+    }
+    
+    private void ChangeHost()
+    {
+        if(_players.Count != 0)
+            _host = _players[0];
     }
 
     public IReadOnlyList<Player> GetPlayers => _players;
