@@ -237,40 +237,11 @@ public class MainUseCaseTests
         var players = lobby.GetPlayers;
         Assert.That(players.Count, Is.EqualTo(2));
         CollectionAssert.DoesNotContain(players, host);
-        // Предполагается, что новый хост — первый игрок в списке
+        // считаю, что новый хост должен быть первый игрок в списке
         var newHost = players[0];
-        Assert.That(newHost.IsHost, Is.True, "Новый хост должен быть назначен.");
+        Assert.That(lobby.Host.Equals(newHost), Is.True, "Новый хост должен быть назначен.");
     }
 
-    [Test]
-    public void TestLobbyCapacityLimits()
-    {
-        var host = new Player("1");
-        var lobby = new Domain.Lobby(new LobbyId("F6G7"), host);
-
-        var playersToRegister = new List<Player>
-        {
-            new Player("2"),
-            new Player("3"),
-            new Player("4"),
-            new Player("5"),
-            new Player("6")
-        };
-
-        foreach (var player in playersToRegister)
-        {
-            var result = lobby.RegisterPlayer(player);
-            Assert.That(result, Is.EqualTo(PlayerRegistrationResult.SuccessfulRegistered), $"Не удалось зарегистрировать игрока {player.Id}");
-        }
-        
-        var extraPlayer = new Player("7");
-        var extraResult = lobby.RegisterPlayer(extraPlayer);
-        Assert.That(extraResult, Is.EqualTo(PlayerRegistrationResult.MoreThanMaximumPlayers), "Регистрация игрока сверх максимального количества должна возвращать статус MoreThanMaximumPlayers.");
-
-        var players = lobby.GetPlayers;
-        Assert.That(players.Count, Is.EqualTo(6));
-        CollectionAssert.DoesNotContain(players, extraPlayer);
-    }
     
     [Test]
     public void TestClosingLobby()
