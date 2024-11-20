@@ -119,7 +119,12 @@ public class LobbyHub : Hub
         {
             var user = UserRepository.Get(userId);
             var lobby = LobbyRepository.Get(newLobbyId);
+            var lastHost = lobby.Host;
             lobby.KickPlayer(user.Player);
+            if (!Equals(lastHost, lobby.Host))
+            {
+                await Clients.Client(UserRepository.Get(lobby.Host.Id).ConnectionId).SendAsync("IsHost", true);
+            }
             await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyIdString);
 
             if (lobby.PlayersCount == 0)
