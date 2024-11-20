@@ -12,16 +12,16 @@ public class LobbyHub : Hub
 {
     // Словарь для хранения участников по ID лобби
     private readonly IRepository<LobbyId, Lobby> LobbyRepository;
-    private readonly IRepository<string, User> UserRepository;
+    private readonly IRepository<string, WebApplicationUser> UserRepository;
 
-    public LobbyHub(IRepository<LobbyId, Lobby> lobbyRepository, IRepository<string, User> userRepository)
+    public LobbyHub(IRepository<LobbyId, Lobby> lobbyRepository, IRepository<string, WebApplicationUser> userRepository)
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
         var ids = UserIdGenerator.GetAllIds();
         foreach (var id in ids)
         {
-            var user = new User(id);
+            var user = new WebApplicationUser(id);
             if(!UserRepository.Contains(id))
                 UserRepository.Add(id, user);
         }
@@ -38,7 +38,7 @@ public class LobbyHub : Hub
         var id = UserIdGenerator.GenerateUserId();
         // while (!UserRepository.Contains(id))
         //     id = RandomIds.GenerateUserId();
-        var user = new User(id);
+        var user = new WebApplicationUser(id);
         user.SetConnection(Context.ConnectionId);
         UserRepository.Add(id, user);
         await Clients.Caller.SendAsync("UserCreated", id);

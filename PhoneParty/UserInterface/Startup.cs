@@ -1,4 +1,5 @@
 using Domain;
+using Infrastructure.Repositories;
 using PhoneParty.Domain;
 using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
@@ -13,7 +14,7 @@ public class Startup
         services.AddRazorPages();
         services.AddSignalR();
         services.AddSingleton<IRepository<LobbyId, Lobby>, Repository<LobbyId, Lobby>>();
-        services.AddSingleton<IRepository<string, User>, Repository<string, User>>();
+        services.AddSingleton<IRepository<string, WebApplicationUser>, Repository<string, WebApplicationUser>>();
         services.AddSingleton<LobbyHub>();
     }
  

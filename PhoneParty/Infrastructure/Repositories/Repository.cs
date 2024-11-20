@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
+using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
-namespace PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
+namespace Infrastructure.Repositories;
 
 public class Repository<TId, TValue>: IRepository<TId, TValue> where TId : notnull
 {
