@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.WhoAmI;
+﻿namespace Domain.WhoAmI;
 
 public class Hero(int id, string name, string picture)
 {

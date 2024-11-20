@@ -10,16 +10,16 @@ namespace Domain;
 public class Lobby : Entity<LobbyId>
 {
     private readonly List<Player> _players = [];
-    private Player _host;
     public Game? Game { get; private set; }
-    public Player Host => _host;
+    public Player Host { get; private set; }
+
     public event Action<IEnumerable<Player>>? GameStateChanged;
 
     public Lobby(LobbyId id, Player host) : base(id)
     {
-        _host = host;
-        _host.Lobby = this;
-        _players.Add(_host);
+        Host = host;
+        Host.Lobby = this;
+        _players.Add(Host);
     }
 
     private void GameStateChangedHandler(IEnumerable<Player> argument)
@@ -90,7 +90,7 @@ public class Lobby : Entity<LobbyId>
     private void ChangeHost()
     {
         if(_players.Count != 0)
-            _host = _players[0];
+            Host = _players[0];
     }
 
     public IReadOnlyList<Player> GetPlayers => _players;

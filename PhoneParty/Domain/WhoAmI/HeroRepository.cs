@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace Infrastructure.WhoAmI;
+namespace Domain.WhoAmI;
 
 public static class HeroRepository
 {

@@ -3,7 +3,6 @@ using System.Reflection;
 using Domain;
 using Domain.WhoAmI;
 using Infrastructure;
-using Infrastructure.WhoAmI;
 using PhoneParty.Domain;
 using PhoneParty.Domain.Enums;
 using PhoneParty.Domain.Enums.WhoAmI;

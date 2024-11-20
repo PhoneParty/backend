@@ -1,7 +1,6 @@
 using Domain;
 using Domain.WhoAmI;
 using Infrastructure;
-using Infrastructure.WhoAmI;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
 using PhoneParty.Domain.Enums.WhoAmI;

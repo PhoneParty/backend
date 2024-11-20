@@ -1,5 +1,4 @@
 ﻿using Infrastructure;
-using Infrastructure.WhoAmI;
 using PhoneParty.Domain;
 using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums.WhoAmI;

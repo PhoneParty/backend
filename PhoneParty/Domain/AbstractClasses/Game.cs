@@ -8,7 +8,7 @@ public abstract class Game
 {
     public bool IsFinished { get; protected set; } = false;
     public bool IsInProgress { get; protected set; } = false;
-    protected List<Player> Players = new();
+    protected List<Player> Players = [];
     public abstract void HandleAction(Action action);
     public abstract void StartGame();
     public abstract int MaximumPlayers { get; protected set; }
