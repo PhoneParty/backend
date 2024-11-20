@@ -93,14 +93,11 @@ function getUrlParams() {
     return params.get("lobbyId");
 }
 
-const wrongGuessButton = document.getElementById("wrongGuessButton")
-const rightGuessButton = document.getElementById("rightGuessButton")
-
-wrongGuessButton.onclick = function () {
+function wrongGuessButton() {
     connection.invoke("ChangeTurn", userId ,lobbyId,false)
         .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }
-rightGuessButton.onclick = function () {
+function rightGuessButton() {
     connection.invoke("ChangeTurn", userId ,lobbyId, true)
         .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }

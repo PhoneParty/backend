@@ -7,22 +7,39 @@
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="visually-hidden"  id="guess-screen">
-        <h2>Угадай какой ты персонаж</h2>
+<div class="d-flex justify-content-center flex-column align-items-center vh-100">
+    <div class="visually-hidden align-items-center d-flex flex-column"  id="guess-screen">
+        <h2 class="whoami-label">Угадай какой ты персонаж</h2>
     </div>
-    <div class="visually-hidden"  id="view-screen">
-        <h2>Загаданный персонаж:</h2>
+    <div class="visually-hidden align-items-center d-flex flex-column"  id="view-screen">
+        <h2 class="whoami-label">Загаданный</h2>
+        <h2 class="whoami-label">персонаж:</h2>
         <div class="flex-grow-1"></div>
-        <h4 id="characterName">Benya Salin</h4>
-        <img id="characterImage" src="">
+        <div class="flex-grow-1"></div>
+        <img class="character-img" id="characterImage" src="">
+        <div class="flex-grow-1"></div>
+        <h4 class="whoami-character" id="characterName">Benya Salin</h4>
     </div>
-    <div class="visually-hidden"  id="judge-screen">
-        <h4>Угадал персонажа?</h4>
-        <div class="d-flex justify-content-center">
-            <button id="rightGuessButton" type="button" class="btn btn-primary">ДА</button>
-            <div class="flex-grow-1"></div>
-            <button id="wrongGuessButton" type="button" class="btn btn-primary">НЕТ</button>
+    <div class="visually-hidden " id="judge-screen">
+        <div class="align-items-center d-flex">
+            <div class="d-flex flex-column">
+                <div class="flex-grow-1"></div>
+                <h4 class="whoami-label whoami-guesser">Персонажа угадали?</h4>
+                <div class="d-flex justify-content-center">
+                    <div class="flex-grow-1"></div>
+                    <div class="d-flex" onclick="rightGuessButton()" role="button">
+                        <img fill="red" src="svg/Star 2.svg" alt="Описание изображения">
+                        <p id="rightGuessButton" type="button" class="whoami-button whoami-button-yes">ДА</p>
+                    </div>
+                    <div class="flex-grow-1"></div>
+                    <div class="d-flex" onclick="wrongGuessButton()" role="button">
+                        <img src="svg/Arrow 7.svg" alt="Описание изображения">
+                        <p id="wrongGuessButton" type="button" class="whoami-button whoami-button-no">НЕТ</p>
+                    </div>
+                    
+                    <div class="flex-grow-1"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
