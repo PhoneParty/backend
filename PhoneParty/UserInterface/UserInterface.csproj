@@ -11,6 +11,8 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+      <Content Remove="wwwroot\svg\Arrow 9.svg" />
+      <Content Remove="wwwroot\svg\Arrow 8.svg" />
     </ItemGroup>
 
     <ItemGroup>
