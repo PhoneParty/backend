@@ -51,7 +51,7 @@ connection.onclose = () => {
 function joinLobby() {
     const lobbyId = document.getElementById("lobbyIdInput").value;
     const userName = document.getElementById("userNameInput").value;
-    if (lobbyId && userName && connection.state === "Connected" && websocket.readyState === WebSocket.OPEN) { // Проверка подключения
+    if (lobbyId && userName && connection.state === "Connected") { // Проверка подключения
         connection.invoke("UpdateUserName", userId, userName)
             .catch(err => console.error("Ошибка при добавлении имени пользователя: " + err.toString()));
         connection.invoke("JoinLobby", lobbyId, userId)
