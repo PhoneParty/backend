@@ -85,7 +85,7 @@ function changeCharacter(character) {
 }
 
 function handleGameEnd() {
-    window.location.assign("/gameEnd");
+    window.location.assign("/FinalPage?lobbyId=" + lobbyId);
 }
 
 function getUrlParams() {

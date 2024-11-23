@@ -1,0 +1,18 @@
+@page "/FinalPage"
+@model PhoneParty.Pages.finalPage
+
+@{
+    ViewData["Title"] = "PhoneParty";
+    ViewBag.ScriptPath = "finalPage.js";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<link href="css/waves.css" rel="stylesheet">
+
+<div class="d-flex justify-content-center flex-column align-items-center vh-100">
+    <h1 class="whoami-endgame-label1 whoami-endgame-margin">Игра окончена</h1>
+    <div class="lobby-button lobby-button-green d-flex" id="hostButton" onclick="toLobby()"  role="button">
+        <img src="svg/Arrow 7.svg" class="lobby-button-svg" alt="Описание изображения">
+        <p class="lobby-button-label">Вернуться в лобби</p>
+    </div>
+</div>
