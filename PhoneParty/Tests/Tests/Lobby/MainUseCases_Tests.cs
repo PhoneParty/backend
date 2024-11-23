@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Domain;
+using Domain.Enums;
 using Domain.WhoAmI;
 using NUnit.Framework;
 using PhoneParty.Domain;
@@ -31,7 +32,8 @@ public class MainUseCaseTests
         var host = new Player("1");
         var player = new Player("2");
         var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
-        var result = lobby.RegisterPlayer(player);
+        var result = lobby.CheckIfCanRegisterPlayer(player);
+        lobby.RegisterPlayer(player);
 
         var players = lobby.GetPlayers;
         Assert.That(result, Is.EqualTo(PlayerRegistrationResult.SuccessfulRegistered));
@@ -48,7 +50,8 @@ public class MainUseCaseTests
         var player = new Player("2");
         var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         lobby.RegisterPlayer(player);
-        var result = lobby.KickPlayer(player);
+        var result = lobby.CheckIfCanKickPlayer(player);
+        lobby.KickPlayer(player);
         var players = lobby.GetPlayers;
         
         Assert.That(result, Is.EqualTo(PlayerKickResult.SuccessfulKicked));
@@ -67,7 +70,7 @@ public class MainUseCaseTests
         lobby.ChangeGame(new WhoAmIGame());
         lobby.StartGame();
         var players = lobby.GetPlayers;
-        var result = lobby.KickPlayer(player);
+        var result = lobby.CheckIfCanKickPlayer(player);
         
         Assert.That(result, Is.EqualTo(PlayerKickResult.GameInProgress));
         Assert.That(players, Is.Not.Null);
@@ -86,7 +89,7 @@ public class MainUseCaseTests
         lobby.ChangeGame(new WhoAmIGame());
         lobby.RegisterPlayer(player2);
         lobby.StartGame();
-        var result = lobby.RegisterPlayer(player3);
+        var result = lobby.CheckIfCanRegisterPlayer(player3);
 
         var players = lobby.GetPlayers;
         Assert.That(result, Is.EqualTo(PlayerRegistrationResult.GameInProgress));
@@ -102,10 +105,10 @@ public class MainUseCaseTests
         var host = new Player("1");
         var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         var game = new WhoAmIGame();
-        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStatusCheck.Correct));
+        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStartingStatusCheck.Correct));
         
         lobby.RegisterPlayer(new Player("2"));
-        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStatusCheck.Correct));
+        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStartingStatusCheck.Correct));
         
         lobby.RegisterPlayer(new Player("3"));
         lobby.RegisterPlayer(new Player("4"));
@@ -114,14 +117,14 @@ public class MainUseCaseTests
         var lastPlayer = new Player("7");
         lobby.RegisterPlayer(lastPlayer);
         
-        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStatusCheck.Correct));
+        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStartingStatusCheck.Correct));
 
         lobby.KickPlayer(lastPlayer);
-        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStatusCheck.Correct));
+        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStartingStatusCheck.Correct));
         
         lobby.ChangeGame(game);
         lobby.StartGame();
-        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStatusCheck.GameInProgress));
+        Assert.That(lobby.CheckIfCanChangeGame(game), Is.EqualTo(GameStartingStatusCheck.GameInProgress));
     }
 
     [Test]
@@ -130,15 +133,15 @@ public class MainUseCaseTests
         var host = new Player("1");
         var lobby = new Domain.Lobby(new LobbyId("4F3B"), host);
         var result = lobby.CheckIfCanStartGame();
-        Assert.That(result, Is.EqualTo(GameStatusCheck.NoGameDefined));
+        Assert.That(result, Is.EqualTo(GameStartingStatusCheck.NoGameDefined));
 
         lobby.ChangeGame(new WhoAmIGame());
         result = lobby.CheckIfCanStartGame();
-        Assert.That(result, Is.EqualTo(GameStatusCheck.LessThenMinimumAmountOfPlayers));
+        Assert.That(result, Is.EqualTo(GameStartingStatusCheck.LessThenMinimumAmountOfPlayers));
 
         lobby.RegisterPlayer(new Player("2"));
         result = lobby.CheckIfCanStartGame();
-        Assert.That(result, Is.EqualTo(GameStatusCheck.Correct));
+        Assert.That(result, Is.EqualTo(GameStartingStatusCheck.Correct));
 
         lobby.RegisterPlayer(new Player("3"));
         lobby.RegisterPlayer(new Player("4"));
@@ -147,11 +150,11 @@ public class MainUseCaseTests
         var lastPlayer = new Player("7");
         lobby.RegisterPlayer(lastPlayer);
         result = lobby.CheckIfCanStartGame();
-        Assert.That(result, Is.EqualTo(GameStatusCheck.MoreThenMaximumAmountOfPlayers));
+        Assert.That(result, Is.EqualTo(GameStartingStatusCheck.MoreThenMaximumAmountOfPlayers));
 
         lobby.KickPlayer(lastPlayer);
         lobby.StartGame();
         result = lobby.CheckIfCanStartGame();
-        Assert.That(result, Is.EqualTo(GameStatusCheck.GameInProgress));
+        Assert.That(result, Is.EqualTo(GameStartingStatusCheck.GameInProgress));
     }
 }

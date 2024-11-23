@@ -1,6 +1,6 @@
-﻿namespace PhoneParty.Domain.Enums;
+﻿namespace Domain.Enums;
 
-public enum GameStatusCheck
+public enum GameStartingStatusCheck
 {
     Correct,
     LessThenMinimumAmountOfPlayers,

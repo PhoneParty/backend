@@ -13,5 +13,5 @@ public static class UserIdGenerator
         return userId;
     }
 
-    public static List<string> GetAllIds() => IdList;
+    public static List<string> GetAllOccupiedIds() => IdList;
 }

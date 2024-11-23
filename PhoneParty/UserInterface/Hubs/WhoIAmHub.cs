@@ -19,7 +19,7 @@ public class WhoIAmHub: Hub
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        var ids = UserIdGenerator.GetAllIds();
+        var ids = UserIdGenerator.GetAllOccupiedIds();
         foreach (var id in ids)
         {
             var user = new WebApplicationUser(id);

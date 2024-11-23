@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Enums;
 using PhoneParty.Domain.Enums;
 using PhoneParty.Domain.Interfaces;
 
@@ -6,8 +7,7 @@ namespace PhoneParty.Domain.AbstractClasses;
 
 public abstract class Game
 {
-    public bool IsFinished { get; protected set; } = false;
-    public bool IsInProgress { get; protected set; } = false;
+    public GameState State { get; protected set; } = GameState.WaitingForStart;
     protected List<Player> Players = [];
     public abstract void HandleAction(Action action);
     public abstract void StartGame();

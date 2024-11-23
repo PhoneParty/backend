@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Domain.Enums;
+using Infrastructure;
 using PhoneParty.Domain;
 using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums;
@@ -35,26 +36,40 @@ public class Lobby : Entity<LobbyId>
         Game.HandleAction(action);
     }
 
-    public GameStatusCheck CheckIfCanChangeGame(Game game)
+    public GameStartingStatusCheck CheckIfCanChangeGame(Game game)
     {
-        if (Game is null) return GameStatusCheck.Correct;
-        if (Game.IsInProgress) return GameStatusCheck.GameInProgress;
-        return GameStatusCheck.Correct;
+        if (Game is null) return GameStartingStatusCheck.Correct;
+        if (Game.State == GameState.InProgress) return GameStartingStatusCheck.GameInProgress;
+        return GameStartingStatusCheck.Correct;
     }
 
-    public GameStatusCheck CheckIfCanStartGame()
+    public GameStartingStatusCheck CheckIfCanStartGame()
     {
-        if (Game is null) return GameStatusCheck.NoGameDefined;
-        if (_players.Count < Game.MinimumPlayers) return GameStatusCheck.LessThenMinimumAmountOfPlayers;
-        if (_players.Count > Game.MaximumPlayers) return GameStatusCheck.MoreThenMaximumAmountOfPlayers;
-        if (Game.IsInProgress) return GameStatusCheck.GameInProgress;
-        return GameStatusCheck.Correct;
+        if (Game is null) return GameStartingStatusCheck.NoGameDefined;
+        if (_players.Count < Game.MinimumPlayers) return GameStartingStatusCheck.LessThenMinimumAmountOfPlayers;
+        if (_players.Count > Game.MaximumPlayers) return GameStartingStatusCheck.MoreThenMaximumAmountOfPlayers;
+        if (Game.State == GameState.InProgress) return GameStartingStatusCheck.GameInProgress;
+        return GameStartingStatusCheck.Correct;
+    }
+    
+    public PlayerRegistrationResult CheckIfCanRegisterPlayer(Player player)
+    {
+        if (Game is not null && Game.State == GameState.InProgress) return PlayerRegistrationResult.GameInProgress;
+        if (_players.Contains(player)) return PlayerRegistrationResult.PlayerAlreadyRegistered;
+        return PlayerRegistrationResult.SuccessfulRegistered;
+    }
+    
+    public PlayerKickResult CheckIfCanKickPlayer(Player player)
+    {
+        if (Game is not null && Game.State == GameState.InProgress) return PlayerKickResult.GameInProgress;
+        if (!_players.Contains(player)) return PlayerKickResult.PlayerNotInLobby;
+        return PlayerKickResult.SuccessfulKicked;
     }
 
     public void ChangeGame(Game game)
     {
         var check = CheckIfCanChangeGame(game);
-        if (check != GameStatusCheck.Correct) throw new InvalidOperationException($"Can`t change game due to {check}");
+        if (check != GameStartingStatusCheck.Correct) throw new InvalidOperationException($"Can`t change game due to {check}");
         if (Game is not null) Game.GameStateChanged -= GameStateChangedHandler;
         Game = game;
         Game.GameStateChanged += GameStateChangedHandler;
@@ -64,7 +79,7 @@ public class Lobby : Entity<LobbyId>
     public void StartGame()
     {
         var check = CheckIfCanStartGame();
-        if (check == GameStatusCheck.Correct)
+        if (check == GameStartingStatusCheck.Correct)
         {
             Game.ConnectPlayers(_players);
             Game.StartGame();
@@ -72,19 +87,22 @@ public class Lobby : Entity<LobbyId>
         else throw new InvalidOperationException($"Can`t start game due to {check}");
     }
 
-    public PlayerRegistrationResult RegisterPlayer(Player player)
+    public void RegisterPlayer(Player player)
     {
-        if (Game is not null && Game.IsInProgress) return PlayerRegistrationResult.GameInProgress;
-        if (!_players.Contains(player)) _players.Add(player);
-        return PlayerRegistrationResult.SuccessfulRegistered;
+        var check = CheckIfCanRegisterPlayer(player);
+        if (check == PlayerRegistrationResult.SuccessfulRegistered) _players.Add(player);
+        else throw new InvalidOperationException($"Can`t register player due to {check}");
     }
 
-    public PlayerKickResult KickPlayer(Player player)
+    public void KickPlayer(Player player)
     {
-        if (Game is not null && Game.IsInProgress) return PlayerKickResult.GameInProgress;
-        _players.Remove(player);
-        ChangeHost();
-        return PlayerKickResult.SuccessfulKicked;
+        var check = CheckIfCanKickPlayer(player);
+        if (check == PlayerKickResult.SuccessfulKicked)
+        {
+            _players.Remove(player);
+            ChangeHost();
+        }
+        else throw new InvalidOperationException($"Can`t kick player due to {check}");
     }
     
     private void ChangeHost()

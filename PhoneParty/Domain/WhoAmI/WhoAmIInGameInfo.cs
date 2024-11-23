@@ -6,7 +6,7 @@ namespace Domain.WhoAmI;
 
 public class WhoAmIInGameInfo(int attachedHeroId) : IInGameInfo
 {
-    public int Points { get; set; } = 0;
+    public int Score { get; set; } = 0;
     public WhoAmIRole GameRole { get; set; } = WhoAmIRole.Player;
     public int AttachedHeroId { get; } = attachedHeroId;
     public bool IsDecisionMaker { get; set; }

@@ -3,5 +3,6 @@
 public enum PlayerKickResult
 {
     SuccessfulKicked,
-    GameInProgress
+    GameInProgress,
+    PlayerNotInLobby
 }

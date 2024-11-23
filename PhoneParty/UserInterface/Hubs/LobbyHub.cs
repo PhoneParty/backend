@@ -18,12 +18,11 @@ public class LobbyHub : Hub
     {
         LobbyRepository = lobbyRepository;
         UserRepository = userRepository;
-        var ids = UserIdGenerator.GetAllIds();
+        var ids = UserIdGenerator.GetAllOccupiedIds();
         foreach (var id in ids)
         {
-            var user = new WebApplicationUser(id);
             if(!UserRepository.Contains(id))
-                UserRepository.Add(id, user);
+                UserRepository.Add(id, new WebApplicationUser(id));
         }
     }
         

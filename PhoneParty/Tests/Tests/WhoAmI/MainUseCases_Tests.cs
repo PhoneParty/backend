@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System.Reflection;
 using Domain;
+using Domain.Enums;
 using Domain.WhoAmI;
 using Infrastructure;
 using PhoneParty.Domain;
@@ -82,13 +83,11 @@ public class MainUseCases_Tests
 
         lobby.ChangeGame(game);
 
-        Assert.That(game.IsInProgress, Is.False);
-        Assert.That(game.IsFinished, Is.False);
+        Assert.That(game.State, Is.EqualTo(GameState.WaitingForStart));
 
         lobby.StartGame();
 
-        Assert.That(game.IsInProgress, Is.True);
-        Assert.That(game.IsFinished, Is.False);
+        Assert.That(game.State, Is.EqualTo(GameState.InProgress));
 
         var players = lobby.GetPlayers;
 
@@ -174,8 +173,7 @@ public class MainUseCases_Tests
         lobby.HandleAction(new WhoAmIDecisionAction(players[5], true));
         lobby.HandleAction(new WhoAmIDecisionAction(players[0], true));
 
-        Assert.That(game.IsInProgress, Is.False);
-        Assert.That(game.IsFinished, Is.True);
+        Assert.That(game.State, Is.EqualTo(GameState.Finished));
         foreach (var player in players)
         {
             Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Observer));

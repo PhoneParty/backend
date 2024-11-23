@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Domain.Enums;
+using Infrastructure;
 using PhoneParty.Domain;
 using PhoneParty.Domain.AbstractClasses;
 using PhoneParty.Domain.Enums.WhoAmI;
@@ -33,7 +34,7 @@ public class WhoAmIGame : Game
 
     public override void HandleAction(Action action)
     {
-        if (!IsInProgress) throw new InvalidOperationException("Game haven`t started");
+        if (State != GameState.InProgress) throw new InvalidOperationException("Game not in progress");
         if (action is not WhoAmIAction whoAmIAction)
             throw new InvalidOperationException($"{action.GetType()} is not valid for {GetType()}");
         var playerGuessed = ((WhoAmIDecisionAction)whoAmIAction).CurrentPlayerGuessedCorrectly;
@@ -63,8 +64,7 @@ public class WhoAmIGame : Game
         ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = true;
 
         if (Players.Any(player => ((WhoAmIInGameInfo)player.InGameInfo!).GameRole != WhoAmIRole.Observer)) return;
-        IsInProgress = false;
-        IsFinished = true;
+        State = GameState.Finished;
     }
 
     private void HandlePlayerSuccess(Player player)
@@ -77,10 +77,9 @@ public class WhoAmIGame : Game
 
     public override void StartGame()
     {
-        if (IsInProgress) throw new InvalidOperationException("This Game already started");
+        if (State == GameState.InProgress) throw new InvalidOperationException("This Game already started");
         RebasePlayersInGameInfo(); // Вот тут вот надо будет добавить чтобы список героев обновлялся между перезапусками игры (именно игры а не раундов)
-        IsInProgress = true;
-        IsFinished = false;
+        State = GameState.InProgress;
         _currentDecisionMakerIndex = Players.Count - 1;
         ((WhoAmIInGameInfo)Players[_currentDecisionMakerIndex].InGameInfo!).IsDecisionMaker = true;
         _currentGuesserIndex = 0;
