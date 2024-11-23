@@ -36,8 +36,6 @@ public class LobbyHub : Hub
     public async void RegisterUser()
     {
         var id = UserIdGenerator.GenerateUserId();
-        // while (!UserRepository.Contains(id))
-        //     id = RandomIds.GenerateUserId();
         var user = new WebApplicationUser(id);
         user.SetConnection(Context.ConnectionId);
         UserRepository.Add(id, user);

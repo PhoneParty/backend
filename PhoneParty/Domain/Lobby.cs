@@ -76,6 +76,8 @@ public class Lobby : Entity<LobbyId>
     {
         if (Game is not null && Game.IsInProgress) return PlayerRegistrationResult.GameInProgress;
         if (!_players.Contains(player)) _players.Add(player);
+        else
+            throw new InvalidOperationException($"This player (playerId: {player.Id}) already in lobby");
         return PlayerRegistrationResult.SuccessfulRegistered;
     }
 
