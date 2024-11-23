@@ -25,6 +25,8 @@ public abstract class Game
         {
             player.InGameInfo = null;
         }
+        Players.Clear();
+        State = GameState.Closed;
     }
     public abstract event Action<IEnumerable<Player>> GameStateChanged;
 }

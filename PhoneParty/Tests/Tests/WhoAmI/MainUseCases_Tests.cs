@@ -197,7 +197,7 @@ public class MainUseCases_Tests
         lobby.StartGame();
 
         var newPlayer = new Player("4");
-        var registrationResult = lobby.RegisterPlayer(newPlayer);
+        var registrationResult = lobby.CheckIfCanRegisterPlayer(newPlayer);
 
         Assert.That(registrationResult, Is.EqualTo(PlayerRegistrationResult.GameInProgress),
             "Нельзя зарегистрировать игрока во время активной игры.");

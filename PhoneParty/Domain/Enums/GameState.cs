@@ -4,5 +4,6 @@ public enum GameState
 {
     InProgress,
     Finished,
-    WaitingForStart
+    WaitingForStart,
+    Closed
 }

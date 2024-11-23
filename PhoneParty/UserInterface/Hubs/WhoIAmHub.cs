@@ -1,4 +1,5 @@
 using Domain;
+using Domain.Enums;
 using Domain.WhoAmI;
 using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
@@ -51,7 +52,7 @@ public class WhoIAmHub: Hub
     {
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         lobby.Game.HandleAction(new WhoAmIDecisionAction(UserRepository.Get(userId).Player, decision));
-        if (lobby.Game.IsFinished)
+        if (lobby.Game.State == GameState.Finished)
             await Clients.Group(lobbyId).SendAsync("GameEnd");
         else
             await Clients.Group(lobbyId).SendAsync("ChangeTurn");
