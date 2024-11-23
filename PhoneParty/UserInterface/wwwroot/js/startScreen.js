@@ -42,10 +42,16 @@ function createLobby() {
     }
 }
 
+
+connection.onclose = () => {
+    console.log("WebSocket is closed now.");
+};
+
+
 function joinLobby() {
     const lobbyId = document.getElementById("lobbyIdInput").value;
     const userName = document.getElementById("userNameInput").value;
-    if (lobbyId && userName && connection.state === "Connected") { // Проверка подключения
+    if (lobbyId && userName && connection.state === "Connected" && websocket.readyState === WebSocket.OPEN) { // Проверка подключения
         connection.invoke("UpdateUserName", userId, userName)
             .catch(err => console.error("Ошибка при добавлении имени пользователя: " + err.toString()));
         connection.invoke("JoinLobby", lobbyId, userId)
@@ -54,7 +60,7 @@ function joinLobby() {
     } else if (connection.state !== "Connected") {
         console.warn("Подключение к серверу не установлено");
     } else {
-        // alert("Введите номер лобби!");
+        alert("Введите номер лобби!");
     }
 }
 
