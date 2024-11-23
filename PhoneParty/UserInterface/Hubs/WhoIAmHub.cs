@@ -51,7 +51,10 @@ public class WhoIAmHub: Hub
     {
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         lobby.Game.HandleAction(new WhoAmIDecisionAction(UserRepository.Get(userId).Player, decision));
-        await Clients.Group(lobbyId).SendAsync("ChangeTurn");
+        if (lobby.Game.IsFinished)
+            await Clients.Group(lobbyId).SendAsync("GameEnd");
+        else
+            await Clients.Group(lobbyId).SendAsync("ChangeTurn");
     }
     
     public async void UpdateUserConnection(string id)

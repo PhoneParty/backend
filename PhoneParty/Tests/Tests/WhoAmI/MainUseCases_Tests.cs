@@ -179,4 +179,27 @@ public class MainUseCases_Tests
             Assert.That(((WhoAmIInGameInfo)player.InGameInfo!).GameRole, Is.EqualTo(WhoAmIRole.Observer));
         }
     }
+
+
+    [Test]
+    public void RegisterPlayer_DuringGame_ShouldReturnGameInProgress()
+    {
+        var host = new Player("1");
+        var player2 = new Player("2");
+        var player3 = new Player("3");
+        var lobby = new Domain.Lobby(new LobbyId("5E6F"), host);
+
+        lobby.RegisterPlayer(player2);
+        lobby.RegisterPlayer(player3);
+
+        var game = new WhoAmIGame();
+        lobby.ChangeGame(game);
+        lobby.StartGame();
+
+        var newPlayer = new Player("4");
+        var registrationResult = lobby.RegisterPlayer(newPlayer);
+
+        Assert.That(registrationResult, Is.EqualTo(PlayerRegistrationResult.GameInProgress),
+            "Нельзя зарегистрировать игрока во время активной игры.");
+    }
 }

@@ -151,6 +151,24 @@ body {
     width: 19pt;
 }
 
+.lobby-player-svg {
+    width: 25pt;
+}
+
+.whoami-endgame-label1{
+    font-size: 30pt;
+    font-family: Goznak;
+}
+
+.whoami-endgame-label2{
+    font-size: 25pt;
+    font-family: Goznak;
+}
+
+.whoami-endgame-margin{
+    margin-bottom: 100pt;
+}
+
 .zanzegi-font {
     font-family: Zanzegi;
 }
