@@ -1,5 +1,5 @@
 const lobbyId = getUrlParams();
-const userId = localStorage.getItem("userId");
+let userId = localStorage.getItem("userId");
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/WhoIAmHub")
@@ -11,6 +11,7 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start()
     .then(() => {
         console.log("Подключено к SignalR");
+        userId = localStorage.getItem("userId");
         if (lobbyId && userId) {
             connection.invoke("UpdateGroupConnection", userId, lobbyId)
                 .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
@@ -32,6 +33,7 @@ connection.on("ShowTurn", (role, isDecisionMaker, character) => {
 });
 
 connection.on("ChangeTurn" , ()=> {
+    userId = localStorage.getItem("userId");
     connection.invoke("ShowTurnInfo", userId, lobbyId)
         .catch(err => console.error("Ошибка при обновлении инфы о ходе: " + err.toString()));
 });
@@ -94,10 +96,12 @@ function getUrlParams() {
 }
 
 function wrongGuessButton() {
+    userId = localStorage.getItem("userId");
     connection.invoke("ChangeTurn", userId ,lobbyId,false)
         .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }
 function rightGuessButton() {
+    userId = localStorage.getItem("userId");
     connection.invoke("ChangeTurn", userId ,lobbyId, true)
         .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
 }
