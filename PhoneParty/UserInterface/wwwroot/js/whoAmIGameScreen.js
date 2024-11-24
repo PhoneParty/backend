@@ -11,7 +11,7 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start()
     .then(() => {
         console.log("Подключено к SignalR");
-        if (lobbyId) {
+        if (lobbyId && userId) {
             connection.invoke("UpdateGroupConnection", userId, lobbyId)
                 .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
             connection.invoke("ShowTurnInfo", userId, lobbyId)
