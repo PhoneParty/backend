@@ -12,6 +12,7 @@ connection.start()
     .then(() => {
         console.log("Подключено к SignalR");
         userId = localStorage.getItem("userId");
+        console.log(userId)
         if (lobbyId && userId) {
             connection.invoke("UpdateGroupConnection", userId, lobbyId)
                 .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
