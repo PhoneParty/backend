@@ -39,6 +39,7 @@ public class LobbyHub : Hub
         var user = new WebApplicationUser(id);
         user.SetConnection(Context.ConnectionId);
         UserRepository.Add(id, user);
+        Console.WriteLine($"reg {id}");
         await Clients.Caller.SendAsync("UserCreated", id);
     }
 
