@@ -1,6 +1,5 @@
 localStorage.clear()
 let userId = localStorage.getItem("userId");
-navigator.storage.persist()
 
 // Инициализация подключения к SignalR
 const connection = new signalR.HubConnectionBuilder()
