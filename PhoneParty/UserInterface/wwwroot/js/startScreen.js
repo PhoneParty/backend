@@ -56,13 +56,17 @@ function joinLobby() {
             .catch(err => console.error("Ошибка при добавлении имени пользователя: " + err.toString()));
         connection.invoke("JoinLobby", lobbyId, userId)
             .catch(err => console.error("Ошибка при добавлении в лобби: " + err.toString()));
-        window.location.href = `/Lobby?lobbyId=${lobbyId}`;
     } else if (connection.state !== "Connected") {
         console.warn("Подключение к серверу не установлено");
     } else {
         alert("Введите номер лобби!");
     }
 }
+
+connection.on("LobbyJoinAccept", (lobbyId, userName) => {
+    setCookie("userName", userName, 1);
+    window.location.href = `/Lobby?lobbyId=${lobbyId}`;
+});
 
 function setCookie(name, value, days) {
     const d = new Date();

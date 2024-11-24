@@ -104,7 +104,7 @@ public class LobbyHub : Hub
         lobby.RegisterPlayer(user.Player);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyIdString);
         
-        await Clients.Caller.SendAsync("JoinedToLobby", lobbyIdString, user.ConnectionId, GetLobbyUsers(lobbyIdString));
+        await Clients.Caller.SendAsync("LobbyJoinAccept", lobbyIdString, user.ConnectionId);
 
         // Уведомляем всех в группе о новом участнике
         await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));
