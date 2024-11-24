@@ -1,7 +1,6 @@
 const lobbyId = getUrlParams();
 const userId = localStorage.getItem("userId");
-
-alert(lobbyId)
+navigator.storage.persist()
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/WhoIAmHub")

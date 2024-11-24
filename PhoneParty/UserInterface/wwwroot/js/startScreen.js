@@ -1,5 +1,6 @@
 localStorage.clear()
 let userId = localStorage.getItem("userId");
+navigator.storage.persist()
 
 // Инициализация подключения к SignalR
 const connection = new signalR.HubConnectionBuilder()
@@ -49,7 +50,7 @@ connection.onclose = () => {
 
 
 function joinLobby() {
-    const lobbyId = document.getElementById("lobbyIdInput").value;
+    const lobbyId = document.getElementById("lobbyIdInput").value.toUpperCase();
     const userName = document.getElementById("userNameInput").value;
     if (lobbyId && userName && connection.state === "Connected") { // Проверка подключения
         connection.invoke("UpdateUserName", userId, userName)

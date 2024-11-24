@@ -1,4 +1,5 @@
 const lobbyId = getUrlParams();
+navigator.storage.persist()
 
 
 const userId = localStorage.getItem("userId");
