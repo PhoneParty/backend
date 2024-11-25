@@ -84,16 +84,37 @@ body {
     padding-left: 3px;
 }
 
+.full-screen{
+    height: 100dvh;
+}
+
 .whoami-label{
     color: #4A3300;
     font-family: Goznak;
     font-size: 30pt;
+    text-align: center;
 }
 
 .whoami-character{
     color: #650303;
     font-family: Zanzegi;
     font-size: 30pt;
+}
+
+.whoami-image-container {
+    width: 270pt; /* Фиксированная ширина */
+    overflow: hidden; /* Скрыть часть изображения, выходящую за пределы контейнера */
+    position: relative;
+    border-radius: 26px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 10pt;
+    margin-bottom: 20pt;
+}
+.whoami-image-container img {
+    width: 100%; /* Масштабировать изображение по ширине контейнера */
+    height: auto; /* Сохранять пропорции изображения */
+    object-fit: cover; /* Обрезка изображения с сохранением его пропорций */
+    display: block;
 }
 
 .whoami-guesser{
@@ -117,13 +138,6 @@ body {
 
 .whoami-button-no{
     color: #A10A23;
-}
-
-.character-img{
-    border-radius: 26px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    margin-top: 10pt;
-    margin-bottom: 20pt;
 }
 
 .lobby-button{
@@ -187,12 +201,12 @@ body {
 
 @font-face {
     font-family: 'Zanzegi';
-    src: url('../fonts/Zangezi_Trial/Zangezi08_Trial-Regular.otf') format('opentype');
+    src: url('../fonts/Zangezi/ZangeziRegular.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'ZanzegiCondensed';
-    src: url('../fonts/Zangezi_Trial/Zangezi08_Trial-Condensed.otf') format('opentype');
+    src: url('../fonts/Zangezi/ZangeziCondensed.otf') format('opentype');
 }
 
 @font-face {

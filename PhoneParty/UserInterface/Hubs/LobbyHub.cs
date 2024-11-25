@@ -35,11 +35,10 @@ public class LobbyHub : Hub
     public async void RegisterUser()
     {
         var id = UserIdGenerator.GenerateUserId();
-        // while (!UserRepository.Contains(id))
-        //     id = RandomIds.GenerateUserId();
         var user = new WebApplicationUser(id);
         user.SetConnection(Context.ConnectionId);
         UserRepository.Add(id, user);
+        Console.WriteLine($"reg {id}");
         await Clients.Caller.SendAsync("UserCreated", id);
     }
 
@@ -105,7 +104,7 @@ public class LobbyHub : Hub
         lobby.RegisterPlayer(user.Player);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyIdString);
         
-        await Clients.Caller.SendAsync("JoinedToLobby", lobbyIdString, user.ConnectionId, GetLobbyUsers(lobbyIdString));
+        await Clients.Caller.SendAsync("LobbyJoinAccept", lobbyIdString, user.ConnectionId);
 
         // Уведомляем всех в группе о новом участнике
         await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString), UserRepository.Get(lobby.Host.Id));

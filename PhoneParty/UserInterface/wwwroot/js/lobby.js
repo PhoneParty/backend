@@ -1,5 +1,5 @@
 const lobbyId = getUrlParams();
-const userId = localStorage.getItem("userId");
+let userId = localStorage.getItem("userId");
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/lobbyHub")
@@ -10,6 +10,7 @@ const connection = new signalR.HubConnectionBuilder()
 connection.start()
     .then(() => {
         console.log("Подключено к SignalR");
+        userId = localStorage.getItem("userId");
         if (lobbyId) {
             connection.invoke("UpdateGroupConnection", userId, lobbyId)
                 .catch(err => console.error("Ошибка при подключении пользователя: " + err.toString()));
@@ -73,6 +74,7 @@ function updateUserList(users, host) {
 }
 
 function leaveLobby() {
+    userId = localStorage.getItem("userId");
     connection.invoke("LeaveLobby", userId, lobbyId).then(() => {
         connection.stop();
         window.location.href = "/";

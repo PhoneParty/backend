@@ -7,7 +7,7 @@
     Layout = "/Pages/Shared/_Layout.cshtml";
 }
 
-<div class="d-flex justify-content-center flex-column align-items-center vh-100">
+<div class="d-flex justify-content-center flex-column align-items-center full-screen">
     <div class="visually-hidden align-items-center d-flex flex-column"  id="guess-screen">
         <h2 class="whoami-label">Угадай какой ты персонаж</h2>
     </div>
@@ -16,7 +16,9 @@
         <h2 class="whoami-label">персонаж:</h2>
         <div class="flex-grow-1"></div>
         <div class="flex-grow-1"></div>
-        <img class="character-img" id="characterImage" src="">
+        <div class="whoami-image-container">
+            <img class="character-img" id="characterImage" src="">
+        </div>
         <div class="flex-grow-1"></div>
         <h4 class="whoami-character" id="characterName">Benya Salin</h4>
     </div>
