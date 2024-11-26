@@ -81,7 +81,7 @@ const characterNameElement = document.getElementById("characterName")
 const characterImageElement = document.getElementById("characterImage")
 
 
-function changeCharacter(character) {
+function changeCharacter(character, role, isDecisionMaker) {
     console.log(character)
     let img = new Image();
     img.src = "Characters\\" + character.picture;
