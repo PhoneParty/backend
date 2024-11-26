@@ -85,3 +85,26 @@ function startGame() {
     connection.invoke("StartGame", lobbyId)
         .catch(err => console.error("Ошибка при начале игры: " + err.toString()))
 }
+
+function showMessageToPlayer(messageStr){
+    alert(messageStr);
+}
+
+connection.on("GameStartFail", startStatus => {
+    if (startStatus === "LessThenMinimumAmountOfPlayers"){
+        showMessageToPlayer("Для начала игры нужно больше игроков!")
+    }
+    else if (startStatus === "MoreThenMaximumAmountOfPlayers") {
+        showMessageToPlayer("Слишком много игроков в лобби для старта этой игры!")
+    }
+    else if (startStatus === "GameInProgress"){
+        showMessageToPlayer("Игра уже начата!")
+    }
+    else if (startStatus === "NoGameDefined"){
+        showMessageToPlayer("В лобби не определена игра!")
+    }
+    else{
+        showMessageToPlayer("Ошибка начала игры: " + startStatus)
+    }
+})
+

@@ -53,23 +53,24 @@ function changeState(playerRole, isDesisionMaker) {
         guessScreen.classList.add("visually-hidden")
         viewScreen.classList.remove("visually-hidden")
         judgeScreen.classList.remove("visually-hidden")
+        canButtonPress = true; 
     }
     else{
         switch (playerRole) {
             case 0:
-                viewScreen.classList.remove("visually-hidden")
                 judgeScreen.classList.add("visually-hidden")
                 guessScreen.classList.add("visually-hidden")
+                viewScreen.classList.remove("visually-hidden")
                 break;
             case 1:
-                viewScreen.classList.remove("visually-hidden")
                 judgeScreen.classList.add("visually-hidden")
                 guessScreen.classList.add("visually-hidden")
+                viewScreen.classList.remove("visually-hidden")
                 break;
             case 2:
-                guessScreen.classList.remove("visually-hidden")
                 viewScreen.classList.add("visually-hidden")
                 judgeScreen.classList.add("visually-hidden")
+                guessScreen.classList.remove("visually-hidden")
                 break;
             default:
                 alert("Wrong state received!!!");
@@ -83,8 +84,12 @@ const characterImageElement = document.getElementById("characterImage")
 
 function changeCharacter(character) {
     console.log(character)
-    characterNameElement.innerHTML = character.name
-    characterImageElement.src = "Characters\\" + character.picture
+    let img = new Image();
+    img.src = "Characters\\" + character.picture;
+    img.onload = function () {
+        characterNameElement.innerHTML = character.name
+        characterImageElement.src = "Characters\\" + character.picture
+    }
 }
 
 function handleGameEnd() {
@@ -96,13 +101,21 @@ function getUrlParams() {
     return params.get("lobbyId");
 }
 
+let canButtonPress = false;
 function wrongGuessButton() {
-    userId = localStorage.getItem("userId");
-    connection.invoke("ChangeTurn", userId ,lobbyId,false)
-        .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
+    if (canButtonPress){
+        userId = localStorage.getItem("userId");
+        connection.invoke("ChangeTurn", userId ,lobbyId,false)
+            .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
+        canButtonPress = false;
+    }
 }
 function rightGuessButton() {
-    userId = localStorage.getItem("userId");
-    connection.invoke("ChangeTurn", userId ,lobbyId, true)
-        .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
+    if (canButtonPress)
+    {
+        userId = localStorage.getItem("userId");
+        connection.invoke("ChangeTurn", userId, lobbyId, true)
+            .catch(err => console.error("Ошибка при смене хода: " + err.toString()));
+        canButtonPress = false;
+    }
 }

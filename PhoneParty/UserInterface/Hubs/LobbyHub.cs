@@ -1,4 +1,5 @@
 using Domain;
+using Domain.Enums;
 using Domain.WhoAmI;
 using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
@@ -73,8 +74,16 @@ public class LobbyHub : Hub
     {
         var lobby = LobbyRepository.Get(new LobbyId(lobbyId));
         lobby.ChangeGame(new WhoAmIGame());
-        lobby.StartGame();
-        await Clients.Group(lobbyId).SendAsync("GameStarted");
+        var startStatus = lobby.CheckIfCanStartGame();
+        if (startStatus == GameStartingStatusCheck.Correct)
+        {
+            lobby.StartGame();
+            await Clients.Group(lobbyId).SendAsync("GameStarted");
+        }
+        else
+        {
+            await Clients.Group(lobbyId).SendAsync("GameStartFail", startStatus.ToString());
+        }
     }
 
     public async Task CreateLobby(string userId)
