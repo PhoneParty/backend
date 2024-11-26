@@ -8,7 +8,7 @@ body {
 
 .title {
     text-align: center;
-    font-size: 50pt;
+    font-size: 45pt;
 }
 
 .rounded-button-1 {
@@ -21,7 +21,7 @@ body {
     outline: none; /* Убирает обводку при фокусе */
     border: none;
     font-family: Goznak;
-    font-size: 25px;
+    font-size: 23px;
     transition: background-color 0.2s ease;
     letter-spacing: 0.7pt;
 }
@@ -33,14 +33,15 @@ body {
 .rounded-text-input-1 {
     box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 26px; /* Скругляет углы */
-    padding: 15px;
-    padding-left: 25px;
-    padding-right: 25px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    /*padding-left: 15px;*/
+    /*padding-right: 15px;*/
     background-color: #FFFEF5;
     outline: none; /* Убирает обводку при фокусе */
     border: none;
     font-family: Zanzegi;
-    font-size: 25px;
+    font-size: 20px;
     transition: background-color 0.2s ease;
     letter-spacing: 0.7pt;
     text-align: center;
@@ -167,6 +168,11 @@ body {
 
 .lobby-player-svg {
     width: 25pt;
+}
+
+.index-qr-code{
+    width: 110pt;
+    margin-left: 40pt;
 }
 
 .whoami-endgame-label1{
