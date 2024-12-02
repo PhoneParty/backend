@@ -13,18 +13,19 @@ public class Repository<TId, TValue>: IRepository<TId, TValue> where TId : notnu
     }
     
     
-    public TValue Get(TId id)
+    public bool Get(TId id, out TValue? value)
     {
-        if (repo.TryGetValue(id, out var value))
-            return value;
-        throw new Exception("Unknown id " + id);
+        if (repo.TryGetValue(id, out var val))
+        {
+            value = val;
+            return true;
+        }
+
+        value = default;
+        return false;
     }
-    
-    public void Add(TId id, TValue value)
-    {
-        if (!repo.TryAdd(id, value))
-            throw new Exception($"Id {id} already in repository");
-    }
+
+    public bool Add(TId id, TValue value) => repo.TryAdd(id, value);
 
     public void Remove(TId id) => repo.TryRemove(id, out TValue value);
 

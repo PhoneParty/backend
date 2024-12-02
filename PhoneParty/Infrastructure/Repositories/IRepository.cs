@@ -2,9 +2,9 @@ namespace PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
 public interface IRepository<in TId, TValue>
 {
-    public TValue Get(TId id);
+    public bool Get(TId id, out TValue? value);
 
-    public void Add(TId id, TValue value);
+    public bool Add(TId id, TValue value);
     public void Remove(TId id);
 
     public bool Contains(TId id);
