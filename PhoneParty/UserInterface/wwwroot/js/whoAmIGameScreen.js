@@ -29,8 +29,7 @@ connection.onreconnected(() => {
 })
 
 connection.on("ShowTurn", (role, isDecisionMaker, character) => {
-    changeCharacter(character)
-    changeState(role, isDecisionMaker)
+    changeCharacter(character, role, isDecisionMaker)
 });
 
 connection.on("ChangeTurn" , ()=> {
@@ -82,13 +81,14 @@ const characterNameElement = document.getElementById("characterName")
 const characterImageElement = document.getElementById("characterImage")
 
 
-function changeCharacter(character) {
+function changeCharacter(character, role, isDecisionMaker) {
     console.log(character)
     let img = new Image();
     img.src = "Characters\\" + character.picture;
     img.onload = function () {
         characterNameElement.innerHTML = character.name
         characterImageElement.src = "Characters\\" + character.picture
+        changeState(role, isDecisionMaker)
     }
 }
 
