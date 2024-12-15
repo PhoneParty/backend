@@ -4,12 +4,10 @@ using Domain.WhoAmI;
 using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
-using PhoneParty.Domain.Enums.WhoAmI;
 using PhoneParty.Domain.WhoAmI;
-using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
-namespace UserInterface.Hubs;
+namespace Application.Hubs;
 
 public class WhoIAmHub: Hub
 {

@@ -1,7 +1,7 @@
 using Domain;
 using Infrastructure;
 
-namespace PhoneParty.Hubs.UserInterface.Interfaces;
+namespace Application;
 
 public class WebApplicationUser: Entity<string>
 {

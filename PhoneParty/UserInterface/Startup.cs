@@ -1,9 +1,9 @@
 using Domain;
 using Infrastructure.Repositories;
 using PhoneParty.Domain;
-using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
-using UserInterface.Hubs;
+using Application.Hubs;
+using Application;
 
 namespace UserInterface;
 
