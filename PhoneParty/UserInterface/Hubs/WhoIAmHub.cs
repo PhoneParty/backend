@@ -25,18 +25,14 @@ public class WhoIAmHub: Hub
         {
             var user = new WebApplicationUser(id);
             if(!_userRepository.Contains(id))
-                _userRepository.Add(id, user);
+                _userRepository.TryAdd(id, user);
         }
     }
 
     public async Task StartGame(string lobbyId)
     {
         var game = new WhoAmIGame();
-        if (!_lobbyRepository.Get(new LobbyId(lobbyId), out var lobby))
-        {
-            Console.WriteLine("Unknown id " + lobbyId);
-            return;
-        }
+        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
         lobby.ChangeGame(game);
         lobby.StartGame();
         await Clients.Group(lobbyId).SendAsync("StartGame");
@@ -44,16 +40,8 @@ public class WhoIAmHub: Hub
 
     public async Task ShowTurnInfo(string userId, string lobbyId)
     {
-        if (!_userRepository.Get(userId, out var user))
-        {
-            Console.WriteLine("Unknown id " + userId);
-            return;
-        }
-        if (!_lobbyRepository.Get(new LobbyId(lobbyId), out var lobby))
-        {
-            Console.WriteLine("Unknown id " + lobbyId);
-            return;
-        }
+        _userRepository.TryGet(userId, out var user);
+        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
         var role = ((WhoAmIInGameInfo)user.Player.InGameInfo).GameRole;
         var character = HeroRepository.GetHero(((WhoAmIGame)lobby.Game).CurrentGuessedHeroId);
         var flag = ((WhoAmIInGameInfo)user.Player.InGameInfo).IsDecisionMaker;
@@ -62,16 +50,8 @@ public class WhoIAmHub: Hub
 
     public async Task ChangeTurn(string userId ,string lobbyId, bool decision)
     {
-        if (!_userRepository.Get(userId, out var user))
-        {
-            Console.WriteLine("Unknown id " + userId);
-            return;
-        }
-        if (!_lobbyRepository.Get(new LobbyId(lobbyId), out var lobby))
-        {
-            Console.WriteLine("Unknown id " + lobbyId);
-            return;
-        }
+        _userRepository.TryGet(userId, out var user);
+        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
         lobby.Game.HandleAction(new WhoAmIDecisionAction(user.Player, decision));
         if (lobby.Game.State == GameState.Finished)
             await Clients.Group(lobbyId).SendAsync("GameEnd");
@@ -81,35 +61,16 @@ public class WhoIAmHub: Hub
     
     public async void UpdateUserConnection(string userId)
     {
-        if (!_userRepository.Get(userId, out var user))
-        {
-            Console.WriteLine("Unknown id " + userId);
-            return;
-        }
+        _userRepository.TryGet(userId, out var user);
         user.SetConnection(Context.ConnectionId);
         Console.WriteLine("Update connection: " + Context.ConnectionId);
     }
 
     public async void UpdateGroupConnection(string userId, string lobbyIdString)
     {
-        if (!_userRepository.Get(userId, out var user))
-        {
-            Console.WriteLine("Unknown id " + userId);
-            return;
-        }
+        _userRepository.TryGet(userId, out var user);
         await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyIdString);
         user.SetConnection(Context.ConnectionId);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyIdString);
     }
-
-    // public async void UpdateUserName(string id, string name)
-    // {
-    //     var user = UserRepository.Get(id);
-    //     user.SetName(name);
-    // }
-    //
-    // public async Task UpdateLobby(string lobbyIdString)
-    // {
-    //     await Clients.Group(lobbyIdString).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyIdString));
-    // }
 }

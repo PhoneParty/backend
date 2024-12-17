@@ -13,7 +13,7 @@ public class Repository<TId, TValue>: IRepository<TId, TValue> where TId : notnu
     }
     
     
-    public bool Get(TId id, out TValue? value)
+    public bool TryGet(TId? id, out TValue? value)
     {
         if (id != null && repo.TryGetValue(id, out var val))
         {
@@ -25,9 +25,9 @@ public class Repository<TId, TValue>: IRepository<TId, TValue> where TId : notnu
         return false;
     }
 
-    public bool Add(TId id, TValue value) => id != null && repo.TryAdd(id, value);
+    public bool TryAdd(TId? id, TValue value) => id != null && repo.TryAdd(id, value);
 
-    public bool Remove(TId id) => id != null && repo.TryRemove(id, out TValue value);
+    public bool TryRemove(TId? id) => id != null && repo.TryRemove(id, out TValue value);
 
-    public bool Contains(TId id) => id != null && repo.ContainsKey(id);
+    public bool Contains(TId? id) => id != null && repo.ContainsKey(id);
 }
