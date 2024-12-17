@@ -1,4 +1,6 @@
 // using Application;
+
+using Application;
 using Domain;
 using Domain.Enums;
 using Domain.WhoAmI;
@@ -23,19 +25,14 @@ public class LobbyHub : Hub
         var ids = UserIdGenerator.GetAllOccupiedIds();
         foreach (var id in ids)
         {
-            if(!_userRepository.Contains(id))
+            if (!_userRepository.Contains(id))
                 _userRepository.TryAdd(id, new WebApplicationUser(id));
         }
     }
-        
+
     public async Task CheckHost(string userId, string lobbyId)
     {
-        if (!_lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby))
-        {
-            Console.WriteLine("Unknown id " + lobbyId);
-            return;
-        }
-        await Clients.Caller.SendAsync("IsHost", lobby.Host.Id == userId);
+        await Clients.Caller.SendAsync("IsHost", LobbyInteractions.GetHost(lobbyId, _lobbyRepository).Id == userId);
     }
 
     public async void RegisterUser()
@@ -71,81 +68,59 @@ public class LobbyHub : Hub
 
     public async Task UpdateLobby(string lobbyId)
     {
-        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-        _userRepository.TryGet(lobby.Host.Id, out var host);
+        _userRepository.TryGet(LobbyInteractions.GetHost(lobbyId, _lobbyRepository).Id, out var host);
         await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId), host);
     }
 
     public async Task StartGame(string lobbyId)
     {
-        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-        lobby.ChangeGame(new WhoAmIGame());
-        var startStatus = lobby.CheckIfCanStartGame();
+        var startStatus = LobbyInteractions.GetStartStatus(lobbyId, _lobbyRepository);
         if (startStatus == GameStartingStatusCheck.Correct)
-        {
-            lobby.StartGame();
             await Clients.Group(lobbyId).SendAsync("GameStarted");
-        }
         else
-        {
             await Clients.Group(lobbyId).SendAsync("GameStartFail", startStatus.ToString());
-        }
     }
 
     public async Task CreateLobby(string userId)
     {
         _userRepository.TryGet(userId, out var user);
         user.SetName(user.UserName);
-        var lobbyId = LobbyIdGenerator.GenerateLobbyId();
-        var lobby = new Lobby(lobbyId, user.Player);
-        _lobbyRepository.TryAdd(lobbyId, lobby);
+        var lobbyId = LobbyInteractions.CreateLobby(user.Player, _lobbyRepository);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyId.ToString());
-    
-        // Уведомляем пользователя, что лобби создано
+
         await Clients.Caller.SendAsync("LobbyCreated", lobbyId.ToString());
     }
 
     public async Task JoinLobby(string lobbyId, string userId)
     {
-        var newLobbyId = new LobbyId(lobbyId);
-        if (!_lobbyRepository.Contains(newLobbyId))
-            return;
         _userRepository.TryGet(userId, out var user);
-        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-        lobby.RegisterPlayer(user.Player);
+        LobbyInteractions.JoinLobby(lobbyId, user.Player, _lobbyRepository);
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
-        
+
         await Clients.Caller.SendAsync("LobbyJoinAccept", lobbyId, user.ConnectionId);
 
-        // Уведомляем всех в группе о новом участнике
-        _userRepository.TryGet(lobby.Host.Id, out var host);
+        _userRepository.TryGet(LobbyInteractions.GetHost(lobbyId, _lobbyRepository).Id, out var host);
         await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId), host);
     }
 
-    public async Task LeaveLobby(string userId ,string lobbyId)
+    public async Task LeaveLobby(string userId, string lobbyId)
     {
-        var newLobbyId = new LobbyId(lobbyId);
-        if (_lobbyRepository.Contains(newLobbyId))
+        _userRepository.TryGet(userId, out var user);
+        var kickedHost = LobbyInteractions.LeaveLobby(lobbyId, user.Player, _lobbyRepository);
+        if (kickedHost)
         {
-            _userRepository.TryGet(userId, out var user);
-            _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-            var lastHost = lobby.Host;
-            lobby.KickPlayer(user.Player);
-            if (!Equals(lastHost, lobby.Host))
-            {
-                _userRepository.TryGet(userId, out var host);
-                await Clients.Client(host.ConnectionId).SendAsync("IsHost", true);
-            }
-            await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
+            await Clients.Client(user.ConnectionId).SendAsync("IsHost", true);
+        }
 
-            if (lobby.PlayersCount == 0)
-                _lobbyRepository.TryRemove(newLobbyId);
-            else
-            {
-                _userRepository.TryGet(lobby.Host.Id, out var host);
-                await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId),
-                    host);
-            }
+        await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);
+
+        if (LobbyInteractions.GetLobbyPlayersCount(lobbyId, _lobbyRepository) == 0)
+            _lobbyRepository.TryRemove(new LobbyId(lobbyId));
+        else
+        {
+            _userRepository.TryGet(LobbyInteractions.GetHost(lobbyId, _lobbyRepository).Id, out var host);
+            await Clients.Group(lobbyId).SendAsync("UpdateLobbyUsers", GetLobbyUsers(lobbyId),
+                host);
         }
     }
 
@@ -159,6 +134,7 @@ public class LobbyHub : Hub
             _userRepository.TryGet(player.Id, out var user);
             users.Add(user);
         }
+
         return users;
     }
 }

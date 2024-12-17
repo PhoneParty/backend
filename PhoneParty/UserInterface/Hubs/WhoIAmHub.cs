@@ -1,3 +1,4 @@
+using Application;
 using Domain;
 using Domain.Enums;
 using Domain.WhoAmI;
@@ -31,29 +32,21 @@ public class WhoIAmHub: Hub
 
     public async Task StartGame(string lobbyId)
     {
-        var game = new WhoAmIGame();
-        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-        lobby.ChangeGame(game);
-        lobby.StartGame();
+        WhoAmIGameInteractions.StartGame(lobbyId, _lobbyRepository);
         await Clients.Group(lobbyId).SendAsync("StartGame");
     }
 
     public async Task ShowTurnInfo(string userId, string lobbyId)
     {
         _userRepository.TryGet(userId, out var user);
-        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-        var role = ((WhoAmIInGameInfo)user.Player.InGameInfo).GameRole;
-        var character = HeroRepository.GetHero(((WhoAmIGame)lobby.Game).CurrentGuessedHeroId);
-        var flag = ((WhoAmIInGameInfo)user.Player.InGameInfo).IsDecisionMaker;
+        var (role, character, flag) = WhoAmIGameInteractions.ShowTurnInfo(lobbyId, user.Player, _lobbyRepository);
         await Clients.Caller.SendAsync("ShowTurn", role, flag,  character);
     }
 
     public async Task ChangeTurn(string userId ,string lobbyId, bool decision)
     {
         _userRepository.TryGet(userId, out var user);
-        _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
-        lobby.Game.HandleAction(new WhoAmIDecisionAction(user.Player, decision));
-        if (lobby.Game.State == GameState.Finished)
+        if (WhoAmIGameInteractions.ChangeTurn(lobbyId, user.Player, decision, _lobbyRepository) == GameState.Finished)
             await Clients.Group(lobbyId).SendAsync("GameEnd");
         else
             await Clients.Group(lobbyId).SendAsync("ChangeTurn");
