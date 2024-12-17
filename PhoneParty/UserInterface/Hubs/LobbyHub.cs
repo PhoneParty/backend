@@ -4,9 +4,10 @@ using Domain.WhoAmI;
 using Infrastructure;
 using Microsoft.AspNetCore.SignalR;
 using PhoneParty.Domain;
+using PhoneParty.Hubs.UserInterface.Interfaces;
 using PhoneParty.Hubs.UserInterface.Interfaces.Repositories;
 
-namespace Application.Hubs;
+namespace UserInterface.Hubs;
 
 public class LobbyHub : Hub
 {
