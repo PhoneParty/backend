@@ -29,13 +29,14 @@ public static class LobbyInteractions
          return startStatus;
      }
 
-     public static void JoinLobby(string lobbyId, Player player, IRepository<LobbyId, Lobby> lobbyRepository)
+     public static bool TryJoinLobby(string lobbyId, Player player, IRepository<LobbyId, Lobby> lobbyRepository)
      {
          var newLobbyId = new LobbyId(lobbyId);
          if (!lobbyRepository.Contains(newLobbyId))
-             return;
+             return false; 
          lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
          lobby.RegisterPlayer(player);
+         return true;
      }
 
      public static Player GetHost(string lobbyId, IRepository<LobbyId, Lobby> lobbyRepository)

@@ -39,6 +39,9 @@ function createLobby() {
             .catch(err => console.error("Ошибка при создании лобби: " + err.toString()));
     } else if (connection.state !== "Connected") {
         console.warn("Подключение к серверу не установлено");
+        showMessageToPlayer("Подключение к серверу не установлено, попробуйте обновить страницу");
+    } else if (!userName){
+        showMessageToPlayer("Для создания лобби укажите свой ник");
     }
 }
 
@@ -53,19 +56,32 @@ function joinLobby() {
     const userName = document.getElementById("userNameInput").value;
     if (lobbyId && userName && connection.state === "Connected") { // Проверка подключения
         connection.invoke("UpdateUserName", userId, userName)
-            .catch(err => console.error("Ошибка при добавлении имени пользователя: " + err.toString()));
+            .catch(err => {
+                console.error("Ошибка при добавлении имени пользователя: " + err.toString())
+                showMessageToPlayer("Ошибка, ваш ник содержит запрещенные символы");
+            });
         connection.invoke("JoinLobby", lobbyId, userId)
-            .catch(err => console.error("Ошибка при добавлении в лобби: " + err.toString()));
+            .catch(err => {
+                console.error("Ошибка при добавлении в лобби: " + err.toString())
+                showMessageToPlayer("Не удалось подключиться, проверьте код лобби");
+            });
     } else if (connection.state !== "Connected") {
         console.warn("Подключение к серверу не установлено");
-    } else {
-        alert("Введите номер лобби!");
+        showMessageToPlayer("Подключение к серверу не установлено, попробуйте обновить страницу");
+    } else if (!lobbyId) {
+        showMessageToPlayer("Введите номер лобби!");
+    } else if (!userName){
+        showMessageToPlayer("Укажите ник для подключения к лобби");
     }
 }
 
 connection.on("LobbyJoinAccept", (lobbyId, userName) => {
     setCookie("userName", userName, 1);
     window.location.href = `/Lobby?lobbyId=${lobbyId}`;
+});
+
+connection.on("LobbyJoinError", (lobbyId, userName) => {
+    showMessageToPlayer("Не удалось подключиться, проверьте код лобби");
 });
 
 function setCookie(name, value, days) {
@@ -85,3 +101,8 @@ connection.on("UserCreated", id => {
     userId = id
     localStorage.setItem("userId", userId);
 });
+
+
+function showMessageToPlayer(messageStr){
+    alert(messageStr);
+}

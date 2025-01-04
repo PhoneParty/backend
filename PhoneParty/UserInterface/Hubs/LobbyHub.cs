@@ -94,7 +94,12 @@ public class LobbyHub : Hub
     public async Task JoinLobby(string lobbyId, string userId)
     {
         _userRepository.TryGet(userId, out var user);
-        LobbyInteractions.JoinLobby(lobbyId, user.Player, _lobbyRepository);
+        var joinRes = LobbyInteractions.TryJoinLobby(lobbyId, user.Player, _lobbyRepository);
+        if (!joinRes)
+        {
+            await Clients.Caller.SendAsync("LobbyJoinError", lobbyId, user.ConnectionId);
+            return;
+        }
         await Groups.AddToGroupAsync(user.ConnectionId, lobbyId);
 
         await Clients.Caller.SendAsync("LobbyJoinAccept", lobbyId, user.ConnectionId);
@@ -109,7 +114,9 @@ public class LobbyHub : Hub
         var kickedHost = LobbyInteractions.LeaveLobby(lobbyId, user.Player, _lobbyRepository);
         if (kickedHost)
         {
-            await Clients.Client(user.ConnectionId).SendAsync("IsHost", true);
+            _lobbyRepository.TryGet(new LobbyId(lobbyId), out var lobby);
+            _userRepository.TryGet(lobby.Host.Id, out var newHostUser);
+            await Clients.Client(newHostUser.ConnectionId).SendAsync("IsHost", true);
         }
 
         await Groups.RemoveFromGroupAsync(user.ConnectionId, lobbyId);

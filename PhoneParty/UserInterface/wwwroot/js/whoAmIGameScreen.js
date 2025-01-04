@@ -47,7 +47,6 @@ const viewScreen = document.getElementById("view-screen")
 const judgeScreen = document.getElementById("judge-screen")
 
 function changeState(playerRole, isDesisionMaker) {
-    console.log(playerRole, isDesisionMaker)
     if (isDesisionMaker) {
         guessScreen.classList.add("visually-hidden")
         viewScreen.classList.remove("visually-hidden")
