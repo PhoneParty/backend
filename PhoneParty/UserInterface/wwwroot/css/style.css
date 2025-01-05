@@ -103,7 +103,6 @@ body {
 }
 
 .whoami-image-container {
-    width: 270pt; /* Фиксированная ширина */
     overflow: hidden; /* Скрыть часть изображения, выходящую за пределы контейнера */
     position: relative;
     border-radius: 26px;
@@ -112,8 +111,7 @@ body {
     margin-bottom: 20pt;
 }
 .whoami-image-container img {
-    width: 100%; /* Масштабировать изображение по ширине контейнера */
-    height: auto; /* Сохранять пропорции изображения */
+    height: 220px; /* Сохранять пропорции изображения */
     object-fit: cover; /* Обрезка изображения с сохранением его пропорций */
     display: block;
 }

@@ -3,177 +3,172 @@
     {
       "Id": 1,
       "Name": "Will Smith",
-      "ImgName": "WillSmith.jpeg"
+      "ImgName": "WillSmith.jpg"
     },
     {
       "Id": 2,
       "Name": "Jason Statham",
-      "ImgName": "JasonSt.jpeg"
+      "ImgName": "JasonSt.jpg"
     },
     {
       "Id": 3,
       "Name": "Mario",
-      "ImgName": "Mario.jpeg"
+      "ImgName": "Mario.jpg"
     },
     {
       "Id": 4,
       "Name": "Kuzya",
-      "ImgName": "Kuzya.jpeg"
-    },
-    {
-      "Id": 5,
-      "Name": "Pi Diddy",
-      "ImgName": "PiDiddy.jpeg"
+      "ImgName": "Kuzya.jpg"
     },
     {
       "Id": 6,
       "Name": "Spider man",
-      "ImgName": "Spider.jpeg"
+      "ImgName": "Spider.jpg"
     },
     {
       "Id": 7,
       "Name": "Ryan Gosling",
-      "ImgName": "RyanGosl.jpeg"
+      "ImgName": "RyanGosl.jpg"
     },
     {
       "Id": 8,
       "Name": "Batman",
-      "ImgName": "Batman.jpeg"
+      "ImgName": "Batman.jpg"
     },
     {
       "Id": 9,
       "Name": "Superman",
-      "ImgName": "Superman.jpeg"
+      "ImgName": "Superman.jpg"
     },
     {
       "Id": 10,
       "Name": "Robert Pattinson",
-      "ImgName": "RobertPattinson.jpeg"
+      "ImgName": "RobertPattinson.jpg"
     },
     {
       "Id": 11,
       "Name": "Dwayne Jhonson",
-      "ImgName": "DwayneRock.jpeg"
+      "ImgName": "DwayneRock.jpg"
     },
     {
       "Id": 12,
       "Name": "Killian Murphy",
-      "ImgName": "KillianMurphy.jpeg"
+      "ImgName": "KillianMurphy.jpg"
     },
     {
       "Id": 13,
       "Name": "Harry Potter",
-      "ImgName": "HarryPotter.jpeg"
+      "ImgName": "HarryPotter.jpg"
     },
     {
       "Id": 14,
       "Name": "Hobbit",
-      "ImgName": "Hobbit.jpeg"
+      "ImgName": "Hobbit.jpg"
     },
     {
       "Id": 15,
       "Name": "Gandalf",
-      "ImgName": "Gandalf.jpeg"
+      "ImgName": "Gandalf.jpg"
     },
     {
       "Id": 16,
       "Name": "Voldemort",
-      "ImgName": "Voldemort.jpeg"
+      "ImgName": "Voldemort.jpg"
     },
     {
       "Id": 17,
       "Name": "MrBeast",
-      "ImgName": "MrBeast.jpeg"
+      "ImgName": "MrBeast.jpg"
     },
     {
       "Id": 18,
       "Name": "Putin",
-      "ImgName": "Putin.jpeg"
+      "ImgName": "Putin.jpg"
     },
     {
       "Id": 19,
       "Name": "Pikachu",
-      "ImgName": "Pikachu.jpeg"
+      "ImgName": "Pikachu.jpg"
     },
     {
       "Id": 20,
       "Name": "Sonic The HedgeHog",
-      "ImgName": "Sonic.jpeg"
+      "ImgName": "Sonic.jpg"
     },
     {
       "Id": 21,
       "Name": "Patrick Bateman",
-      "ImgName": "PatrickBateman.jpeg"
+      "ImgName": "PatrickBateman.jpg"
     },
     {
       "Id": 22,
       "Name": "Donald Trump",
-      "ImgName": "DonaldTrump.jpeg"
+      "ImgName": "DonaldTrump.jpg"
     },
     {
       "Id": 23,
       "Name": "Zhirinovskiy",
-      "ImgName": "Zhirinovskiy.jpeg"
+      "ImgName": "Zhirinovskiy.jpg"
     },
     {
       "Id": 24,
       "Name": "ElonMusk",
-      "ImgName": "ElonMusk.jpeg"
+      "ImgName": "ElonMusk.jpg"
     },
     {
       "Id": 25,
       "Name": "Cristiano Ronaldo",
-      "ImgName": "Ronaldo.jpeg"
+      "ImgName": "Ronaldo.jpg"
     },
     {
       "Id": 26,
       "Name": "Leonardo DiCaprio",
-      "ImgName": "DiCaprio.jpeg"
+      "ImgName": "DiCaprio.jpg"
     },
     {
       "Id": 27,
       "Name": "Brad Pitt",
-      "ImgName": "BradPitt.jpeg"
+      "ImgName": "BradPitt.jpg"
     },
     {
       "Id": 28,
       "Name": "Vin Diesel",
-      "ImgName": "VinDisiel.jpeg"
+      "ImgName": "VinDisiel.jpg"
     },
     {
       "Id": 29,
       "Name": "Keanu Reeves",
-      "ImgName": "KeanuReeves.jpeg"
+      "ImgName": "KeanuReeves.jpg"
     },
     {
       "Id": 30,
       "Name": "Josef Stalin",
-      "ImgName": "Stalin.jpeg"
+      "ImgName": "Stalin.jpg"
     },
     {
       "Id": 31,
       "Name": "Albert Einstein",
-      "ImgName": "AlbertEinstein.jpeg"
+      "ImgName": "AlbertEinstein.jpg"
     },
     {
       "Id": 32,
       "Name": "Aleksandr Pushkin",
-      "ImgName": "AleksandrPushkin.jpeg"
+      "ImgName": "AleksandrPushkin.jpg"
     },
     {
       "Id": 33,
       "Name": "Nikola Tesla",
-      "ImgName": "NikolaTesla.jpeg"
+      "ImgName": "NikolaTesla.jpg"
     },
     {
       "Id": 34,
       "Name": "Barack Obama",
-      "ImgName": "Obama.jpeg"
+      "ImgName": "Obama.jpg"
     },
     {
       "Id": 35,
       "Name": "Paul Walker",
-      "ImgName": "Walker.jpeg"
+      "ImgName": "Walker.jpg"
     }
   ]
 }
