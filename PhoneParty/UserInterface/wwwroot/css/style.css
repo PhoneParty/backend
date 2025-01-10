@@ -26,6 +26,10 @@ body {
     letter-spacing: 0.7pt;
 }
 
+.off-rounded-button-1 {
+    background-color: #F6F4E6;
+}
+
 .rounded-button-1:hover {
     background-color: #F6F4E6; /* Измените цвет фона при наведении */
 }
@@ -148,6 +152,7 @@ body {
 .lobby-button-red{
     color: #650303;
     padding-right: 7pt;
+    margin-bottom: 10px;
 }
 
 .lobby-button-green{

@@ -77,7 +77,7 @@ function joinLobby() {
 
 connection.on("LobbyJoinAccept", (lobbyId, userName) => {
     setCookie("userName", userName, 1);
-    window.location.href = `/Lobby?lobbyId=${lobbyId}`;
+    window.location.href = `/whoami/Lobby?lobbyId=${lobbyId}`;
 });
 
 connection.on("LobbyJoinError", (lobbyId, userName) => {
@@ -93,7 +93,7 @@ function setCookie(name, value, days) {
 
 connection.on("LobbyCreated", (lobbyId, userName) => {
     setCookie("userName", userName, 1);
-    window.location.href = `/Lobby?lobbyId=${lobbyId}`;
+    window.location.href = `/whoami/Lobby?lobbyId=${lobbyId}`;
 });
 
 

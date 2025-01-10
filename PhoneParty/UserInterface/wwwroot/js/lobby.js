@@ -39,7 +39,7 @@ connection.on("IsHost", flag =>{
 })
 
 connection.on("GameStarted", () =>{
-    window.location.href = `/Game?lobbyId=${lobbyId}`;
+    window.location.href = `/whoami/Game?lobbyId=${lobbyId}`;
 })
 
 function getUrlParams() {
@@ -77,7 +77,7 @@ function leaveLobby() {
     userId = localStorage.getItem("userId");
     connection.invoke("LeaveLobby", userId, lobbyId).then(() => {
         connection.stop();
-        window.location.href = "/";
+        window.location.href = "/whoami";
     }).catch(err => console.error("Ошибка при выходе из лобби: " + err.toString()));
 }
 

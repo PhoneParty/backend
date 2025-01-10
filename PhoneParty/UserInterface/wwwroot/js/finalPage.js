@@ -30,11 +30,11 @@ connection.onreconnected(() => {
 })
 
 connection.on("GameStarted", () =>{
-    window.location.href = `/Game?lobbyId=${lobbyId}`;
+    window.location.href = `/whoami/Game?lobbyId=${lobbyId}`;
 })
 
 function toLobby() {
-    window.location.assign("/Lobby?lobbyId=" + lobbyId);
+    window.location.assign("/whoami/Lobby?lobbyId=" + lobbyId);
 }
 
 function getUrlParams() {

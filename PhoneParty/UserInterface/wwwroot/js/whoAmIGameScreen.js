@@ -83,16 +83,16 @@ const characterImageElement = document.getElementById("characterImage")
 function changeCharacter(character, role, isDecisionMaker) {
     console.log(character)
     let img = new Image();
-    img.src = "Characters\\" + character.picture;
+    img.src = "\\Characters\\" + character.picture;
     img.onload = function () {
         characterNameElement.innerHTML = character.name
-        characterImageElement.src = "Characters\\" + character.picture
+        characterImageElement.src = "\\Characters\\" + character.picture
         changeState(role, isDecisionMaker)
     }
 }
 
 function handleGameEnd() {
-    window.location.assign("/FinalPage?lobbyId=" + lobbyId);
+    window.location.assign("/whoami/FinalPage?lobbyId=" + lobbyId);
 }
 
 function getUrlParams() {

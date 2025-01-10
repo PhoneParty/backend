@@ -1,4 +1,4 @@
-@page "/Lobby"
+@page "/whoami/Lobby"
 @model PhoneParty.Pages.LobbyModel
 @{
     ViewData["Title"] = "Лобби";
@@ -12,11 +12,11 @@
 <h1 class="goznak-font text-center lobby-code-under-label">код</h1>
 
 <div class="d-flex justify-content-start gap-3 d-none" id="hostLine">
-        <img class="lobby-player-svg" src="svg/Star 1.svg" alt="Описание изображения">
+        <img class="lobby-player-svg" src="/svg/Star 1.svg" alt="Описание изображения">
         <p class="player-nick-lobby" id="username"></p>
     </div>
 <div class="d-flex justify-content-start gap-3 d-none" id="guestLine">
-    <img src="svg/Arrow 7.svg" class="lobby-player-svg" alt="Описание изображения">
+    <img src="/svg/Arrow 7.svg" class="lobby-player-svg" alt="Описание изображения">
     <p class="player-nick-lobby" id="username"></p>
 </div>
 
@@ -26,13 +26,16 @@
 
 <div class="align-items-center d-flex flex-column">
     <div class="lobby-button lobby-button-green d-flex visually-hidden" id="hostButton" onclick="startGame()"  role="button">
-        <img src="svg/Arrow 8.svg" class="lobby-button-svg" alt="Описание изображения">
+        <img src="/svg/Arrow 8.svg" class="lobby-button-svg" alt="Описание изображения">
         <p class="lobby-button-label">Начать</p>
     </div>
     <div class="lobby-button lobby-button-red d-flex" onclick="leaveLobby()" role="button">
-        <img src="svg/Arrow 9.svg" class="lobby-button-svg" alt="Описание изображения">
+        <img src="/svg/Arrow 9.svg" class="lobby-button-svg" alt="Описание изображения">
         <p class="lobby-button-label">Выйти</p>
     </div>
 </div>
-@* <button class="rounded-button-1" id="hostButton" onclick="startGame()" style="display: none;">Начать игру</button> *@
-@* <button class="rounded-button-1" onclick="leaveLobby()">Выйти из лобби</button> *@
+
+<div class="d-flex justify-content-center align-items-center gap-3">
+    <h3 class="goznak-font">Позови<br>друзей!</h3>
+    <img src="/img/qr-code.png" class="index-qr-code" alt="qr-code">
+</div>
